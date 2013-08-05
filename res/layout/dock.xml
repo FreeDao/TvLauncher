@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="78dip"
+    android:gravity="center"   
+    android:orientation="horizontal" >
+	<ImageView
+		android:id="@+id/dockImageView1"
+		android:scaleType="center"
+		android:layout_width="0dp"
+		android:layout_height="fill_parent"
+		android:layout_weight="3"
+		android:layout_gravity="center"
+		android:focusable="false"/>
+	<ImageView
+		android:id="@+id/dockImageView2"
+		android:scaleType="center"
+		android:layout_width="0dp"
+		android:layout_weight="3"		
+		android:layout_height="fill_parent"
+		android:layout_gravity="center"
+		android:focusable="false"/>
+	<ImageView
+		android:id="@+id/dockImageView3"
+		android:scaleType="center"
+		android:layout_width="0dp"
+		android:layout_weight="3"		
+		android:layout_height="fill_parent"
+		android:layout_gravity="center"
+		android:focusable="false"/>
+	<ImageView
+		android:id="@+id/dockImageView4"
+		android:scaleType="center"
+		android:layout_width="0dp"
+		android:layout_weight="3"		
+		android:layout_height="fill_parent"
+		android:layout_gravity="center"
+		android:focusable="false"/>
+    <LinearLayout android:id="@+id/weather"
+		android:layout_width="0dp"
+		android:layout_weight="20"	
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="right">
+        <TextView android:id="@+id/statusbar_weather_city"
+        	android:layout_width="wrap_content"
+        	android:layout_height="match_parent"
+        	android:gravity="center"
+        	style="@style/LauncherStatusbarText">
+		</TextView>
+		<TextView android:id="@+id/statusbar_weather_weather"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="20dip"
+			android:layout_marginRight="20dip"
+			android:gravity="center"
+			android:singleLine="true"
+			style="@style/LauncherStatusbarText">
+		</TextView>
+		<TextView android:id="@+id/statusbar_weather_temp"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			style="@style/LauncherStatusbarText">
+		</TextView>        
+	</LinearLayout>  		
+</LinearLayout>			

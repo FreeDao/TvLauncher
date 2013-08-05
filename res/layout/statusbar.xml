@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="78dip"
+    android:gravity="center"   
+    android:orientation="horizontal" >
+    <LinearLayout android:id="@+id/statusbar_thtf_logo"
+    	 android:layout_width="300dip"
+    	 android:layout_height="match_parent"
+    	 android:orientation="horizontal"
+    	 android:background="@null">
+    </LinearLayout>	 
+    <LinearLayout android:id="@+id/empty"
+        android:layout_width="920dip"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView android:id="@+id/statusbar_weather_city"
+        	android:layout_width="wrap_content"
+        	android:layout_height="match_parent"
+        	android:gravity="center"
+        	style="@style/LauncherStatusbarText">
+		</TextView>
+		<TextView android:id="@+id/statusbar_weather_weather"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="20dip"
+			android:layout_marginRight="20dip"
+			android:gravity="center"
+			android:singleLine="true"
+			style="@style/LauncherStatusbarText">
+		</TextView>
+		<TextView android:id="@+id/statusbar_weather_temp"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			style="@style/LauncherStatusbarText">
+		</TextView>        
+	</LinearLayout>    
+
+	<LinearLayout android:id="@+id/statusbar_status_layout"
+	    android:layout_width="300dip"
+	    android:layout_height="match_parent"
+	    android:orientation="horizontal"
+	    android:gravity="center">
+	    <!--ImageView android:id="@+id/statusbar_mute"
+	        android:layout_width="78dip"
+	        android:layout_height="78dip"
+	        android:gravity="center"
+	        android:src="@drawable/mute">
+	    </ImageView-->
+	    <ImageView android:id="@+id/statusbar_ethernet"
+	        android:layout_width="78dip"
+	        android:layout_height="78dip"
+	        android:visibility="invisible"
+	        android:gravity="center"
+	        android:src="@drawable/net">
+	    </ImageView>
+	    <ImageView android:id="@+id/statusbar_wifi"
+	        android:layout_width="78dip"
+	        android:layout_height="78dip"
+	        android:gravity="center"
+	        android:src="@drawable/wifi">
+	    </ImageView>
+	    <ImageView android:id="@+id/statusbar_usb"
+	        android:layout_width="78dip"
+	        android:layout_height="78dip"
+	        android:gravity="center"
+	        android:src="@drawable/usb">
+	    </ImageView>                
+	    
+	</LinearLayout>
+    
+    <LinearLayout android:id="@+id/statusbar_time_layout"
+        android:layout_width="400dip"
+        android:layout_height="match_parent"       
+        android:orientation="horizontal"
+        android:gravity="center"> 
+        <TextView android:id="@+id/statusbar_time_week"
+        	android:layout_width="wrap_content"
+        	android:layout_height="match_parent"
+        	android:layout_marginRight="20dip"
+        	android:gravity="center"
+			style="@style/LauncherStatusbarText">
+        </TextView>
+        <TextView android:id="@+id/statusbar_time_time"
+         	android:layout_width="wrap_content"
+        	android:layout_height="match_parent"
+        	android:gravity="center"
+        	style="@style/LauncherStatusbarText">
+        </TextView>
+    </LinearLayout>
+</LinearLayout>
