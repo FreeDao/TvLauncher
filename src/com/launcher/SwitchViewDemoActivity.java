@@ -212,7 +212,8 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 	//disable remote control
 	private static final String REMOTE_DISABLE = "wab 0x14 0 0";
 	//enable remote control
-	private static final String REMOTE_ENABLE = "wab 0x14 0 1";  
+	private static final String REMOTE_ENABLE = "wab 0x14 0 1";
+	
 	int x1;
 	int y1;
 	int w1;
@@ -421,7 +422,7 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 		updateUsbStatus();
 		updateTimeStatus();
 		if (mCurSel == mTvPriviewIndex ) {
-			getVidoViewSize();
+			mTvPreview.getVidoViewSize();
 			mTvPreview.startTvPreview (x1,y1,w1,h1);
 		}else if( mScrollLayout.resumeFromAtvScreen ){
 			//delay for showing concept screen
@@ -1120,7 +1121,7 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 		  		//mTvPreview.ShowPerview();
 		  	}else{
 		  		//UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
-		  		getVidoViewSize();
+		  		mTvPreview.getVidoViewSize();
 		  		mTvPreview.startTvPreview(x1,y1,w1,h1);
 		  	}
 		}
@@ -1134,20 +1135,10 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 		}
 	};
 	
-	private void getVidoViewSize(){
-		int[] location = new int[2];
-			firstPageFirstLineIcon1.getLocationOnScreen(location);  
-			x1 = location[0];
-			y1 = location[1];
-			w1 = (int)firstPageFirstLineIcon1.getWidth();
-			h1 = (int)firstPageFirstLineIcon1.getHeight();
-			Log.d(TAG,"size=="+x1+" "+y1+" "+w1+" "+h1);
-	}
-
 	private Handler SetVideoSizeHandler = new Handler();
 	private Runnable SetVideoSizeRunnable = new Runnable(){
 		public void run(){
-			getVidoViewSize();
+			mTvPreview.getVidoViewSize();
 			mTvPreview.startTvPreview(x1,y1,w1,h1);
 
 		}

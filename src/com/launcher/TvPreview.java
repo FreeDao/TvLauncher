@@ -34,6 +34,10 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	public static final int close_mode=0;
 	private static final String TV_SCREEN_ACTIVITY = "android.intent.action.AtvScreenActivity";
   int res_status = 0;
+	int x1;
+	int y1;
+	int w1;
+	int h1;	
 	int m_x=0;
 	int m_y=0;
 	int m_w=0;
@@ -142,6 +146,17 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
     			Log.e(TAG,"set  /sys/class/graphics/fb0/video_hole ERROR!",e);
     	}
   }
+
+	public void getVidoViewSize(){
+	int[] location = new int[2];
+		firstPageFirstLineIcon1.getLocationOnScreen(location);  
+		x1 = location[0];
+		y1 = location[1];
+		w1 = (int)firstPageFirstLineIcon1.getWidth();
+		h1 = (int)firstPageFirstLineIcon1.getHeight();
+		Log.d(TAG,"size=="+x1+" "+y1+" "+w1+" "+h1);
+	}
+
     
   public void SetVideoSize(int x , int y , int w , int h) {
     String size="";
