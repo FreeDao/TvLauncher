@@ -22,7 +22,7 @@
 				android:layout_width="0dp"
 				android:layout_height="match_parent"
 				android:layout_weight="1">
-				<ImageView
+				<VideoView
 					android:id="@+id/first_page101"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"						

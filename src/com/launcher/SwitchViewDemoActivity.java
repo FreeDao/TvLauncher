@@ -47,6 +47,8 @@ import java.io.UnsupportedEncodingException;
 import android.os.SystemProperties;
 import android.view.View.OnFocusChangeListener;;
 import android.amlogic.Tv;
+import android.widget.VideoView;
+
 
 
 public class SwitchViewDemoActivity extends Activity implements OnViewChangeListener,OnGestureListener{
@@ -70,7 +72,7 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 	public ImageView dockImageView4;
 		
 	//first page
-	private ImageView firstPageFirstLineIcon1;
+	public VideoView firstPageFirstLineIcon1;
 	private ImageView firstPageFirstLineIcon2;
 	private ImageView firstPageFirstLineIcon3;	
 	private ImageView firstPageSecondLineIcon1;
@@ -211,6 +213,10 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 	private static final String REMOTE_DISABLE = "wab 0x14 0 0";
 	//enable remote control
 	private static final String REMOTE_ENABLE = "wab 0x14 0 1";  
+	int x1;
+	int y1;
+	int w1;
+	int h1;
 
 	//all kinds of receiver
 	StartTvReceiver startTvReceiver = new StartTvReceiver();	
@@ -282,7 +288,8 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 		dockImageView3=(ImageView) findViewById(R.id.dockImageView3);
 		dockImageView4=(ImageView) findViewById(R.id.dockImageView4);
 
-		firstPageFirstLineIcon1 = (ImageView) findViewById(R.id.first_page101);
+		//firstPageFirstLineIcon1 = (VideoView) findViewById(R.id.first_page101);
+		inintVideoView(R.id.first_page101);
 		firstPageFirstLineIcon2 = (ImageView) findViewById(R.id.first_page102);
 		firstPageFirstLineIcon3 = (ImageView) findViewById(R.id.first_page103);
 		firstPageSecondLineIcon1 = (ImageView) findViewById(R.id.first_page201);
@@ -349,6 +356,10 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 		fourthPageSecondLineIcon5Layout =(LinearLayout) findViewById(R.id.fourth_page205_layout);
 		fourthPageSecondLineIcon6Layout =(LinearLayout) findViewById(R.id.fourth_page206_layout);
 	}
+	
+	public void inintVideoView(int resourceId){
+		firstPageFirstLineIcon1 = (VideoView) findViewById(R.id.first_page101);
+	}
 
 	private void initUserApp(){
 		loadAllAppInfo();
@@ -409,17 +420,18 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 		updateWifiStatus();
 		updateUsbStatus();
 		updateTimeStatus();
-		if (mCurSel == mTvPriviewIndex && !mScrollLayout.resumeFromAtvScreen) {
-			mTvPreview.StartTVPreview(70,170,20,20);
+		if (mCurSel == mTvPriviewIndex ) {
+			getVidoViewSize();
+			mTvPreview.startTvPreview (x1,y1,w1,h1);
 		}else if( mScrollLayout.resumeFromAtvScreen ){
 			//delay for showing concept screen
-		    SetVideoSizeHandler.postDelayed( SetVideoSizeRunnable,2000);
+		    //SetVideoSizeHandler.postDelayed( SetVideoSizeRunnable,2000);
 		}  
 	}
 
 	private void startGreenNet(){
 		//close the tvpreview window	
-		mTvPreview.SetWindowSize(0 , 0 , 0 , 0 , 0);		
+		//mTvPreview.SetWindowSize(0 , 0 , 0 , 0 , 0);		
 		appearGreennet();
 		//mScrollLayout.mImageView=mScrollLayout.multiScreenImageView;
 		
@@ -639,14 +651,14 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 
 	class StartTvReceiver extends BroadcastReceiver{
 		@Override
-		public void onReceive(Context arg0, Intent arg1) {		
+		public void onReceive(Context arg0, Intent arg1) {
 			Log.d(TAG,"StartTv process");
 			if( mTvPriviewIndex == 1 ){
 				mScrollLayout.snapPrevious();
 			}else if( mTvPriviewIndex == 2){
 				mScrollLayout.atThirdPageSnapRight();
 			}
-		   	mTvPreview.startTV();						
+		   	//mTvPreview.startTV();
 		}		
 	}
 
@@ -1102,13 +1114,14 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 		Log.d(TAG, "====screen index===" + view + "====hasFocus====" + hasFocus);
 		if (!hasFocus && view == mTvPriviewIndex) {
 			UpdateTvPerviewHandler.removeCallbacks(UpdateTvPerviewRunnable);
-			mTvPreview.DisableWindow();
+			//mTvPreview.DisableWindow();
 		} else if (hasFocus && view == mTvPriviewIndex) {
 			if((mTvPreview.tv.QueryResourceState("wallpaper").owner_name).equals("atv")){
-		  		mTvPreview.ShowPerview();
+		  		//mTvPreview.ShowPerview();
 		  	}else{
-		  		UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
-				mTvPreview.StartTVPreview(70,170,20,20);
+		  		//UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
+		  		getVidoViewSize();
+		  		mTvPreview.startTvPreview(x1,y1,w1,h1);
 		  	}
 		}
 		setCurPoint(view);
@@ -1120,11 +1133,22 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 			mScrollLayout.invalidate();//refresh for display tvPreview
 		}
 	};
+	
+	private void getVidoViewSize(){
+		int[] location = new int[2];
+			firstPageFirstLineIcon1.getLocationOnScreen(location);  
+			x1 = location[0];
+			y1 = location[1];
+			w1 = (int)firstPageFirstLineIcon1.getWidth();
+			h1 = (int)firstPageFirstLineIcon1.getHeight();
+			Log.d(TAG,"size=="+x1+" "+y1+" "+w1+" "+h1);
+	}
 
 	private Handler SetVideoSizeHandler = new Handler();
 	private Runnable SetVideoSizeRunnable = new Runnable(){
 		public void run(){
-		mTvPreview.StartTVPreview(70,170,20,20);
+			getVidoViewSize();
+			mTvPreview.startTvPreview(x1,y1,w1,h1);
 
 		}
 	};
@@ -1271,7 +1295,6 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 	@Override
 	protected void onPause() {
 		super.onPause();
-		mTvPreview.SetVideoSize(0 , 0 , 1920 , 1080);
 		Log.d(TAG,"resumeCount=========="+resumeCount);
 		
 		Log.d(TAG, "====onPause=====");
@@ -1282,7 +1305,6 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 		SetVideoSizeHandler.removeCallbacks(SetVideoSizeRunnable);
 		//mTvPreview.SetRegBit(REMOTE_ENABLE);
 		mTvPreview.StopTvPreview();
-		mTvPreview.SetVideoSize(0 , 0 , 1920 , 1080);
 		if(mystartPlayerHandler != null){
 			mystartPlayerHandler.removeMessages(1);
 		}			   
@@ -1293,7 +1315,6 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 		super.onDestroy();
 		UpdateTvPerviewHandler.removeCallbacks(UpdateTvPerviewRunnable);
 		mTvPreview.StopTvPreview();
-		mTvPreview.SetWindowSize(mTvPreview.close_mode , 0 , 0 , 0 , 0);
 		mTvPreview.SetVideoSize(0 , 0 , 1920 , 1080);
 		unregisterReceiver(ethernetReceiver);
 		unregisterReceiver(wifiReceiver);
