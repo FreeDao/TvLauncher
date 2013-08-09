@@ -30,18 +30,15 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	static Tv tv = null;
 	private final String TAG = "TvPreview";
 	private static final String Request_Owner = "atv";
+	private static final String Request_OwnerDtv = "dtv";
 	private static final int open_mode=1;
 	public static final int close_mode=0;
 	private static final String TV_SCREEN_ACTIVITY = "android.intent.action.AtvScreenActivity";
   int res_status = 0;
-	int x1;
-	int y1;
-	int w1;
-	int h1;	
-	int m_x=0;
-	int m_y=0;
-	int m_w=0;
-	int m_h=0;
+	private int m_x=0;
+	private int m_y=0;
+	private int m_w=0;
+	private int m_h=0;
 	int mmm=0;
 	int CurIntput=0;
 	public VideoView firstPageFirstLineIcon1;
@@ -147,16 +144,6 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
     	}
   }
 
-	public void getVidoViewSize(){
-	int[] location = new int[2];
-		firstPageFirstLineIcon1.getLocationOnScreen(location);  
-		x1 = location[0];
-		y1 = location[1];
-		w1 = (int)firstPageFirstLineIcon1.getWidth();
-		h1 = (int)firstPageFirstLineIcon1.getHeight();
-		Log.d(TAG,"size=="+x1+" "+y1+" "+w1+" "+h1);
-	}
-
     
   public void SetVideoSize(int x , int y , int w , int h) {
     String size="";
@@ -196,42 +183,48 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	}
 
 
-  public void startTvPreview (int x ,int y ,int w,int h) {
+  public void startTvPreview (VideoView videoView) {
   	setDiVscaleSkipEnable("3");
-  	m_x=x;
-  	m_y=y;
-  	m_w=w;
-  	m_h=h;
+  	getVideoViewSize(videoView);
    	tv.SetDisplayMode(Tv.Dis_Mode.DISPLAY_MODE_169,Tv.Source_Input_Type.SOURCE_TYPE_MPEG, tv.GetCurrentSignalInfo().fmt);
    	String str = tv.QueryResourceState("tuner").owner_name;
 		Log.d(TAG,"StartTVPreview==================owner_name======"+str);
-		if ((tv.QueryResourceState("wallpaper").owner_name).equals(Request_Owner)) {
+		if ((tv.QueryResourceState("wallpaper").owner_name).equals(Request_Owner)
+		   ||(tv.QueryResourceState("wallpaper").owner_name).equals(Request_OwnerDtv)) {
 			set3DAndDipostHandler.postDelayed(set3DAndDipostRunnable,0);
 			SetDisplayModeTimes=0;
-			SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,0);			
+			SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,1000);			
 		} else {
 			tv.RequestResources(Request_Owner, this, "tuner", 1);
 			tv.RequestResources(Request_Owner, this, "videodisplay", 1);
 			tv.RequestResources(Request_Owner, this, "audiodecoder", 1);
 			tv.RequestResources(Request_Owner, this, "wallpaper", 1);
-			SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,0);
+			SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,1000);
 		}
 	}
 	
 	public void startAtvScreen(){
-		//Log.d(TAG,"startAtvScreen========================");
 		SetVideoSizeHandler.removeCallbacks(SetVideoSizeRunnable);
 		set3DAndDipostHandler.removeCallbacks(set3DAndDipostRunnable);
 		mySetDisplayMode();
 		SetVideoSize(0,0,1920,1080);
 		//SetWindowSize(close_mode , 0 , 0 , 0 , 0);
-		SystemProperties.set("tv.atv_source_input",""+tv.GetCurrentSourceInput());
-		Intent temp_intent = new Intent(TV_SCREEN_ACTIVITY);
-		temp_intent.removeExtra("source");
-		temp_intent.putExtra("source", tv.GetCurrentSourceInput());
-		temp_intent.addCategory(Intent.CATEGORY_DEFAULT);
-		temp_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		mContext.startActivity(temp_intent);
+		if(tv.GetCurrentSourceInput()==Tv.SrcInput.DTV.toInt()){
+			Log.d(TAG,"start DTV.........");
+			Intent intent = new Intent("android.intent.action.TvScreen2Activity");
+			intent.addCategory(Intent.CATEGORY_DEFAULT);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			mContext.startActivity(intent);
+		} else {
+			Log.d(TAG,"start ATV.........");
+			SystemProperties.set("tv.atv_source_input",""+tv.GetCurrentSourceInput());
+			Intent temp_intent = new Intent(TV_SCREEN_ACTIVITY);
+			temp_intent.removeExtra("source");
+			temp_intent.putExtra("source", tv.GetCurrentSourceInput());
+			temp_intent.addCategory(Intent.CATEGORY_DEFAULT);
+			temp_intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			mContext.startActivity(temp_intent);
+	  }
 	}
 	
 	public void mySetDisplayMode(){
@@ -291,7 +284,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 		//SetWindowSize(close_mode , 0 , 0 , 0 , 0);
 	}
 	
-	public void DisableWindow() {
+	public void DisablePerview() {
 		SetDisplayModeTimes=0;
 		SetVideoSizeHandler.removeCallbacks(SetVideoSizeRunnable);
 		set3DAndDipostHandler.removeCallbacks(set3DAndDipostRunnable);
@@ -379,6 +372,9 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 			  &&i == ReadVideoSize()){
 				SetVideoSize(m_x , m_y , m_w , m_h);
 				SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,500);
+			} else if(tv.GetCurrentSourceInput()==Tv.SrcInput.DTV.toInt()){
+				SetVideoSize(m_x , m_y , m_w , m_h);
+				SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,500);
 			} else {
 				SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,500);
 			}
@@ -421,4 +417,15 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
   				e.printStackTrace();   
   				}
   }
+  
+  public void getVideoViewSize(VideoView videoView){
+		int[] location = new int[2];
+		videoView.getLocationOnScreen(location);
+		m_x = location[0];
+		m_y = location[1];
+		m_w = (int)videoView.getWidth();
+		m_h = (int)videoView.getHeight();
+		Log.d(TAG,"size=="+m_x+" "+m_y+" "+m_w+" "+m_h);
+	}
+	
 }

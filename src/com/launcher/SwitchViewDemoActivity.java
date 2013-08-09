@@ -48,10 +48,12 @@ import android.os.SystemProperties;
 import android.view.View.OnFocusChangeListener;;
 import android.amlogic.Tv;
 import android.widget.VideoView;
+import android.view.SurfaceHolder.Callback;
+import android.view.SurfaceHolder;
 
 
 
-public class SwitchViewDemoActivity extends Activity implements OnViewChangeListener,OnGestureListener{
+public class SwitchViewDemoActivity extends Activity implements Callback,OnViewChangeListener,OnGestureListener{
 
 	private int mViewCount;
 	public static int mCurSel;
@@ -360,6 +362,25 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 	
 	public void inintVideoView(int resourceId){
 		firstPageFirstLineIcon1 = (VideoView) findViewById(R.id.first_page101);
+		firstPageFirstLineIcon1.getHolder().addCallback(this);
+	}
+	
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+		
+		Log.d(TAG, "====surfaceChanged====");
+	}
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		
+		Log.d(TAG, "====surfaceCreated====");
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		Log.d(TAG, "====surfaceDestroyed====");
 	}
 
 	private void initUserApp(){
@@ -422,8 +443,7 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 		updateUsbStatus();
 		updateTimeStatus();
 		if (mCurSel == mTvPriviewIndex ) {
-			mTvPreview.getVidoViewSize();
-			mTvPreview.startTvPreview (x1,y1,w1,h1);
+			mTvPreview.startTvPreview(firstPageFirstLineIcon1);
 		}else if( mScrollLayout.resumeFromAtvScreen ){
 			//delay for showing concept screen
 		    //SetVideoSizeHandler.postDelayed( SetVideoSizeRunnable,2000);
@@ -1094,16 +1114,19 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 				setSourceImage();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}			
+			}
+			mTvPreview.ShowPerview();
 		}
 		if (index == 1){
 			dockImageView2.setImageResource(R.drawable.dock2);
+			mTvPreview.DisablePerview();
 		}	
 		if(index == 2){
 			dockImageView3.setImageResource(R.drawable.dock3);
 		}
 		if(index == 3){
 			dockImageView4.setImageResource(R.drawable.dock4);
+			mTvPreview.DisablePerview();
 		}		
 		//set the page property	
        SystemProperties.set("tv.launcher_page", "" + index);       
@@ -1115,14 +1138,12 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 		Log.d(TAG, "====screen index===" + view + "====hasFocus====" + hasFocus);
 		if (!hasFocus && view == mTvPriviewIndex) {
 			UpdateTvPerviewHandler.removeCallbacks(UpdateTvPerviewRunnable);
-			//mTvPreview.DisableWindow();
 		} else if (hasFocus && view == mTvPriviewIndex) {
 			if((mTvPreview.tv.QueryResourceState("wallpaper").owner_name).equals("atv")){
 		  		//mTvPreview.ShowPerview();
 		  	}else{
 		  		//UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
-		  		mTvPreview.getVidoViewSize();
-		  		mTvPreview.startTvPreview(x1,y1,w1,h1);
+		  		mTvPreview.startTvPreview(firstPageFirstLineIcon1);
 		  	}
 		}
 		setCurPoint(view);
@@ -1138,8 +1159,7 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 	private Handler SetVideoSizeHandler = new Handler();
 	private Runnable SetVideoSizeRunnable = new Runnable(){
 		public void run(){
-			mTvPreview.getVidoViewSize();
-			mTvPreview.startTvPreview(x1,y1,w1,h1);
+			mTvPreview.startTvPreview(firstPageFirstLineIcon1);
 
 		}
 	};
@@ -1277,10 +1297,21 @@ public class SwitchViewDemoActivity extends Activity implements OnViewChangeList
 	           	UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
 	           	UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,5000);			
 	       }else{
-	       	mTvPreview.DisableWindow();
+	       	mTvPreview.DisablePerview();
 	       }
 		resumeCount ++;
 		SystemProperties.set("tv.in_launcher", "true");
+	}
+	
+	@Override  
+	public void onWindowFocusChanged(boolean hasFocus) {  
+	   super.onWindowFocusChanged(hasFocus);
+		 if(hasFocus){
+		 	updateStatus();
+			Log.d(TAG,"_________________________________Focus");
+		 }else{
+			Log.d(TAG,"_________________________________unFOcus");
+		 }
 	}
 
 	@Override
