@@ -23,6 +23,7 @@ import android.view.Display;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.widget.VideoView;
+import android.content.Intent;
 
 
 public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSourcesListener{
@@ -34,6 +35,8 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	private static final int open_mode=1;
 	public static final int close_mode=0;
 	private static final String TV_SCREEN_ACTIVITY = "android.intent.action.AtvScreenActivity";
+	private static final String START_PLAY_DTV = "com.launcher.play.dtv";
+	private static final String START_STOP_DTV = "com.launcher.stop.dtv";
   int res_status = 0;
 	private int m_x=0;
 	private int m_y=0;
@@ -75,10 +78,13 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 			if (state == 1) {
 				res_status |= 8;
 			}
+		} else if (sType.equals("videodecoder")) {
+				  if (state == 1) {
+				  	res_status |= 0x10;
+				  }
 		}
-		//Log.d(TAG,"onStateChanged=========res_status"+res_status);
 		if (res_status == 0xf) {
-			//Log.d(TAG,"onStateChanged====res_status == 0xf");
+			Log.d(TAG,"onStateChanged====res_status == 0xf");
 			res_status = 0;
 			SourcePlay();
 			SetDisplayModeTimes=0;
@@ -194,12 +200,21 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 			set3DAndDipostHandler.postDelayed(set3DAndDipostRunnable,0);
 			SetDisplayModeTimes=0;
 			SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,1000);			
-		} else {
+		} else if(tv.SSMReadLastSelectSourceType()== Tv.SrcInput.DTV.toInt()){
+		    Log.d(TAG,"StartTVPreview....DTV");
+		    tv.RequestResources(Request_OwnerDtv, this, "tuner", 1);
+		    tv.RequestResources(Request_OwnerDtv, this, "videodisplay", 1);
+		    tv.RequestResources(Request_OwnerDtv, this, "audiodecoder", 1);
+		    tv.RequestResources(Request_OwnerDtv, this, "wallpaper", 1);
+		    tv.RequestResources(Request_OwnerDtv, this, "videodecoder", 1);
+		    SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,0);
+    } else {
 			tv.RequestResources(Request_Owner, this, "tuner", 1);
 			tv.RequestResources(Request_Owner, this, "videodisplay", 1);
 			tv.RequestResources(Request_Owner, this, "audiodecoder", 1);
 			tv.RequestResources(Request_Owner, this, "wallpaper", 1);
-			SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,1000);
+			tv.RequestResources(Request_Owner, this, "videodecoder", 1);
+			SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,0);
 		}
 	}
 	
@@ -285,6 +300,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	}
 	
 	public void DisablePerview() {
+		Log.d(TAG,"DisablePerview===============");
 		SetDisplayModeTimes=0;
 		SetVideoSizeHandler.removeCallbacks(SetVideoSizeRunnable);
 		set3DAndDipostHandler.removeCallbacks(set3DAndDipostRunnable);
@@ -295,6 +311,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	}
 	
 	public void ShowPerview(){
+		Log.d(TAG,"ShowPerview===============");
 		SetDisplayModeTimes=0;
 		set_sourceInput(tv.SSMReadLastSelectSourceType());
 		tv.SetDisplayMode(Tv.Dis_Mode.DISPLAY_MODE_169,Tv.Source_Input_Type.SOURCE_TYPE_MPEG, tv.GetCurrentSignalInfo().fmt);
@@ -383,27 +400,58 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	  
 	void RleasedResource() {
 		String str = tv.QueryResourceState("tuner").owner_name;
-		if (tv.GetTvStatus() == tvin_status_t.TVIN_STATUS_IDLE.toInt()) {
-			tv.RleasedResource(Request_Owner,"tuner");
-			tv.RleasedResource(Request_Owner,"videodisplay");
-			tv.RleasedResource(Request_Owner,"audiodecoder");
-			tv.RleasedResource(Request_Owner,"wallpaper");
-			StopTvRleasedResourceHandler.removeCallbacks(StopTvRleasedResourceRunnable);
-			//Log.d(TAG,"RleasedResource==================owner_name!!!!!"+str);
-		}
+		if(tv.SSMReadLastSelectSourceType()== Tv.SrcInput.DTV.toInt()){
+		  	tv.RleasedResource(Request_OwnerDtv,"tuner");
+		  	tv.RleasedResource(Request_OwnerDtv,"videodisplay");
+		  	tv.RleasedResource(Request_OwnerDtv,"audiodecoder");
+		  	tv.RleasedResource(Request_OwnerDtv,"wallpaper");
+		  	tv.RleasedResource(Request_OwnerDtv, "videodecoder");
+		  	StopTvRleasedResourceHandler.removeCallbacks(StopTvRleasedResourceRunnable);
+		  } else {
+		  	tv.RleasedResource(Request_Owner,"tuner");
+		  	tv.RleasedResource(Request_Owner,"videodisplay");
+		  	tv.RleasedResource(Request_Owner,"audiodecoder");
+		  	tv.RleasedResource(Request_Owner,"wallpaper");
+		  	tv.RleasedResource(Request_Owner, "videodecoder");
+		  	StopTvRleasedResourceHandler.removeCallbacks(StopTvRleasedResourceRunnable);
+		  	//Log.d(TAG,"RleasedResource==================owner_name!!!!!"+str);
+		  }
 	}
 	
 	public void onRequestRelease(String sType){
-		//Log.d(TAG, "====onRequestRelease===sType===="+sType);
-		StopTv();
-		//Log.d(TAG, "====RleasedResource====");
+		Log.d(TAG, "====onRequestRelease===sType===="+sType);
+          //////////////////////////////////////////////////////////////
+          if(tv.SSMReadLastSelectSourceType()== Tv.SrcInput.DTV.toInt()){
+          	tv.RleasedResource(Request_OwnerDtv,sType);
+          	if(sType.equals("tuner")){
+          		Intent intent = new Intent();
+              intent.setAction(START_STOP_DTV);
+              mContext.sendBroadcast(intent);
+              set_sourceInput(Tv.SrcInput.MPEG.toInt());
+            }
+          }
+          else{
+          	if(sType.equals("tuner")){
+          		StopTv();
+            }
+          }
 	}
 	
 	public void release(){
-	  	tv.RleasedResource(Request_Owner,"tuner");
-		  tv.RleasedResource(Request_Owner,"videodisplay");
-		  tv.RleasedResource(Request_Owner,"audiodecoder");
-		  tv.RleasedResource(Request_Owner,"wallpaper");
+	  	String str = tv.QueryResourceState("tuner").owner_name;
+        if (tv.SSMReadLastSelectSourceType()== Tv.SrcInput.DTV.toInt()) {
+        	tv.RleasedResource(Request_OwnerDtv,"tuner");
+        	tv.RleasedResource(Request_OwnerDtv,"videodisplay");
+        	tv.RleasedResource(Request_OwnerDtv,"audiodecoder");
+        	tv.RleasedResource(Request_OwnerDtv,"wallpaper");
+        	tv.RleasedResource(Request_OwnerDtv, "videodecoder");
+        } else {
+		  	  tv.RleasedResource(Request_Owner,"tuner");
+        	tv.RleasedResource(Request_Owner,"videodisplay");
+        	tv.RleasedResource(Request_Owner,"audiodecoder");
+        	tv.RleasedResource(Request_Owner,"wallpaper");
+        	tv.RleasedResource(Request_Owner, "videodecoder");
+        }
 	}
 	
 	public void SetRegBit(String cmd) {
