@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Handler;
@@ -53,11 +54,12 @@ import android.view.SurfaceHolder;
 
 
 
+
 public class SwitchViewDemoActivity extends Activity implements Callback,OnViewChangeListener,OnGestureListener{
 
 	private int mViewCount;
-	public static int mCurSel;
-	public static int mTvPriviewIndex = 0;
+	private static int mCurSel;
+	private static int mTvPriviewIndex = 0;
 	private MyScrollLayout mScrollLayout;
 	private final static String TAG = "SwitchViewDemoActivity";
 
@@ -68,13 +70,13 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	public static TvPreview mTvPreview;
 	
 	//dock
-	public ImageView dockImageView1;
-	public ImageView dockImageView2;
-	public ImageView dockImageView3;
-	public ImageView dockImageView4;
+	private ImageView dockImageView1;
+	private ImageView dockImageView2;
+	private ImageView dockImageView3;
+	private ImageView dockImageView4;
 		
 	//first page
-	public VideoView firstPageFirstLineIcon1;
+	private VideoView firstPageFirstLineIcon1;
 	private ImageView firstPageFirstLineIcon2;
 	private ImageView firstPageFirstLineIcon3;	
 	private ImageView firstPageSecondLineIcon1;
@@ -160,12 +162,12 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private ImageView usbImageView;
 	private ImageView wifiImageView;
 
-	public final int ethernetStatusMsg = 0x3000;
-	public final int conceptScreenAppearMsg = 0x3001;
-	public final int conceptScreenDisappearMsg = 0x3002;
-	public final int greennetAppearMsg = 0x3003;
-	public final int greennetDisappearMsg = 0x3004;	
-	public final int showTvpreviewDelayTime = 1000;
+	private final int ethernetStatusMsg = 0x3000;
+	private final int conceptScreenAppearMsg = 0x3001;
+	private final int conceptScreenDisappearMsg = 0x3002;
+	private final int greennetAppearMsg = 0x3003;
+	private final int greennetDisappearMsg = 0x3004;	
+	private final int showTvpreviewDelayTime = 1000;
 	
 	//statusbarWeather
 	private TextView cityTextView;
@@ -203,6 +205,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private List<ResolveInfo> userResolveInfo; 
 	private ArrayList<ApplicationInfo> userApplications;
 	private int userAppSize;
+	private UserAppProcess userAppProcess;
 
 	private int lastSource;
 	
@@ -216,20 +219,18 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	//enable remote control
 	private static final String REMOTE_ENABLE = "wab 0x14 0 1";
 	
-	int x1;
-	int y1;
-	int w1;
-	int h1;
-
 	//all kinds of receiver
-	StartTvReceiver startTvReceiver = new StartTvReceiver();	
-	statusbarWifiReceiver wifiReceiver = new statusbarWifiReceiver();
-	statusbarUsbReceiver usbReceiver = new statusbarUsbReceiver();
-	statusbarTimeReceiver timeReceiver = new statusbarTimeReceiver();
-	statusbarWeatherReceiver weatherReceiver = new statusbarWeatherReceiver();
-	statusbarEthernetReceiver ethernetReceiver = new statusbarEthernetReceiver();	
-	VoiceCommandReceiver voiceCommandReceiver = new VoiceCommandReceiver();
-	UserAppReceiver userAppReceiver = new UserAppReceiver();
+	private StartTvReceiver startTvReceiver = new StartTvReceiver();	
+	private StatusbarWifiReceiver wifiReceiver = new StatusbarWifiReceiver();
+	private StatusbarUsbReceiver usbReceiver = new StatusbarUsbReceiver();
+	private StatusbarTimeReceiver timeReceiver = new StatusbarTimeReceiver();
+	private StatusbarWeatherReceiver weatherReceiver = new StatusbarWeatherReceiver();
+	private StatusbarEthernetReceiver ethernetReceiver = new StatusbarEthernetReceiver();	
+	private VoiceCommandReceiver voiceCommandReceiver = new VoiceCommandReceiver();
+	private UserAppReceiver userAppReceiver = new UserAppReceiver();
+	private UserAppReceiver2 userAppReceiver2 = new UserAppReceiver2();
+
+	
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -272,6 +273,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		registerStartTvReceiver();
 		registerVoiceCommandReceiver();
 		registerUserAppReceiver();
+		registerUserAppReceiver2();
 	}
 	
 	private void initIcons(){
@@ -384,6 +386,10 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	}
 
 	private void initUserApp(){
+		if(userAppProcess == null){
+			userAppProcess = new UserAppProcess(this);
+		}
+		userAppProcess.readGroupDetail();
 		loadAllAppInfo();
 		setUserAppInfo();
 	}
@@ -576,17 +582,18 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	}
 	
 	private void updateUsbStatus(){
-		File dir = new File("/mnt");
+		File dir = new File("/storage/external_storage");
 		boolean usbConnected = false;
 		for (File file : dir.listFiles()) {
 			usbConnected = false;
-			String path = file.getAbsolutePath(); 			
-			if (path.startsWith("/mnt/sd") && !path.startsWith("/mnt/sdcard")) {
+			String path = file.getAbsolutePath();
+			if (path.startsWith("/storage/external_storage/sd") && !path.startsWith("/storage/external_storage/sdcard")) {
 				usbConnected = true;
 				break;
 			}
 		} 
-		if (usbConnected) {		
+		
+		if (usbConnected) {
 			usbImageView.setVisibility(View.VISIBLE);				
 		}else{
 			usbImageView.setVisibility(View.GONE);
@@ -629,7 +636,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		}
 	}
 	
-	class statusbarEthernetReceiver extends BroadcastReceiver{
+	class StatusbarEthernetReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {		
 			Log.d(TAG,"Ethernet process");
@@ -637,7 +644,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		}		
 	}
 
-	class statusbarWifiReceiver extends BroadcastReceiver{
+	class StatusbarWifiReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {		
 			Log.d(TAG,"wifi process");
@@ -645,7 +652,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		}		
 	}
 	
-	class statusbarUsbReceiver extends BroadcastReceiver{
+	class StatusbarUsbReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {		
 			Log.d(TAG,"usb process");
@@ -653,7 +660,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		}		
 	}
 	
-	class statusbarTimeReceiver extends BroadcastReceiver{
+	class StatusbarTimeReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {		
 			Log.d(TAG,"Time process");
@@ -661,7 +668,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		}		
 	}
 
-	class statusbarWeatherReceiver extends BroadcastReceiver{
+	class StatusbarWeatherReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {		
 			Log.d(TAG,"weather process");
@@ -693,124 +700,203 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	class UserAppReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "============= AppReceiver action===========" + intent.getAction());
-			Log.d(TAG, "============= mCurSel===========" + mCurSel);
 			initUserApp();
 		}
 	}
 
-	public void loadAllAppInfo() {
-		Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-		mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-		PackageManager manager = getPackageManager();
-		userResolveInfo= manager.queryIntentActivities(mainIntent, 0);
+	class UserAppReceiver2 extends BroadcastReceiver{
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {		
+			initUserApp();							
+		}		
+	}
 
-		Collections.sort(userResolveInfo, new ResolveInfo.DisplayNameComparator(manager));
+	private void loadAllAppInfo() {
+		PackageManager pm = getPackageManager(); 
 
-		if (userResolveInfo!= null) {
-			final int count = userResolveInfo.size();
+		if( userApplications== null ){
+			userApplications = new ArrayList<ApplicationInfo>();
+		}
+		userApplications.clear();
+		
+		for (int i = 0; i < UserAppProcess.allApksToDisplayInDesktop.size(); i++) {
+			
+			ApplicationInfo appInfo = new ApplicationInfo();
+			String curApkPkgName=UserAppProcess.allApksToDisplayInDesktop.get(i);
 
-			if (userApplications == null) {
-				userApplications = new ArrayList<ApplicationInfo>(count);
+			Log.d(TAG,"=======================get PKG name :" + curApkPkgName);
+			
+			ResolveInfo info2 = getResolveInfoByPackage( curApkPkgName );
+			
+			if(info2 != null){   
+				appInfo.title = info2.loadLabel(pm);
+				Log.d(TAG,"title :" + appInfo.title);
+				appInfo.icon = info2.activityInfo.loadIcon(pm);
+				Log.d(TAG,"icon :" + appInfo.icon);
+				appInfo.intent = pm.getLaunchIntentForPackage( curApkPkgName );
+				userApplications.add(appInfo);
 			}
 			
-			userApplications.clear();
-
-			for (int i = 0; i < count; i++) {
-				ApplicationInfo application = new ApplicationInfo();
-				ResolveInfo info = userResolveInfo.get(i);
-
-				application.title = info.loadLabel(manager);
-				application.setActivity(new ComponentName(info.activityInfo.applicationInfo.packageName, info.activityInfo.name),
-						Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-				application.icon = info.activityInfo.loadIcon(manager);
-
-				userApplications.add(application);
-			}
 		}
+			
+	}	
+
+	private ResolveInfo getResolveInfoByPackage(String packageName) {
+		final List<ResolveInfo> matches = findActivitiesForPackage( packageName);
+		int count = (matches != null) ? matches.size() : 0;
+		
+		for(int i=0; i<count; i++) {
+			ResolveInfo info = matches.get(i);
+			ActivityInfo ainfo = (info != null) ? info.activityInfo : null;
+			String packName = (ainfo != null) ? ainfo.packageName : null;
+			if(packageName.equals(packName))
+				return info;
+		}
+		return null;
+	}
+	 
+	private List<ResolveInfo> findActivitiesForPackage(String packageName) {
+       final PackageManager packageManager = getPackageManager();
+
+       final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+       mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+       mainIntent.setPackage(packageName);
+
+       final List<ResolveInfo> apps = packageManager.queryIntentActivities(mainIntent, 0);
+       return apps != null ? apps : new ArrayList<ResolveInfo>();
 	}
 
 	private void setUserAppInfo(){
-		if(userApplications == null || userApplications.size() == 0){
+
+		initUserAppInfo();
+		userAppSize = userApplications.size();
+
+		if(userAppSize == 0){
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page102);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page102);
 			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page101);			
-			fourthPageFirstLineIcon2.setNextFocusRightId(R.id.first_page101);			
-			return;
-		}
-		
-		initUserAppInfo();
-		
-		userAppSize = userApplications.size();
-		
-		if( userAppSize == 1){
+			fourthPageFirstLineIcon2.setNextFocusRightId(R.id.first_page101);
+			//process down key focus
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page101);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page102);			
+		}else if( userAppSize == 1){
 			setThirdUserApp();
 			
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page103_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page103_icon);
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page101);						
 			fourthPageFirstLineIcon2.setNextFocusRightId(R.id.fourth_page103_icon);			
 			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.first_page101);
+			//process down key focus
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page101);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page102);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page103_icon);			
 		}else if( userAppSize == 2){
 			setFourthUserApp();
 
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
-			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);			
-			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
+			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page101);
+			//process down key focus
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page101);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page102);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page103_icon);
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page104_icon);
 		}else if( userAppSize == 3){
 			setFifthUserApp();
 			
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page201_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
-			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.first_page201);					
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);		
+			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.first_page201);
+			//process down key focus			
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page201_icon);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page201_icon);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page201_icon);
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page201_icon);			
 		}else if( userAppSize == 4){
 			setSixthUserApp();
 			
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page202_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
-			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.first_page201);				
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);
+			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
+			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.first_page201);
+			//process down key focus			
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page202_icon);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page202_icon);
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page202_icon);			
 		}else if( userAppSize == 5){
 			setSeventhUserApp();
 
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page203_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
-			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.first_page201);			
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);
+			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
+			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
+			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.first_page201);
+			//process down key focus			
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page203_icon);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page203_icon);
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page203_icon);				
 		}else if( userAppSize == 6){
 			setEighthUserApp();
 
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page204_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
-			fourthPageSecondLineIcon4.setNextFocusRightId(R.id.first_page201);				
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);	
+			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
+			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
+			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.fourth_page204_icon);
+			fourthPageSecondLineIcon4.setNextFocusRightId(R.id.first_page201);
+			//process down key focus			
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page204_icon);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page204_icon);
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page204_icon);			
 		}else if( userAppSize == 7){
 			setNinthUserApp();
 
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page205_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
-			fourthPageSecondLineIcon5.setNextFocusRightId(R.id.first_page201);				
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);	
+			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
+			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
+			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.fourth_page204_icon);
+			fourthPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page205_icon);
+			fourthPageSecondLineIcon5.setNextFocusRightId(R.id.first_page201);
+			//process down key focus			
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page204_icon);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page205_icon);
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page205_icon);				
 		}else if( userAppSize >= 8){
 			setTenthUserApp();
 
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page206_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
-			fourthPageSecondLineIcon6.setNextFocusRightId(R.id.first_page201);			
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);	
+			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
+			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
+			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.fourth_page204_icon);
+			fourthPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page205_icon);
+			fourthPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page206_icon);
+			fourthPageSecondLineIcon6.setNextFocusRightId(R.id.first_page201);
+			//process down key focus			
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page204_icon);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page205_icon);
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page206_icon);			
 		}
 	}
 
 	private void setThirdUserApp(){
 		fourthPageFirstLineIcon3.setBackgroundDrawable(userApplications.get(0).icon);
 		fourthPageFirstLineName3.setText(userApplications.get(0).title);
+		Log.d(TAG,"______________________icon 0 " + userApplications.get(0).icon);		
+		Log.d(TAG,"______________________title 0 " + userApplications.get(0).title);
 		fourthPageFirstLineIcon3.setVisibility(View.VISIBLE);
 		fourthPageFirstLineName3.setVisibility(View.VISIBLE);
 		fourthPageFirstLineApp3Parent.setBackgroundResource(R.drawable.user_app_background);		
@@ -822,6 +908,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		setThirdUserApp();
 		fourthPageFirstLineIcon4.setBackgroundDrawable(userApplications.get(1).icon);
 		fourthPageFirstLineName4.setText(userApplications.get(1).title);
+		Log.d(TAG,"______________________icon 1 " + userApplications.get(1).icon);		
+		Log.d(TAG,"______________________title 1 " + userApplications.get(1).title);		
 		fourthPageFirstLineIcon4.setVisibility(View.VISIBLE);
 		fourthPageFirstLineName4.setVisibility(View.VISIBLE);
 		fourthPageFirstLineApp4Parent.setBackgroundResource(R.drawable.user_app_background);		
@@ -832,7 +920,9 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private void setFifthUserApp(){
 		setFourthUserApp();
 		fourthPageSecondLineIcon1.setBackgroundDrawable(userApplications.get(2).icon);
-		fourthPageSecondLineName1.setText(userApplications.get(2).title);		
+		fourthPageSecondLineName1.setText(userApplications.get(2).title);
+		Log.d(TAG,"______________________icon 2 " + userApplications.get(2).icon);		
+		Log.d(TAG,"______________________title 2 " + userApplications.get(2).title);		
 		fourthPageSecondLineIcon1.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName1.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp1Parent.setBackgroundResource(R.drawable.user_app_background);		
@@ -841,9 +931,11 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	}
 	
 	private void setSixthUserApp(){
-		setFourthUserApp();
+		setFifthUserApp();
 		fourthPageSecondLineIcon2.setBackgroundDrawable(userApplications.get(3).icon);
 		fourthPageSecondLineName2.setText(userApplications.get(3).title);
+		Log.d(TAG,"______________________icon 3 " + userApplications.get(3).icon);		
+		Log.d(TAG,"______________________title 3 " + userApplications.get(3).title);		
 		fourthPageSecondLineIcon2.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName2.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp2Parent.setBackgroundResource(R.drawable.user_app_background);		
@@ -855,6 +947,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		setSixthUserApp();
 		fourthPageSecondLineIcon3.setBackgroundDrawable(userApplications.get(4).icon);
 		fourthPageSecondLineName3.setText(userApplications.get(4).title);
+		Log.d(TAG,"______________________icon 4 " + userApplications.get(4).icon);		
+		Log.d(TAG,"______________________title 4 " + userApplications.get(4).title);			
 		fourthPageSecondLineIcon3.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName3.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp3Parent.setBackgroundResource(R.drawable.user_app_background);		
@@ -866,6 +960,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		setSeventhUserApp();
 		fourthPageSecondLineIcon4.setBackgroundDrawable(userApplications.get(5).icon);
 		fourthPageSecondLineName4.setText(userApplications.get(5).title);
+		Log.d(TAG,"______________________icon 5 " + userApplications.get(5).icon);		
+		Log.d(TAG,"______________________title 5 " + userApplications.get(5).title);		
 		fourthPageSecondLineIcon4.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName4.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp4Parent.setBackgroundResource(R.drawable.user_app_background);		
@@ -877,6 +973,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		setEighthUserApp();
 		fourthPageSecondLineIcon5.setBackgroundDrawable(userApplications.get(6).icon);
 		fourthPageSecondLineName5.setText(userApplications.get(6).title);
+		Log.d(TAG,"______________________icon 6 " + userApplications.get(6).icon);		
+		Log.d(TAG,"______________________title 6 " + userApplications.get(6).title);		
 		fourthPageSecondLineIcon5.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName5.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp5Parent.setBackgroundResource(R.drawable.user_app_background);		
@@ -887,7 +985,9 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private void setTenthUserApp(){
 		setNinthUserApp();
 		fourthPageSecondLineIcon6.setBackgroundDrawable(userApplications.get(7).icon);
-		fourthPageSecondLineName6.setText(userApplications.get(7).title);		
+		fourthPageSecondLineName6.setText(userApplications.get(7).title);
+		Log.d(TAG,"______________________icon 7 " + userApplications.get(7).icon);		
+		Log.d(TAG,"______________________title 7 " + userApplications.get(7).title);		
 		fourthPageSecondLineIcon6.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName6.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp6Parent.setBackgroundResource(R.drawable.user_app_background);		
@@ -896,7 +996,10 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	}
 	
 	private void initUserAppInfo(){
-		fourthPageFirstLineIcon3.setVisibility(View.GONE);
+		fourthPageFirstLineIcon2.setNextFocusRightId(R.id.fourth_page103_icon);			
+		fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);			
+		fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);
+			
 		fourthPageFirstLineIcon3.setVisibility(View.GONE);
 		fourthPageFirstLineIcon4.setVisibility(View.GONE);
 		fourthPageSecondLineIcon1.setVisibility(View.GONE);
@@ -905,6 +1008,15 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		fourthPageSecondLineIcon4.setVisibility(View.GONE);
 		fourthPageSecondLineIcon5.setVisibility(View.GONE);
 		fourthPageSecondLineIcon6.setVisibility(View.GONE);
+
+		fourthPageFirstLineName3.setVisibility(View.GONE);		
+		fourthPageFirstLineName4.setVisibility(View.GONE);		
+		fourthPageSecondLineName1.setVisibility(View.GONE);		
+		fourthPageSecondLineName2.setVisibility(View.GONE);		
+		fourthPageSecondLineName3.setVisibility(View.GONE);		
+		fourthPageSecondLineName4.setVisibility(View.GONE);		
+		fourthPageSecondLineName5.setVisibility(View.GONE);		
+		fourthPageSecondLineName6.setVisibility(View.GONE);		
 		
 		fourthPageFirstLineApp3Parent.setBackgroundResource(R.drawable.nothing);
 		fourthPageFirstLineApp4Parent.setBackgroundResource(R.drawable.nothing);
@@ -934,7 +1046,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		fourthPageSecondLineApp6ClickListener = null;			
 	}
 
-	public void userAppFocuschange(final ImageView imageButton,final LinearLayout linearLayout,OnFocusChangeListener onFocusChangeListener) {
+	private void userAppFocuschange(final ImageView imageButton,final LinearLayout linearLayout,OnFocusChangeListener onFocusChangeListener) {
 		onFocusChangeListener = new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -948,7 +1060,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		imageButton.setOnFocusChangeListener(onFocusChangeListener);
 	}
 
-	public void userAppClick(final ImageView imageButton,OnClickListener onClickListener,final Intent intent) {
+	private void userAppClick(final ImageView imageButton,OnClickListener onClickListener,final Intent intent) {
 		onClickListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -1115,18 +1227,15 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			mTvPreview.ShowPerview();
 		}
 		if (index == 1){
 			dockImageView2.setImageResource(R.drawable.dock2);
-			mTvPreview.DisablePerview();
 		}	
 		if(index == 2){
 			dockImageView3.setImageResource(R.drawable.dock3);
 		}
 		if(index == 3){
 			dockImageView4.setImageResource(R.drawable.dock4);
-			mTvPreview.DisablePerview();
 		}		
 		//set the page property	
        SystemProperties.set("tv.launcher_page", "" + index);       
@@ -1138,6 +1247,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		Log.d(TAG, "====screen index===" + view + "====hasFocus====" + hasFocus);
 		if (!hasFocus && view == mTvPriviewIndex) {
 			UpdateTvPerviewHandler.removeCallbacks(UpdateTvPerviewRunnable);
+			mTvPreview.DisablePerview();			
 		} else if (hasFocus && view == mTvPriviewIndex) {
 			if((mTvPreview.tv.QueryResourceState("wallpaper").owner_name).equals("atv")){
 		  		//mTvPreview.ShowPerview();
@@ -1145,6 +1255,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		  		//UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
 		  		mTvPreview.startTvPreview(firstPageFirstLineIcon1);
 		  	}
+			mTvPreview.ShowPerview();					
 		}
 		setCurPoint(view);
 	}
@@ -1273,8 +1384,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		Log.d(TAG, "====onResume=====");
 		//show only resume from atvscreen
 		if(mScrollLayout.resumeFromAtvScreen){
-				//set the page property 
-		       SystemProperties.set("tv.launcher_page", "0");
+			//set the page property 
+	       SystemProperties.set("tv.launcher_page", "0");
 			//don't disable remote control just boot completed	
 			if( resumeCount > 1){
 				//disable remote control
@@ -1292,26 +1403,15 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		updateStatus();
 		//the newsServie receive this broadCast to refresh news
 		sendBroadCastToRefreshNews();
-			//run 2 times to ensure tvpreview be refreshed 
-	       if (mCurSel == mTvPriviewIndex) {
-	           	UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
-	           	UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,5000);			
-	       }else{
-	       	mTvPreview.DisablePerview();
-	       }
+		//run 2 times to ensure tvpreview be refreshed 
+       if (mCurSel == mTvPriviewIndex) {
+           	UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
+           	UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,5000);			
+       }else{
+       	mTvPreview.DisablePerview();
+       }
 		resumeCount ++;
 		SystemProperties.set("tv.in_launcher", "true");
-	}
-	
-	@Override  
-	public void onWindowFocusChanged(boolean hasFocus) {  
-	   super.onWindowFocusChanged(hasFocus);
-		 if(hasFocus){
-		 	updateStatus();
-			Log.d(TAG,"_________________________________Focus");
-		 }else{
-			Log.d(TAG,"_________________________________unFOcus");
-		 }
 	}
 
 	@Override
@@ -1321,8 +1421,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		
 		Log.d(TAG, "====onPause=====");
 		SystemProperties.set("tv.in_launcher", "false");
-			//set the page property	if (launcher not in first page){hide the tvprevie source icon}
-       	SystemProperties.set("tv.launcher_page", "8888"); 	
+		//set the page property	if (launcher not in first page){hide the tvprevie source icon}
+     	SystemProperties.set("tv.launcher_page", "8888"); 	
 		UpdateTvPerviewHandler.removeCallbacks(UpdateTvPerviewRunnable);
 		SetVideoSizeHandler.removeCallbacks(SetVideoSizeRunnable);
 		//mTvPreview.SetRegBit(REMOTE_ENABLE);
@@ -1345,6 +1445,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		unregisterReceiver(weatherReceiver);
 		unregisterReceiver(startTvReceiver);
 		unregisterReceiver(userAppReceiver);
+		unregisterReceiver(userAppReceiver2);		
 	}
 
 	@Override
@@ -1370,9 +1471,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 			mScrollLayout.onKeyDown(keyCode, event);
 		}
 		*/
-		Log.d(TAG,"___________________________size = " + userApplications.size());
 		View focusView = mScrollLayout.findFocus();
-		
+		Log.d(TAG,"userAppSize = " + userAppSize);
 		if( userAppSize == 0 ){
 			if( focusView == fourthPageFirstLineIcon2 && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
 				mScrollLayout.snapToScreen(0);	
@@ -1389,11 +1489,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 			if( (focusView == fourthPageSecondLineIcon1 || focusView == fourthPageFirstLineIcon4) && 
 					keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
 				mScrollLayout.snapToScreen(0);	
-			}
-			if( (focusView == fourthPageSecondLineIcon1) && 
-					keyCode == KeyEvent.KEYCODE_DPAD_LEFT){
-				mScrollLayout.snapToScreen(2);	
-			}				
+			}		
 		}else if( userAppSize == 4){
 			if( (focusView == fourthPageSecondLineIcon2 || focusView == fourthPageFirstLineIcon4) && 
 					keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
@@ -1419,6 +1515,12 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 					&& keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
 				mScrollLayout.snapToScreen(0);	
 			}	
+		}
+		if(userAppSize >= 3){
+			if( (focusView == fourthPageSecondLineIcon1) && 
+					keyCode == KeyEvent.KEYCODE_DPAD_LEFT){
+				mScrollLayout.snapToScreen(2);	
+			}		
 		}
 		mScrollLayout.onKeyDown(keyCode, event);
 		return super.onKeyDown(keyCode, event);
@@ -1518,13 +1620,18 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		IntentFilter filter = new IntentFilter("com.amlogic.tv.requestStartApp");
 		registerReceiver(voiceCommandReceiver,filter);
 	}
-		
+	
 	private void registerUserAppReceiver() {
 		IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
 		filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
 		filter.addAction(Intent.ACTION_PACKAGE_CHANGED);
 		filter.addDataScheme("package");
 		registerReceiver(userAppReceiver, filter);
+	}
+
+	private void registerUserAppReceiver2(){
+		IntentFilter filter = new IntentFilter("org.thtfce.appstore.update.groupdata");
+		registerReceiver(userAppReceiver2, filter);
 	}
 
 	private class StartPlayerHandler extends Handler{

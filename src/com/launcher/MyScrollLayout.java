@@ -189,49 +189,6 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 					imageButtonClick(secondPageSecondLineIcon2);					
 					imageButtonClick(secondPageSecondLineIcon3);					
 					
-					resumeFromAtvScreen = false;
-					/*
-					String packageName = "";
-					if(position == 0){
-						Intent intent = new Intent();
-						Bundle bundle = new Bundle();
-						bundle.putString("AppCode","kids");
-						intent.putExtras(bundle);
-						intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
-						releaseFirstThenStartApk(intent);
-					}
-					if(position == 1){
-						packageName = "com.thtfce.readerpen";
-						Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-						releaseFirstThenStartApk(intent);
-					}
-					if(position == 2){
-						packageName = "com.thtfce.web";
-						Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-						releaseFirstThenStartApk(intent);
-					}
-					if(position == 3){
-						packageName = "com.thtfce.edu";
-						Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-						releaseFirstThenStartApk(intent);
-					}
-					if(position == 4){
-						packageName = "com.netease.vopen.tablet";
-						Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-						releaseFirstThenStartApk(intent);
-					}
-					if(position == 5){
-						packageName = "com.cpsoft.game.paopaole3d";
-						Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-						releaseFirstThenStartApk(intent);
-					}
-					if(position == 6){
-						packageName = "thtf.cpsoft.fly3d";
-						Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-						releaseFirstThenStartApk(intent);
-					}							
-					*/
-
 				}
 
 
@@ -256,39 +213,6 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 					imageButtonClick(thirdPageSecondLineIcon3);
 					imageButtonClick(thirdPageSecondLineIcon4);
 
-					resumeFromAtvScreen = false;
-					/*
-					String packageName = "";
-					if( arg2 == 0 ){
-						packageName = "com.trans.gamehall";
-						Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-						releaseFirstThenStartApk(intent);
-					}
-					
-					if( arg2 == 1 ){
-						packageName = "com.android.thtf";
-						Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-						releaseFirstThenStartApk(intent);
-					}
-					
-					if( arg2 == 2 ){
-						packageName = "com.thtf.guide";
-						Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-						releaseFirstThenStartApk(intent);
-					}
-					
-					if( arg2 == 3 ){
-						packageName = "com.android.thtf.thtfcookbook";
-						Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-						releaseFirstThenStartApk(intent);
-					}
-					
-					if( arg2 == 4 ){								
-						packageName = "com.cvte.health";
-						Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-						releaseFirstThenStartApk(intent);
-					}
-					*/
 				}
 				
 				if (i == 3) {
@@ -296,27 +220,11 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 
 					imageButtonFocuschange(fourthPageFirstLineIcon1,fourthPageFirstLineIcon1Layout);
 					imageButtonFocuschange(fourthPageFirstLineIcon2,fourthPageFirstLineIcon2Layout);
-					/*
-					imageButtonFocuschange(fourthPageFirstLineIcon3,fourthPageFirstLineIcon2Layout);
-					imageButtonFocuschange(fourthPageFirstLineIcon4,fourthPageFirstLineIcon2Layout);
-					imageButtonFocuschange(fourthPageSecondLineIcon1,fourthPageSecondLineIcon1Layout);
-					imageButtonFocuschange(fourthPageSecondLineIcon2,fourthPageSecondLineIcon2Layout);
-					imageButtonFocuschange(fourthPageSecondLineIcon3,fourthPageSecondLineIcon3Layout);
-					imageButtonFocuschange(fourthPageSecondLineIcon4,fourthPageSecondLineIcon4Layout);
-					imageButtonFocuschange(fourthPageSecondLineIcon5,fourthPageSecondLineIcon5Layout);
-					imageButtonFocuschange(fourthPageSecondLineIcon6,fourthPageSecondLineIcon6Layout);
+
 
 					imageButtonClick(fourthPageFirstLineIcon1);
 					imageButtonClick(fourthPageFirstLineIcon2);
-					imageButtonClick(fourthPageFirstLineIcon3);
-					imageButtonClick(fourthPageFirstLineIcon4);
-					imageButtonClick(fourthPageSecondLineIcon1);
-					imageButtonClick(fourthPageSecondLineIcon2);
-					imageButtonClick(fourthPageSecondLineIcon3);
-					imageButtonClick(fourthPageSecondLineIcon4);
-					imageButtonClick(fourthPageSecondLineIcon5);
-					imageButtonClick(fourthPageSecondLineIcon6);
-					*/
+
 					
 				}
 				
@@ -326,13 +234,17 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 					childLeft += childWidth;
 				}
 			}
+			firstPageFirstLineIcon1.setFocusable(true);
+			firstPageFirstLineIcon1.setFocusableInTouchMode(true);
+			firstPageFirstLineIcon1.requestFocus();	
+			firstPageFirstLineIcon1Layout.setBackgroundResource(R.drawable.item_selected_big);			
 		}
 		else{				
          	if( false == defaultfocus_isset){
- 			      firstPageFirstLineIcon1.setFocusable(true);
- 			      firstPageFirstLineIcon1.setFocusableInTouchMode(true);
- 			      firstPageFirstLineIcon1.requestFocus();
-                 defaultfocus_isset = true ;
+				firstPageFirstLineIcon1.setFocusable(true);
+				firstPageFirstLineIcon1.setFocusableInTouchMode(true);
+				firstPageFirstLineIcon1.requestFocus();
+				defaultfocus_isset = true ;
 			}
 		}
 	}
@@ -448,59 +360,112 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		//imageButton.setFocusableInTouchMode(true);
 		//imageButton.requestFocus();
 		String packageName = "";
+
 	
-		//main app 
-		/*
-		if (imageButton == besTVImageView) {
+		//first page
+		if (imageButton == firstPageFirstLineIcon2) {
 			Intent intent = new Intent();
 			intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
 			releaseFirstThenStartApk(intent);
-		} else if (imageButton == sinaImageView) {
+		} else if (imageButton == firstPageFirstLineIcon3) {
+			packageName = "com.lfzd.sinagallery";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == firstPageSecondLineIcon1) {
 			packageName = "com.tencent.qqmusicpad";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
-		} else if (imageButton == myMusicImageView) {
-			packageName = "com.example.tf_tv";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == netNearImageView) {		
-			packageName = "cn.kuaipan.android.tv";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == chromeImageView) {
+		} else if (imageButton == firstPageSecondLineIcon2) {
 			Intent intent = new Intent();
 			intent.setClassName("com.amlogic.filebrowser", "com.amlogic.filebrowser.MediaFilebrowser");
 			intent.putExtra("launch_what","samba");
 			releaseFirstThenStartApk(intent);
-		} else if (imageButton == photoFileImageView) {
-			packageName = "com.lfzd.sinagallery";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == multiScreenImageView) {
-			//this icon special processed in SwitchDemoActivity.java at  Line about 303
-		} else if (imageButton == ebookImageView) {
-			packageName = "viva.android.tv";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == dreamFlyImageView) {		
-			packageName = "com.android.thtf.thtfcookbook";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == paopaoleImageView) {
-			packageName = "com.huifutianxia";
+		} else if (imageButton == firstPageSecondLineIcon3) {
+			//this icon special processed in SwitchDemoActivity.java to start GreenNet
+		} else if (imageButton == firstPageSecondLineIcon4) {
+			packageName = "com.thtf.myhouse";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
 		} 
-			
-		//tvpreview
-		else if (imageButton == tvPreView) {
-		       resumeFromAtvScreen = true;
-			if( !inAtvScreen ){//Stop start AtvScreen twice in a moment
-		       	SwitchViewDemoActivity.mTvPreview.startAtvScreen();
-				inAtvScreen = true;
-			}
+
+		//second page
+		else if (imageButton == secondPageFirstLineIcon1) {
+			packageName = "com.thtfce.web";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == secondPageFirstLineIcon2) {
+			packageName = "com.netease.vopen.tablet";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == secondPageFirstLineIcon3) {
+			packageName = "com.thtfce.edu";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == secondPageSecondLineIcon1) {
+			Intent intent = new Intent();
+			Bundle bundle = new Bundle();
+			bundle.putString("AppCode","kids");
+			intent.putExtras(bundle);
+			intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == secondPageSecondLineIcon2) {
+			packageName = "thtf.cpsoft.fly3d";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == secondPageSecondLineIcon3) {
+			packageName = "com.cpsoft.game.paopaole3d";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		}  
+		
+		//third page
+		 else if (imageButton == thirdPageFirstLineIcon1) {
+			packageName = "com.android.thtf.thtfcookbook";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == thirdPageFirstLineIcon2) {		
+			packageName = "com.android.thtf";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == thirdPageFirstLineIcon3) {
+			packageName = "viva.android.tv";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == thirdPageFirstLineIcon4) {		
+			packageName = "com.huifutianxia";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == thirdPageSecondLineIcon1) {
+			packageName = "cn.kuaipan.android.tv";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == thirdPageSecondLineIcon2) {
+			Intent intent = new Intent();
+			intent.setClassName("com.amlogic.filebrowser", "com.amlogic.filebrowser.MediaFilebrowser");
+			intent.putExtra("launch_what","samba");
+			releaseFirstThenStartApk(intent);
+		}  else if (imageButton == thirdPageSecondLineIcon3) {
+			packageName = "com.thtf.guide";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		}  else if (imageButton == thirdPageSecondLineIcon4) {
+			packageName = "com.lfzd.enews";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		}  
+		
+		//fourth page
+	   if(imageButton == fourthPageFirstLineIcon1){
+			packageName = "com.example.newthtfcemarket";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		}else if(imageButton == fourthPageFirstLineIcon2){
+			Intent intent = new Intent();
+			intent.setAction("start.settings.activity");
+			releaseFirstThenStartApk(intent);
 		}
-		*/
+			
 	}
 	
 	private void startApks(final VideoView imageButton) {
@@ -508,59 +473,16 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		//imageButton.setFocusableInTouchMode(true);
 		//imageButton.requestFocus();
 		String packageName = "";
-	
-		//main app 
-		/*
-		if (imageButton == besTVImageView) {
-			Intent intent = new Intent();
-			intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == sinaImageView) {
-			packageName = "com.tencent.qqmusicpad";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == myMusicImageView) {
-			packageName = "com.example.tf_tv";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == netNearImageView) {		
-			packageName = "cn.kuaipan.android.tv";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == chromeImageView) {
-			Intent intent = new Intent();
-			intent.setClassName("com.amlogic.filebrowser", "com.amlogic.filebrowser.MediaFilebrowser");
-			intent.putExtra("launch_what","samba");
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == photoFileImageView) {
-			packageName = "com.lfzd.sinagallery";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == multiScreenImageView) {
-			//this icon special processed in SwitchDemoActivity.java at  Line about 303
-		} else if (imageButton == ebookImageView) {
-			packageName = "viva.android.tv";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == dreamFlyImageView) {		
-			packageName = "com.android.thtf.thtfcookbook";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == paopaoleImageView) {
-			packageName = "com.huifutianxia";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} 
-			
+
 		//tvpreview
-		else if (imageButton == tvPreView) {
-		       resumeFromAtvScreen = true;
-			if( !inAtvScreen ){//Stop start AtvScreen twice in a moment
-		       	SwitchViewDemoActivity.mTvPreview.startAtvScreen();
+		if (imageButton == firstPageFirstLineIcon1) {
+			resumeFromAtvScreen = true;
+			//Stop start AtvScreen twice in a moment
+			if( !inAtvScreen ){
+		       SwitchViewDemoActivity.mTvPreview.startAtvScreen();
 				inAtvScreen = true;
 			}
 		}
-		*/
 	}
 
 	public void imageButtonClick(final ImageView imageButton) {
@@ -594,48 +516,8 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 					}else{
 						linearLayout.setBackgroundResource(R.drawable.item_selected_little);					
 					}
-					/* * Animation
-					TranslateAnimation animation = new TranslateAnimation(0, 30, 0, 30);
-					animation.setDuration(2000);
-					//animation.setFillAfter(true);
-					*/
-					/*
-					imageButton.bringToFront();
-					if( imageButton == firstPageFirstLineIcon1 || imageButton == firstPageFirstLineIcon2 || 
-							imageButton == firstPageSecondLineIcon3 || imageButton == firstPageSecondLineIcon4 ||
-							imageButton == firstPageSecondLineIcon5 || imageButton == firstPageSecondLineIcon6  ){
-						imageButton.startAnimation(new ItemSelectedOutYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,          0,    -35));
-					}else if(imageButton == thirdPageFirstLineIcon1 || imageButton == thirdPageSecondLineIcon2 ){
-						imageButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.tvpreview_selected));
-					}else if( imageButton == secondPageFirstLineIcon1){
-						imageButton.startAnimation(new ItemSelectedOutYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,       360,     35));
-					}else if( imageButton == secondPageFirstLineIcon2){
-						imageButton.startAnimation(new ItemSelectedOutYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,      -360,       0));
-					}else if( imageButton == secondPageFirstLineIcon3){
-						imageButton.startAnimation(new ItemSelectedOutYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,        720,       0));
-					}else if( imageButton == secondPageFirstLineIcon4){
-						imageButton.startAnimation(new ItemSelectedOutYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,      1080,       0));
-					}else if( imageButton == secondPageSecondLineIcon5){
-						imageButton.startAnimation(new ItemSelectedOutXRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,       360,       0));
-					}else if( imageButton == secondPageSecondLineIcon6){
-						imageButton.startAnimation(new ItemSelectedOutXRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,      -360,      0));
-					}else if( imageButton == secondPageSecondLineIcon7){
-						imageButton.startAnimation(new ItemSelectedOutXRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,        720,      0));
-					}else if( imageButton == secondPageSecondLineIcon8){
-						imageButton.startAnimation(new ItemSelectedOutXRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,       1080,      0));
-					}
-					*/
 				} else if (hasFocus == false) {
 					linearLayout.setBackgroundResource(R.drawable.nothing);
-					/*
-					if( imageButton == firstPageFirstLineIcon1 || imageButton == firstPageFirstLineIcon2 || 
-							imageButton == firstPageSecondLineIcon3 || imageButton == firstPageSecondLineIcon4 ||
-							imageButton == firstPageSecondLineIcon5 || imageButton == firstPageSecondLineIcon6 ){
-						imageButton.startAnimation(new ItemSelectedInYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,          0,    -35));
-					}else if(imageButton == thirdPageFirstLineIcon1 || imageButton == thirdPageSecondLineIcon2 ){
-						imageButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.nothing));
-					}
-					*/
 			   }
 			}
 		});
@@ -652,48 +534,8 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 					}else{
 						linearLayout.setBackgroundResource(R.drawable.item_selected_little);					
 					}
-					/* * Animation
-					TranslateAnimation animation = new TranslateAnimation(0, 30, 0, 30);
-					animation.setDuration(2000);
-					//animation.setFillAfter(true);
-					*/
-					/*
-					imageButton.bringToFront();
-					if( imageButton == firstPageFirstLineIcon1 || imageButton == firstPageFirstLineIcon2 || 
-							imageButton == firstPageSecondLineIcon3 || imageButton == firstPageSecondLineIcon4 ||
-							imageButton == firstPageSecondLineIcon5 || imageButton == firstPageSecondLineIcon6  ){
-						imageButton.startAnimation(new ItemSelectedOutYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,          0,    -35));
-					}else if(imageButton == thirdPageFirstLineIcon1 || imageButton == thirdPageSecondLineIcon2 ){
-						imageButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.tvpreview_selected));
-					}else if( imageButton == secondPageFirstLineIcon1){
-						imageButton.startAnimation(new ItemSelectedOutYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,       360,     35));
-					}else if( imageButton == secondPageFirstLineIcon2){
-						imageButton.startAnimation(new ItemSelectedOutYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,      -360,       0));
-					}else if( imageButton == secondPageFirstLineIcon3){
-						imageButton.startAnimation(new ItemSelectedOutYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,        720,       0));
-					}else if( imageButton == secondPageFirstLineIcon4){
-						imageButton.startAnimation(new ItemSelectedOutYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,      1080,       0));
-					}else if( imageButton == secondPageSecondLineIcon5){
-						imageButton.startAnimation(new ItemSelectedOutXRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,       360,       0));
-					}else if( imageButton == secondPageSecondLineIcon6){
-						imageButton.startAnimation(new ItemSelectedOutXRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,      -360,      0));
-					}else if( imageButton == secondPageSecondLineIcon7){
-						imageButton.startAnimation(new ItemSelectedOutXRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,        720,      0));
-					}else if( imageButton == secondPageSecondLineIcon8){
-						imageButton.startAnimation(new ItemSelectedOutXRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,       1080,      0));
-					}
-					*/
 				} else if (hasFocus == false) {
 					linearLayout.setBackgroundResource(R.drawable.nothing);
-					/*
-					if( imageButton == firstPageFirstLineIcon1 || imageButton == firstPageFirstLineIcon2 || 
-							imageButton == firstPageSecondLineIcon3 || imageButton == firstPageSecondLineIcon4 ||
-							imageButton == firstPageSecondLineIcon5 || imageButton == firstPageSecondLineIcon6 ){
-						imageButton.startAnimation(new ItemSelectedInYRotationAnimation(imageButton.getWidth() / 2,imageButton.getHeight() / 2,    300,          0,    -35));
-					}else if(imageButton == thirdPageFirstLineIcon1 || imageButton == thirdPageSecondLineIcon2 ){
-						imageButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.nothing));
-					}
-					*/
 			   }
 			}
 		});
@@ -745,7 +587,6 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.d(TAG,"______________________3");		
 		View focusView = MyScrollLayout.this.findFocus();
 		if ( (focusView == firstPageFirstLineIcon1 || focusView == firstPageSecondLineIcon1) && 
 				keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {

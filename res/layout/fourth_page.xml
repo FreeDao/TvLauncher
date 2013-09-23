@@ -114,7 +114,7 @@
 		</LinearLayout>
 
 		<LinearLayout
-			android:id="@+id/thirdPage_second_line"
+			android:id="@+id/fourthPage_second_line"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:orientation="horizontal"
