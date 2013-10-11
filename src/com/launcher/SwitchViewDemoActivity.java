@@ -1569,7 +1569,11 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 					wallpaperProcess = false;
 					for(int k = 0 ; k < wallpaperServiceList.size() ; k ++){
 						Log.d(TAG,"_wallpaperServiceList.get("+  k + ").packageName = ||" + wallpaperServiceList.get(k).serviceInfo.packageName + "||");
-						if( apinfo.processName.equals("com.lfzd.enews") || apinfo.processName.equals(wallpaperServiceList.get(k).serviceInfo.packageName) ){//process "com.lfzd.enews" started at  onResume
+						if( apinfo.processName.equals("com.lfzd.enews") 
+								|| apinfo.processName.equals(wallpaperServiceList.get(k).serviceInfo.packageName) 
+								|| apinfo.processName.equals("com.amlogic.tvscreen")
+								|| apinfo.processName.equals("com.amlogic.AtvScreen") 
+								|| apinfo.processName.equals("com.amlogic.tvservice")){//process "com.lfzd.enews" started at  onResume
 							wallpaperProcess = true;
 						}
 					}
