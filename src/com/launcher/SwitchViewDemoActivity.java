@@ -60,6 +60,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private int mViewCount;
 	private static int mCurSel;
 	private static int mTvPriviewIndex = 0;
+	private static int screenWidth = 1920;
 	private MyScrollLayout mScrollLayout;
 	private final static String TAG = "SwitchViewDemoActivity";
 
@@ -449,7 +450,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		updateUsbStatus();
 		updateTimeStatus();
 		if (mCurSel == mTvPriviewIndex ) {
-			mTvPreview.startTvPreview(firstPageFirstLineIcon1);
+			mTvPreview.startTvPreview(firstPageFirstLineIcon1,mCurSel * screenWidth);
 		}else if( mScrollLayout.resumeFromAtvScreen ){
 			//delay for showing concept screen
 		    //SetVideoSizeHandler.postDelayed( SetVideoSizeRunnable,2000);
@@ -1253,7 +1254,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		  		//mTvPreview.ShowPerview();
 		  	}else{
 		  		//UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
-		  		mTvPreview.startTvPreview(firstPageFirstLineIcon1);
+		  		mTvPreview.startTvPreview(firstPageFirstLineIcon1,mCurSel * screenWidth);
 		  	}
 			mTvPreview.ShowPerview();					
 		}
@@ -1270,7 +1271,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private Handler SetVideoSizeHandler = new Handler();
 	private Runnable SetVideoSizeRunnable = new Runnable(){
 		public void run(){
-			mTvPreview.startTvPreview(firstPageFirstLineIcon1);
+			mTvPreview.startTvPreview(firstPageFirstLineIcon1,mCurSel * screenWidth);
 
 		}
 	};

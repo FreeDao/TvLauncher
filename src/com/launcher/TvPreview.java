@@ -189,9 +189,9 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	}
 
 
-  public void startTvPreview (VideoView videoView) {
+  public void startTvPreview (VideoView videoView,int offSet) {
   	setDiVscaleSkipEnable("3");
-  	getVideoViewSize(videoView);
+  	getVideoViewSize(videoView,offSet);
    	tv.SetDisplayMode(Tv.Dis_Mode.DISPLAY_MODE_169,Tv.Source_Input_Type.SOURCE_TYPE_MPEG, tv.GetCurrentSignalInfo().fmt);
    	String str = tv.QueryResourceState("tuner").owner_name;
 		Log.d(TAG,"StartTVPreview==================owner_name======"+str);
@@ -466,10 +466,10 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
   				}
   }
   
-  public void getVideoViewSize(VideoView videoView){
+  public void getVideoViewSize(VideoView videoView,int offset){
 		int[] location = new int[2];
 		videoView.getLocationOnScreen(location);
-		m_x = location[0];
+		m_x = location[0] + offset;
 		m_y = location[1];
 		m_w = (int)videoView.getWidth();
 		m_h = (int)videoView.getHeight();
