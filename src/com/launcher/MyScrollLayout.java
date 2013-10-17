@@ -378,7 +378,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		} else if (imageButton == firstPageSecondLineIcon2) {
 			Intent intent = new Intent();
 			intent.setClassName("com.amlogic.filebrowser", "com.amlogic.filebrowser.MediaFilebrowser");
-			intent.putExtra("launch_what","samba");
+			intent.putExtra("launch_what","usb");
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == firstPageSecondLineIcon3) {
 			//this icon special processed in SwitchDemoActivity.java to start GreenNet
