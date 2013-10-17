@@ -194,6 +194,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private ImageView tvPreView;
 			
 	private String StartPlayer = "com.amlogic.tvservice.startplayer";
+	public static final String StartPlayDTV = "com.launcher.play.dtv";
 	
 	private StartPlayerHandler  mystartPlayerHandler = null;
 	
@@ -231,27 +232,31 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private UserAppReceiver userAppReceiver = new UserAppReceiver();
 	private UserAppReceiver2 userAppReceiver2 = new UserAppReceiver2();
 
-	
-
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.workspace);
 		VMRuntime.getRuntime().setMinimumHeapSize(HEAP_SIZE);
 		VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
 		init();
-		
+
 		int port = 0;
-       if(mTvPreview.tv != null)
-       	port = mTvPreview.tv.SSMReadTVPortal() ;
-  		Log.v(TAG,"SSMReadTVPortal " + port);
-       if(port == Tv.SrcInput.MPEG.ordinal() &&  first_preview_start_atv &&  mTvPreview.tv.SSMReadLastSelectSourceType()==0){
-       	mystartPlayerHandler = new StartPlayerHandler();
-         	Message msg = mystartPlayerHandler.obtainMessage(TIME_OVER);
-         	int delayMillis = 6000;
-         	mystartPlayerHandler.sendMessageDelayed(msg, delayMillis);
-         	first_preview_start_atv = false;
-         	Log.v(TAG,"play preview window ");
-    	}		   
+		if(mTvPreview.tv != null)
+			port = mTvPreview.tv.SSMReadTVPortal() ;
+		Log.v(TAG,"SSMReadTVPortal " + port);
+		if(port == Tv.SrcInput.MPEG.ordinal() &&  first_preview_start_atv &&  (mTvPreview.tv.SSMReadLastSelectSourceType()==0
+				|| (mTvPreview.tv.SSMReadLastSelectSourceType()== Tv.SrcInput.DTV.toInt()))){
+			mystartPlayerHandler = new StartPlayerHandler();
+		    int flag = (mTvPreview.tv.SSMReadLastSelectSourceType()== Tv.SrcInput.TV.toInt() ? 1 : 2);
+		 	Message msg = mystartPlayerHandler.obtainMessage(flag);
+		 	int delayMillis = 6000;
+		 	mystartPlayerHandler.sendMessageDelayed(msg, delayMillis);
+		 	first_preview_start_atv = false;
+		 	Log.v(TAG,"play preview window ");
+		}
+
+
+
+			 
 	}
 	
 	private void init() {
@@ -1640,17 +1645,32 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	}
 
 	private class StartPlayerHandler extends Handler{
-        @Override
-        public void handleMessage(Message msg){
-            switch (msg.what){
-                case TIME_OVER:
-                    Log.d(TAG, ".......StartPlayerHandler......");
-                    Intent intent = new Intent(StartPlayer);
-                    sendBroadcast(intent);               
-                    break;
-            }
-        }
-    }
+		@Override
+		public void handleMessage(Message msg)
+		{
+		    Intent intent = null;
+		    switch (msg.what){
+		        /*case TIME_OVER:
+		            Log.d(TAG, ".......StartPlayerHandler......");
+		                Intent intent = new Intent(StartPlayer);
+		                sendBroadcast(intent);
+		          
+		            break;*/
+		        case 1:
+		            Log.d(TAG, ".......Start ATV PlayerHandler......");
+		                intent = new Intent(StartPlayer);
+		                sendBroadcast(intent);
+		            break;
+		        case 2:
+		            Log.d(TAG, ".......Start DTV PlayerHandler......");
+		                intent = new Intent(StartPlayDTV);
+		                sendBroadcast(intent);
+		            break;            
+		    }
+		}
+	}
+
+
 	
 	@Override
 	public boolean onDown(MotionEvent e) {
