@@ -1680,7 +1680,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 		if ( ( e1.getX() - e2.getX() > FLIP_DISTANCE ) ){
-			if( mCurSel != 2 ){
+			if( mCurSel != 3 ){
 				mScrollLayout.snapNext();
 			}
 			return true;
