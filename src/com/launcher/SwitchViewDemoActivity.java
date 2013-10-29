@@ -1296,7 +1296,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private synchronized void setSourceImage()throws IOException {
 		if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.TV.toInt()) {// tv
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/tv.png");        
+			SystemProperties.set("sys.show_pic", "/system/etc/tv_icon.png");        
 			Runtime.getRuntime().exec("/system/bin/showPic");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
@@ -1330,7 +1330,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		   setSourceImage(lastSource);     
 		} else {//default
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/tv.png");
+			SystemProperties.set("sys.show_pic", "/system/etc/tv_icon.png");
 			Runtime.getRuntime().exec("/system/bin/showPic");        
 		}
 	}
@@ -1339,7 +1339,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private synchronized void setSourceImage(int source)throws IOException {
 		if (lastSource == Tv.SrcInput.TV.toInt()) {// tv
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/tv.png");        
+			SystemProperties.set("sys.show_pic", "/system/etc/tv_icon.png");        
 		} else if (lastSource == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
 			SystemProperties.set("sys.show_pic", "/system/etc/av1.png");                
@@ -1363,7 +1363,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 			SystemProperties.set("sys.show_pic", "/system/etc/vga.png");
 		} else {//default 
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/tv.png");
+			SystemProperties.set("sys.show_pic", "/system/etc/tv_icon.png");
 		}
 		Runtime.getRuntime().exec("/system/bin/showPic");		
 	}	
