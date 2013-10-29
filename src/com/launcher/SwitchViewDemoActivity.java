@@ -455,7 +455,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		updateUsbStatus();
 		updateTimeStatus();
 		if (mCurSel == mTvPriviewIndex ) {
-			mTvPreview.startTvPreview(firstPageFirstLineIcon1,mCurSel * screenWidth);
+			StartTvPreviewHandler.postDelayed( StartTvPreviewRunnable,200);
+			//mTvPreview.startTvPreview(firstPageFirstLineIcon1,mCurSel * screenWidth);
 		}else if( mScrollLayout.resumeFromAtvScreen ){
 			//delay for showing concept screen
 		    //SetVideoSizeHandler.postDelayed( SetVideoSizeRunnable,2000);
@@ -1259,7 +1260,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		  		//mTvPreview.ShowPerview();
 		  	}else{
 		  		//UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
-		  		mTvPreview.startTvPreview(firstPageFirstLineIcon1,mCurSel * screenWidth);
+		  		StartTvPreviewHandler.postDelayed( StartTvPreviewRunnable,200);
 		  	}
 			mTvPreview.ShowPerview();					
 		}
@@ -1273,8 +1274,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		}
 	};
 	
-	private Handler SetVideoSizeHandler = new Handler();
-	private Runnable SetVideoSizeRunnable = new Runnable(){
+	private Handler StartTvPreviewHandler = new Handler();
+	private Runnable StartTvPreviewRunnable = new Runnable(){
 		public void run(){
 			mTvPreview.startTvPreview(firstPageFirstLineIcon1,mCurSel * screenWidth);
 
@@ -1430,7 +1431,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		//set the page property	if (launcher not in first page){hide the tvprevie source icon}
      	SystemProperties.set("tv.launcher_page", "8888"); 	
 		UpdateTvPerviewHandler.removeCallbacks(UpdateTvPerviewRunnable);
-		SetVideoSizeHandler.removeCallbacks(SetVideoSizeRunnable);
+		StartTvPreviewHandler.removeCallbacks(StartTvPreviewRunnable);
 		//mTvPreview.SetRegBit(REMOTE_ENABLE);
 		mTvPreview.StopTvPreview();
 		if(mystartPlayerHandler != null){

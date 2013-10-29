@@ -57,6 +57,7 @@ public class ResourceManager implements Tv.ResourceStateCallback{
 				if(mResourceHasReleaseListener != null){
 					mResourceHasReleaseListener.onHasReleased(requestReleaseOwner, true);
 				}
+				curentResource = 0;
 			}
 		}
 	}
