@@ -187,11 +187,12 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 		//Log.d(TAG,"/sys/class/video/axis=="+i);
 		return i;
 	}
-
-
+	
+	private static int mode = 0;
   public void startTvPreview (VideoView videoView,int offSet) {
   	setDiVscaleSkipEnable("3");
   	getVideoViewSize(videoView,offSet);
+  	mode = tv.GetDisplayMode(tv.GetSrcInputType());
    	tv.SetDisplayMode(Tv.Dis_Mode.DISPLAY_MODE_169,Tv.Source_Input_Type.SOURCE_TYPE_MPEG, tv.GetCurrentSignalInfo().fmt);
    	String str = tv.QueryResourceState("tuner").owner_name;
 		Log.d(TAG,"StartTVPreview==================owner_name======"+str);
@@ -220,9 +221,9 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	
 	public void startAtvScreen(){
 		SetVideoSizeHandler.removeCallbacks(SetVideoSizeRunnable);
-		set3DAndDipostHandler.removeCallbacks(set3DAndDipostRunnable);
+		set3DAndDipostHandler.removeCallbacks(set3DAndDipostRunnable);		
+		SetVideoSize(0 , 0 , 1919 , 1079);
 		mySetDisplayMode();
-		SetVideoSize(0,0,1920,1080);
 		//SetWindowSize(close_mode , 0 , 0 , 0 , 0);
 		if(tv.GetCurrentSourceInput()==Tv.SrcInput.DTV.toInt()){
 			Log.d(TAG,"start DTV.........");
@@ -243,7 +244,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	}
 	
 	public void mySetDisplayMode(){
-		int mode = tv.GetDisplayMode(tv.GetSrcInputType());
+		
 		tv.SetDisplayMode(Tv.Dis_Mode.values()[mode]  ,tv.GetSrcInputType(), tv.GetCurrentSignalInfo().fmt);
 	}
 	
@@ -294,8 +295,9 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
   	Log.d(TAG,"StopTvPreview===============");
 		SetVideoSizeHandler.removeCallbacks(SetVideoSizeRunnable);
 		set3DAndDipostHandler.removeCallbacks(set3DAndDipostRunnable);
+		
+		SetVideoSize(0 , 0 , 1919 , 1079);
 		mySetDisplayMode();
-		SetVideoSize(0 , 0 , 1920 , 1080);
 		//SetWindowSize(close_mode , 0 , 0 , 0 , 0);
 	}
 	
