@@ -1296,42 +1296,42 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private synchronized void setSourceImage()throws IOException {
 		if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.TV.toInt()) {// tv
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/tv_icon.png");        
-			Runtime.getRuntime().exec("/system/bin/showPic");
+			SystemProperties.set("sys.show_pic", "/system/etc/atv.png");        
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
 			SystemProperties.set("sys.show_pic", "/system/etc/av1.png");                
-			Runtime.getRuntime().exec("/system/bin/showPic");
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.AV2.toInt()) {//av2
 			lastSource = Tv.SrcInput.AV2.toInt();
 			SystemProperties.set("sys.show_pic", "/system/etc/av2.png");
-			Runtime.getRuntime().exec("/system/bin/showPic");
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.YPBPR1.toInt()) {//YPBPR
 			lastSource = Tv.SrcInput.YPBPR1.toInt();        
 			SystemProperties.set("sys.show_pic", "/system/etc/ypbpr.png");
-			Runtime.getRuntime().exec("/system/bin/showPic");
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.HDMI1.toInt()) {//HDMI1
 			lastSource = Tv.SrcInput.HDMI1.toInt();    
 			SystemProperties.set("sys.show_pic", "/system/etc/hdmi1.png");
-			Runtime.getRuntime().exec("/system/bin/showPic");
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.HDMI2.toInt()) {//HDMI2
 			lastSource = Tv.SrcInput.HDMI2.toInt();    
 			SystemProperties.set("sys.show_pic", "/system/etc/hdmi2.png");
-			Runtime.getRuntime().exec("/system/bin/showPic");
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.HDMI3.toInt()) {//HDMI3
 			lastSource = Tv.SrcInput.HDMI3.toInt(); 
 			SystemProperties.set("sys.show_pic", "/system/etc/hdmi3.png");
-			Runtime.getRuntime().exec("/system/bin/showPic");
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.VGA.toInt()) {//VGA0
 			lastSource = Tv.SrcInput.VGA.toInt();
 			SystemProperties.set("sys.show_pic", "/system/etc/vga.png");
-			Runtime.getRuntime().exec("/system/bin/showPic");
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.MPEG.toInt()){//MPEG
 		   setSourceImage(lastSource);     
 		} else {//default
 			lastSource = Tv.SrcInput.TV.toInt();
 			SystemProperties.set("sys.show_pic", "/system/etc/tv_icon.png");
-			Runtime.getRuntime().exec("/system/bin/showPic");        
+			Runtime.getRuntime().exec("/system/bin/showSource");        
 		}
 	}
 
@@ -1339,7 +1339,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private synchronized void setSourceImage(int source)throws IOException {
 		if (lastSource == Tv.SrcInput.TV.toInt()) {// tv
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/tv_icon.png");        
+			SystemProperties.set("sys.show_pic", "/system/etc/atv.png");        
 		} else if (lastSource == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
 			SystemProperties.set("sys.show_pic", "/system/etc/av1.png");                
@@ -1363,9 +1363,9 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 			SystemProperties.set("sys.show_pic", "/system/etc/vga.png");
 		} else {//default 
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/tv_icon.png");
+			SystemProperties.set("sys.show_pic", "/system/etc/atv.png");
 		}
-		Runtime.getRuntime().exec("/system/bin/showPic");		
+		Runtime.getRuntime().exec("/system/bin/showSource");		
 	}	
 
 	private void setSourceIconAfterResume(int delay){
