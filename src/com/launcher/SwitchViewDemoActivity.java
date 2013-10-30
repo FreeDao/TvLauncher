@@ -1281,7 +1281,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 
 		}
 	};
-
+//
 	private void forceStartSinaService(){
 		Intent intent = new Intent("com.lfzd.enews.thtfservice"); 
 		this.startService(intent); 
