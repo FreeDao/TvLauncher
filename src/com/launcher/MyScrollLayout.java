@@ -31,6 +31,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	private int mDefaultScreen = 0;
 	private LayoutInflater layoutInflater;
 	public boolean resumeFromAtvScreen = true;
+	public boolean resumeFromeSinaGallery = false;
 	public boolean inAtvScreen = false;
 	public Context context;
 	private Scroller mScroller;
@@ -237,14 +238,21 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			firstPageFirstLineIcon1.setFocusable(true);
 			firstPageFirstLineIcon1.setFocusableInTouchMode(true);
 			firstPageFirstLineIcon1.requestFocus();	
-			firstPageFirstLineIcon1Layout.setBackgroundResource(R.drawable.item_selected_big);			
+			firstPageFirstLineIcon1Layout.setBackgroundResource(R.drawable.item_selected_big);
+
+			if(resumeFromeSinaGallery){
+				firstPageFirstLineIcon3.setFocusable(true);
+				firstPageFirstLineIcon3.setFocusableInTouchMode(true);			
+				firstPageFirstLineIcon3.requestFocus();
+			}
+			
 		}
 		else{				
          	if( false == defaultfocus_isset){
 				firstPageFirstLineIcon1.setFocusable(true);
 				firstPageFirstLineIcon1.setFocusableInTouchMode(true);
 				firstPageFirstLineIcon1.requestFocus();
-				defaultfocus_isset = true ;
+				defaultfocus_isset = true ;	
 			}
 		}
 	}
@@ -357,6 +365,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 
 	private void startApks(final ImageView imageButton) {
 		resumeFromAtvScreen = false;
+		resumeFromeSinaGallery = false;
 		//imageButton.setFocusableInTouchMode(true);
 		//imageButton.requestFocus();
 		String packageName = "";
@@ -368,6 +377,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == firstPageFirstLineIcon3) {
+		   resumeFromeSinaGallery = true;
 			packageName = "com.lfzd.sinagallery";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
