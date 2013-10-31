@@ -31,7 +31,8 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	private int mDefaultScreen = 0;
 	private LayoutInflater layoutInflater;
 	public boolean resumeFromAtvScreen = true;
-	public boolean resumeFromeSinaGallery = false;
+	public boolean resumeFromSinaGallery = false;
+	public boolean resumeFromPaopaole = false;
 	public boolean inAtvScreen = false;
 	public Context context;
 	private Scroller mScroller;
@@ -240,11 +241,16 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			firstPageFirstLineIcon1.requestFocus();	
 			firstPageFirstLineIcon1Layout.setBackgroundResource(R.drawable.item_selected_big);
 
-			if(resumeFromeSinaGallery){
+			if(resumeFromSinaGallery){
 				firstPageFirstLineIcon3.setFocusable(true);
 				firstPageFirstLineIcon3.setFocusableInTouchMode(true);			
 				firstPageFirstLineIcon3.requestFocus();
 			}
+			if(resumeFromPaopaole){
+				secondPageSecondLineIcon3.setFocusable(true);
+				secondPageSecondLineIcon3.setFocusableInTouchMode(true);			
+				secondPageSecondLineIcon3.requestFocus();
+			}			
 			
 		}
 		else{				
@@ -365,7 +371,8 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 
 	private void startApks(final ImageView imageButton) {
 		resumeFromAtvScreen = false;
-		resumeFromeSinaGallery = false;
+		resumeFromSinaGallery = false;
+		resumeFromPaopaole = false;
 		//imageButton.setFocusableInTouchMode(true);
 		//imageButton.requestFocus();
 		String packageName = "";
@@ -377,7 +384,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == firstPageFirstLineIcon3) {
-		   resumeFromeSinaGallery = true;
+		   resumeFromSinaGallery = true;
 			packageName = "com.lfzd.sinagallery";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
@@ -424,6 +431,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == secondPageSecondLineIcon3) {
+			resumeFromPaopaole = true;
 			packageName = "com.cpsoft.game.paopaole3d";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
