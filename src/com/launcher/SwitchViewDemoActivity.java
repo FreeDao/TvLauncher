@@ -1298,6 +1298,10 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 			lastSource = Tv.SrcInput.TV.toInt();
 			SystemProperties.set("sys.show_pic", "/system/etc/atv.png");        
 			Runtime.getRuntime().exec("/system/bin/showSource");
+		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.DTV.toInt()) {// dtv
+			lastSource = Tv.SrcInput.DTV.toInt();
+			SystemProperties.set("sys.show_pic", "/system/etc/dtv.png");        
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
 			SystemProperties.set("sys.show_pic", "/system/etc/av1.png");                
@@ -1330,7 +1334,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		   setSourceImage(lastSource);     
 		} else {//default
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/tv_icon.png");
+			SystemProperties.set("sys.show_pic", "/system/etc/atv.png");
 			Runtime.getRuntime().exec("/system/bin/showSource");        
 		}
 	}
@@ -1340,6 +1344,9 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		if (lastSource == Tv.SrcInput.TV.toInt()) {// tv
 			lastSource = Tv.SrcInput.TV.toInt();
 			SystemProperties.set("sys.show_pic", "/system/etc/atv.png");        
+		} else if (lastSource == Tv.SrcInput.DTV.toInt()) {// dtv
+			lastSource = Tv.SrcInput.DTV.toInt();
+			SystemProperties.set("sys.show_pic", "/system/etc/dtv.png");        
 		} else if (lastSource == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
 			SystemProperties.set("sys.show_pic", "/system/etc/av1.png");                
