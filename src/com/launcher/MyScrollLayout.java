@@ -33,6 +33,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	public boolean resumeFromAtvScreen = true;
 	public boolean resumeFromSinaGallery = false;
 	public boolean resumeFromPaopaole = false;
+	public boolean resumeFromMultiScreen = false;
 	public boolean inAtvScreen = false;
 	public Context context;
 	private Scroller mScroller;
@@ -45,6 +46,8 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	private ImageView firstPageSecondLineIcon2;
 	private ImageView firstPageSecondLineIcon3;
 	private ImageView firstPageSecondLineIcon4;	
+	private ImageView firstPageSecondLineIcon5;	
+	private ImageView firstPageSecondLineIcon6;	
 	private LinearLayout firstPageFirstLineIcon1Layout;
 	private LinearLayout firstPageFirstLineIcon2Layout;
 	private LinearLayout firstPageFirstLineIcon3Layout;
@@ -52,6 +55,8 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	private LinearLayout firstPageSecondLineIcon2Layout;
 	private LinearLayout firstPageSecondLineIcon3Layout;
 	private LinearLayout firstPageSecondLineIcon4Layout;
+	private LinearLayout firstPageSecondLineIcon5Layout;
+	private LinearLayout firstPageSecondLineIcon6Layout;
 	
 	//second page
 	private ImageView secondPageFirstLineIcon1;
@@ -60,30 +65,36 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	private ImageView secondPageSecondLineIcon1;
 	private ImageView secondPageSecondLineIcon2;
 	private ImageView secondPageSecondLineIcon3;
+	private ImageView secondPageSecondLineIcon4;
 	private LinearLayout secondPageFirstLineIcon1Layout;
 	private LinearLayout secondPageFirstLineIcon2Layout;
 	private LinearLayout secondPageFirstLineIcon3Layout;
 	private LinearLayout secondPageSecondLineIcon1Layout;
 	private LinearLayout secondPageSecondLineIcon2Layout;
 	private LinearLayout secondPageSecondLineIcon3Layout;
+	private LinearLayout secondPageSecondLineIcon4Layout;
 
 	//third page
 	private ImageView thirdPageFirstLineIcon1;
 	private ImageView thirdPageFirstLineIcon2;
 	private ImageView thirdPageFirstLineIcon3;
 	private ImageView thirdPageFirstLineIcon4;
+	private ImageView thirdPageFirstLineIcon5;
 	private ImageView thirdPageSecondLineIcon1;
 	private ImageView thirdPageSecondLineIcon2;
 	private ImageView thirdPageSecondLineIcon3;
 	private ImageView thirdPageSecondLineIcon4;
+	private ImageView thirdPageSecondLineIcon5;
 	private LinearLayout thirdPageFirstLineIcon1Layout;
 	private LinearLayout thirdPageFirstLineIcon2Layout;
 	private LinearLayout thirdPageFirstLineIcon3Layout;
 	private LinearLayout thirdPageFirstLineIcon4Layout;
+	private LinearLayout thirdPageFirstLineIcon5Layout;
 	private LinearLayout thirdPageSecondLineIcon1Layout;
 	private LinearLayout thirdPageSecondLineIcon2Layout;
 	private LinearLayout thirdPageSecondLineIcon3Layout;
 	private LinearLayout thirdPageSecondLineIcon4Layout;
+	private LinearLayout thirdPageSecondLineIcon5Layout;
 
 	//fourth page
 	private ImageView fourthPageFirstLineIcon1;
@@ -91,13 +102,9 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	private ImageView fourthPageFirstLineIcon3;
 	private ImageView fourthPageFirstLineIcon4;
 	private ImageView fourthPageSecondLineIcon1;
-	private ImageView fourthPageSecondLineIcon2;
-	private ImageView fourthPageSecondLineIcon3;
-	private ImageView fourthPageSecondLineIcon4;
-	private ImageView fourthPageSecondLineIcon5;
-	private ImageView fourthPageSecondLineIcon6;
 	private LinearLayout fourthPageFirstLineIcon1Layout;
 	private LinearLayout fourthPageFirstLineIcon2Layout;
+	private LinearLayout fourthPageFirstLineIcon3Layout;
 
 	private LinearLayout userAppParent;
 	private GridView userApp;
@@ -164,14 +171,18 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 					imageButtonFocuschange(firstPageSecondLineIcon2,firstPageSecondLineIcon2Layout);
 					imageButtonFocuschange(firstPageSecondLineIcon3,firstPageSecondLineIcon3Layout);
 					imageButtonFocuschange(firstPageSecondLineIcon4,firstPageSecondLineIcon4Layout);
+					imageButtonFocuschange(firstPageSecondLineIcon5,firstPageSecondLineIcon5Layout);
+					imageButtonFocuschange(firstPageSecondLineIcon6,firstPageSecondLineIcon6Layout);
 
 					imageButtonClick(firstPageFirstLineIcon1);
 					imageButtonClick(firstPageFirstLineIcon2);
 					imageButtonClick(firstPageFirstLineIcon3);
 					imageButtonClick(firstPageSecondLineIcon1);
 					imageButtonClick(firstPageSecondLineIcon2);
-					//imageButtonClick(firstPageSecondLineIcon3);
-					imageButtonClick(firstPageSecondLineIcon4);						
+					imageButtonClick(firstPageSecondLineIcon3);
+					//imageButtonClick(firstPageSecondLineIcon4);						
+					imageButtonClick(firstPageSecondLineIcon5);						
+					imageButtonClick(firstPageSecondLineIcon6);						
 				}
 				
 				if (i == 1) {
@@ -183,6 +194,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 					imageButtonFocuschange(secondPageSecondLineIcon1,secondPageSecondLineIcon1Layout);
 					imageButtonFocuschange(secondPageSecondLineIcon2,secondPageSecondLineIcon2Layout);
 					imageButtonFocuschange(secondPageSecondLineIcon3,secondPageSecondLineIcon3Layout);
+					imageButtonFocuschange(secondPageSecondLineIcon4,secondPageSecondLineIcon4Layout);
 
 					imageButtonClick(secondPageFirstLineIcon1);
 					imageButtonClick(secondPageFirstLineIcon2);
@@ -190,9 +202,9 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 					imageButtonClick(secondPageSecondLineIcon1);
 					imageButtonClick(secondPageSecondLineIcon2);					
 					imageButtonClick(secondPageSecondLineIcon3);					
+					imageButtonClick(secondPageSecondLineIcon4);					
 					
 				}
-
 
 				if (i == 2) {
 					initThirdPageUi(childView);	
@@ -201,19 +213,23 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 					imageButtonFocuschange(thirdPageFirstLineIcon2,thirdPageFirstLineIcon2Layout);
 					imageButtonFocuschange(thirdPageFirstLineIcon3,thirdPageFirstLineIcon3Layout);
 					imageButtonFocuschange(thirdPageFirstLineIcon4,thirdPageFirstLineIcon4Layout);
+					imageButtonFocuschange(thirdPageFirstLineIcon5,thirdPageFirstLineIcon5Layout);
 					imageButtonFocuschange(thirdPageSecondLineIcon1,thirdPageSecondLineIcon1Layout);
 					imageButtonFocuschange(thirdPageSecondLineIcon2,thirdPageSecondLineIcon2Layout);
 					imageButtonFocuschange(thirdPageSecondLineIcon3,thirdPageSecondLineIcon3Layout);
 					imageButtonFocuschange(thirdPageSecondLineIcon4,thirdPageSecondLineIcon4Layout);
+					imageButtonFocuschange(thirdPageSecondLineIcon5,thirdPageSecondLineIcon5Layout);
 
 					imageButtonClick(thirdPageFirstLineIcon1);
 					imageButtonClick(thirdPageFirstLineIcon2);
 					imageButtonClick(thirdPageFirstLineIcon3);
 					imageButtonClick(thirdPageFirstLineIcon4);
+					imageButtonClick(thirdPageFirstLineIcon5);
 					imageButtonClick(thirdPageSecondLineIcon1);
 					imageButtonClick(thirdPageSecondLineIcon2);
 					imageButtonClick(thirdPageSecondLineIcon3);
 					imageButtonClick(thirdPageSecondLineIcon4);
+					imageButtonClick(thirdPageSecondLineIcon5);
 
 				}
 				
@@ -222,12 +238,11 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 
 					imageButtonFocuschange(fourthPageFirstLineIcon1,fourthPageFirstLineIcon1Layout);
 					imageButtonFocuschange(fourthPageFirstLineIcon2,fourthPageFirstLineIcon2Layout);
-
+					imageButtonFocuschange(fourthPageFirstLineIcon3,fourthPageFirstLineIcon3Layout);
 
 					imageButtonClick(fourthPageFirstLineIcon1);
 					imageButtonClick(fourthPageFirstLineIcon2);
-
-					
+					imageButtonClick(fourthPageFirstLineIcon3);
 				}
 				
 				if (childView.getVisibility() != View.GONE) {
@@ -242,14 +257,16 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			firstPageFirstLineIcon1Layout.setBackgroundResource(R.drawable.item_selected_big);
 
 			if(resumeFromSinaGallery){
-				firstPageFirstLineIcon3.setFocusable(true);
-				firstPageFirstLineIcon3.setFocusableInTouchMode(true);			
-				firstPageFirstLineIcon3.requestFocus();
+				firstPageSecondLineIcon2.setFocusable(true);
+				firstPageSecondLineIcon2.setFocusableInTouchMode(true);			
+				firstPageSecondLineIcon2.requestFocus();
 			}
 			if(resumeFromPaopaole){
 				secondPageSecondLineIcon3.setFocusable(true);
 				secondPageSecondLineIcon3.setFocusableInTouchMode(true);			
 				secondPageSecondLineIcon3.requestFocus();
+			}
+			if(resumeFromMultiScreen){
 			}			
 			
 		}
@@ -316,6 +333,8 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		firstPageSecondLineIcon2 = (ImageView) view.findViewById(R.id.first_page202);
 		firstPageSecondLineIcon3 = (ImageView) view.findViewById(R.id.first_page203);		
 		firstPageSecondLineIcon4 = (ImageView) view.findViewById(R.id.first_page204);
+		firstPageSecondLineIcon5 = (ImageView) view.findViewById(R.id.first_page205);
+		firstPageSecondLineIcon6 = (ImageView) view.findViewById(R.id.first_page206);
 
 		firstPageFirstLineIcon1Layout = (LinearLayout) view.findViewById(R.id.first_page101_layout);
 		firstPageFirstLineIcon2Layout = (LinearLayout) view.findViewById(R.id.first_page102_layout);
@@ -324,6 +343,8 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		firstPageSecondLineIcon2Layout = (LinearLayout) view.findViewById(R.id.first_page202_layout);
 		firstPageSecondLineIcon3Layout = (LinearLayout) view.findViewById(R.id.first_page203_layout);		
 		firstPageSecondLineIcon4Layout = (LinearLayout) view.findViewById(R.id.first_page204_layout);			
+		firstPageSecondLineIcon5Layout = (LinearLayout) view.findViewById(R.id.first_page205_layout);			
+		firstPageSecondLineIcon6Layout = (LinearLayout) view.findViewById(R.id.first_page206_layout);			
 	}
 
 	private void initSecondPageUi(View view) {	
@@ -333,6 +354,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		secondPageSecondLineIcon1 = (ImageView) view.findViewById(R.id.second_page201);
 		secondPageSecondLineIcon2 = (ImageView) view.findViewById(R.id.second_page202);
 		secondPageSecondLineIcon3 = (ImageView) view.findViewById(R.id.second_page203);
+		secondPageSecondLineIcon4 = (ImageView) view.findViewById(R.id.second_page204);
 		
 		secondPageFirstLineIcon1Layout = (LinearLayout) view.findViewById(R.id.second_page101_layout);
 		secondPageFirstLineIcon2Layout = (LinearLayout) view.findViewById(R.id.second_page102_layout);
@@ -340,6 +362,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		secondPageSecondLineIcon1Layout = (LinearLayout) view.findViewById(R.id.second_page201_layout);
 		secondPageSecondLineIcon2Layout = (LinearLayout) view.findViewById(R.id.second_page202_layout);
 		secondPageSecondLineIcon3Layout = (LinearLayout) view.findViewById(R.id.second_page203_layout);			
+		secondPageSecondLineIcon4Layout = (LinearLayout) view.findViewById(R.id.second_page204_layout);			
 	}
 
 	private void initThirdPageUi(View view){
@@ -347,87 +370,112 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		thirdPageFirstLineIcon2 = (ImageView) view.findViewById(R.id.third_page102);
 		thirdPageFirstLineIcon3 = (ImageView) view.findViewById(R.id.third_page103);
 		thirdPageFirstLineIcon4 = (ImageView) view.findViewById(R.id.third_page104);
+		thirdPageFirstLineIcon5 = (ImageView) view.findViewById(R.id.third_page105);
 		thirdPageSecondLineIcon1 = (ImageView) view.findViewById(R.id.third_page201);
 		thirdPageSecondLineIcon2 = (ImageView) view.findViewById(R.id.third_page202);
 		thirdPageSecondLineIcon3 = (ImageView) view.findViewById(R.id.third_page203);
 		thirdPageSecondLineIcon4 = (ImageView) view.findViewById(R.id.third_page204);
+		thirdPageSecondLineIcon5 = (ImageView) view.findViewById(R.id.third_page205);
 
 		thirdPageFirstLineIcon1Layout = (LinearLayout) view.findViewById(R.id.third_page101_layout);
 		thirdPageFirstLineIcon2Layout = (LinearLayout) view.findViewById(R.id.third_page102_layout);
 		thirdPageFirstLineIcon3Layout = (LinearLayout) view.findViewById(R.id.third_page103_layout);
 		thirdPageFirstLineIcon4Layout = (LinearLayout) view.findViewById(R.id.third_page104_layout);
+		thirdPageFirstLineIcon5Layout = (LinearLayout) view.findViewById(R.id.third_page105_layout);
 		thirdPageSecondLineIcon1Layout = (LinearLayout) view.findViewById(R.id.third_page201_layout);
 		thirdPageSecondLineIcon2Layout = (LinearLayout) view.findViewById(R.id.third_page202_layout);
 		thirdPageSecondLineIcon3Layout = (LinearLayout) view.findViewById(R.id.third_page203_layout);
 		thirdPageSecondLineIcon4Layout = (LinearLayout) view.findViewById(R.id.third_page204_layout);		
+		thirdPageSecondLineIcon5Layout = (LinearLayout) view.findViewById(R.id.third_page205_layout);		
 	}
 
 	private void initFourthPageUi(View view){
 		fourthPageFirstLineIcon1 = (ImageView) view.findViewById(R.id.fourth_page101);
 		fourthPageFirstLineIcon2 = (ImageView) view.findViewById(R.id.fourth_page102);
+		fourthPageFirstLineIcon3 = (ImageView) view.findViewById(R.id.fourth_page103);
+		fourthPageFirstLineIcon4 = (ImageView) findViewById(R.id.fourth_page104_icon);
+		fourthPageSecondLineIcon1 = (ImageView) findViewById(R.id.fourth_page201_icon);		
 		fourthPageFirstLineIcon1Layout = (LinearLayout) view.findViewById(R.id.fourth_page101_layout);
 		fourthPageFirstLineIcon2Layout = (LinearLayout) view.findViewById(R.id.fourth_page102_layout);
+		fourthPageFirstLineIcon3Layout = (LinearLayout) view.findViewById(R.id.fourth_page103_layout);
 	}
 
 	private void startApks(final ImageView imageButton) {
 		resumeFromAtvScreen = false;
 		resumeFromSinaGallery = false;
 		resumeFromPaopaole = false;
+		resumeFromMultiScreen = false;
 		//imageButton.setFocusableInTouchMode(true);
 		//imageButton.requestFocus();
 		String packageName = "";
-
 	
-		//first page
+		/***first page***/
+			//firstLine
 		if (imageButton == firstPageFirstLineIcon2) {
 			Intent intent = new Intent();
 			intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == firstPageFirstLineIcon3) {
-		   resumeFromSinaGallery = true;
-			packageName = "com.lfzd.sinagallery";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == firstPageSecondLineIcon1) {
-			packageName = "com.tencent.qqmusicpad";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == firstPageSecondLineIcon2) {
-			Intent intent = new Intent();
-			intent.setClassName("com.amlogic.filebrowser", "com.amlogic.filebrowser.MediaFilebrowser");
-			intent.putExtra("launch_what","usb");
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == firstPageSecondLineIcon3) {
-			//this icon special processed in SwitchDemoActivity.java to start GreenNet
-		} else if (imageButton == firstPageSecondLineIcon4) {
-			packageName = "com.thtf.myhouse";
+			packageName = "com.lfzd.enews";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
 		} 
 
-		//second page
+       	//secondLine
+		else if (imageButton == firstPageSecondLineIcon1) {
+			packageName = "com.tencent.qqmusicpad";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == firstPageSecondLineIcon2) {
+		   resumeFromSinaGallery = true;
+			packageName = "com.lfzd.sinagallery";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == firstPageSecondLineIcon3) {
+			packageName = "com.trans.gamehall";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);	
+		} else if (imageButton == firstPageSecondLineIcon4) {
+			//this icon special processed in SwitchDemoActivity.java to start GreenNet
+		} else if (imageButton == firstPageSecondLineIcon5) {
+			Intent intent = new Intent();
+			intent.setClassName("com.amlogic.filebrowser", "com.amlogic.filebrowser.MediaFilebrowser");
+			intent.putExtra("launch_what","usb");
+			releaseFirstThenStartApk(intent);		
+		} else if (imageButton == firstPageSecondLineIcon6) {
+			packageName = "com.thtf.myhouse";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		}
+			
+
+		/***second page***/
+			//firstLine
 		else if (imageButton == secondPageFirstLineIcon1) {
-			packageName = "com.thtfce.web";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == secondPageFirstLineIcon2) {
-			packageName = "com.netease.vopen.tablet";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == secondPageFirstLineIcon3) {
-			packageName = "com.thtfce.edu";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == secondPageSecondLineIcon1) {
 			Intent intent = new Intent();
 			Bundle bundle = new Bundle();
 			bundle.putString("AppCode","kids");
 			intent.putExtras(bundle);
 			intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
 			releaseFirstThenStartApk(intent);
+		} else if (imageButton == secondPageFirstLineIcon2) {
+			packageName = "com.thtfce.readerpen";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == secondPageFirstLineIcon3) {
+			packageName = "com.thtfce.web";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+			releaseFirstThenStartApk(intent);
+		} 
+
+			//secondLine
+		else if (imageButton == secondPageSecondLineIcon1) {
+			packageName = "com.thtfce.edu";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
 		} else if (imageButton == secondPageSecondLineIcon2) {
-			packageName = "thtf.cpsoft.fly3d";
+			packageName = "com.netease.vopen.tablet";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == secondPageSecondLineIcon3) {
@@ -435,59 +483,81 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			packageName = "com.cpsoft.game.paopaole3d";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
-		}  
+		} else if (imageButton == secondPageSecondLineIcon4) {			
+			packageName = "thtf.cpsoft.fly3d";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		}   
 		
-		//third page
+		/***third page***/
+			//firstLine
 		 else if (imageButton == thirdPageFirstLineIcon1) {
-			packageName = "com.android.thtf.thtfcookbook";
+			packageName = "com.cvte.health";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == thirdPageFirstLineIcon2) {		
-			packageName = "com.android.thtf";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == thirdPageFirstLineIcon3) {
-			packageName = "viva.android.tv";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == thirdPageFirstLineIcon4) {		
-			packageName = "com.huifutianxia";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == thirdPageSecondLineIcon1) {
-			packageName = "cn.kuaipan.android.tv";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);
-		} else if (imageButton == thirdPageSecondLineIcon2) {
-			Intent intent = new Intent();
-			intent.setClassName("com.amlogic.filebrowser", "com.amlogic.filebrowser.MediaFilebrowser");
-			intent.putExtra("launch_what","samba");
-			releaseFirstThenStartApk(intent);
-		}  else if (imageButton == thirdPageSecondLineIcon3) {
 			packageName = "com.thtf.guide";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
-		}  else if (imageButton == thirdPageSecondLineIcon4) {
-			packageName = "com.lfzd.enews";
+		} else if (imageButton == thirdPageFirstLineIcon3) {
+			packageName = "com.android.thtf.thtfcookbook";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
-		}  
+		} else if (imageButton == thirdPageFirstLineIcon4) {		
+			packageName = "com.android.thtf";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == thirdPageFirstLineIcon5) {		
+			packageName = "com.huifutianxia";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} 
+
+			//secondLine
+		else if (imageButton == thirdPageSecondLineIcon1) {		
+			packageName = "com.thtf.facerealize";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);		
+		} else if (imageButton == thirdPageSecondLineIcon2) {		
+			packageName = "com.reconova.tongfang";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == thirdPageSecondLineIcon3) {
+			packageName = "viva.android.tv";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == thirdPageSecondLineIcon4) {
+			packageName = "com.rockitv.android";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} else if (imageButton == thirdPageSecondLineIcon5) {
+			packageName = "com.awindinc.mirroropservice";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		} 
 		
-		//fourth page
+		/***fourth page***/
+		
 	   if(imageButton == fourthPageFirstLineIcon1){
 			packageName = "com.example.newthtfcemarket";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
 		}else if(imageButton == fourthPageFirstLineIcon2){
-			Intent intent = new Intent();
-			intent.setAction("start.settings.activity");
+			packageName = "com.letv.tvos.appstore";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
-		}
-			
+		}else if(imageButton == fourthPageFirstLineIcon3){
+			packageName = "org.thtf.myapp";
+			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			releaseFirstThenStartApk(intent);
+		}		
 	}
 	
 	private void startApks(final VideoView imageButton) {
 		resumeFromAtvScreen = false;
+		resumeFromSinaGallery = false;
+		resumeFromPaopaole = false;
+		resumeFromMultiScreen = false;		
 		//imageButton.setFocusableInTouchMode(true);
 		//imageButton.requestFocus();
 		String packageName = "";
@@ -585,8 +655,8 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	}
 
 	public void atFirstPageSnapLeft(){
-		setViewFocus(mCurScreen + 2);
-		snapToScreen(mCurScreen + 2);
+		setViewFocus(3);
+		snapToScreen(3);
 	}
 
 	public void snapNext(){
@@ -600,41 +670,46 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	}
 
 	public void atThirdPageSnapRight(){
-		setViewFocus(mCurScreen - 2);
-		snapToScreen(mCurScreen - 2);
+		setViewFocus(0);
+		snapToScreen(0);
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		View focusView = MyScrollLayout.this.findFocus();
 		if ( (focusView == firstPageFirstLineIcon1 || focusView == firstPageSecondLineIcon1) && 
 				keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-			snapToScreen(mCurScreen + 3);	
-		} else if( (focusView == firstPageFirstLineIcon3 || focusView == firstPageSecondLineIcon4) && 
+			snapToScreen(3);	
+		} else if( (focusView == firstPageFirstLineIcon3 || focusView == firstPageSecondLineIcon6) && 
 				keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-			snapToScreen(mCurScreen + 1);	
+			snapToScreen(1);	
 		} else if( (focusView == secondPageFirstLineIcon1 || focusView == secondPageSecondLineIcon1) && 
 				keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-			snapToScreen(mCurScreen - 1);
-		} else if( (focusView == secondPageFirstLineIcon3 || focusView == secondPageSecondLineIcon3 ) &&
+			snapToScreen(0);
+		} else if( (focusView == secondPageFirstLineIcon3 || focusView == secondPageSecondLineIcon4 ) &&
 				keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-			snapToScreen(mCurScreen + 1);	
+			snapToScreen(2);	
 		} else if( (focusView == thirdPageFirstLineIcon1 || focusView == thirdPageSecondLineIcon1) &&
 				keyCode == KeyEvent.KEYCODE_DPAD_LEFT){
-			snapToScreen(mCurScreen - 1);
-		} else if((focusView == thirdPageFirstLineIcon4 || focusView == thirdPageSecondLineIcon4) &&
+			snapToScreen(1);
+		} else if((focusView == thirdPageFirstLineIcon5 || focusView == thirdPageSecondLineIcon5) &&
 				keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-			snapToScreen(mCurScreen + 1);	
+			snapToScreen(3);	
 		} else if((focusView == fourthPageFirstLineIcon1) && keyCode == KeyEvent.KEYCODE_DPAD_LEFT){
-			snapToScreen(mCurScreen - 1);	
+			snapToScreen(2);	
+		} else if( focusView == fourthPageFirstLineIcon4 && 
+				keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+			snapToScreen(0);	
+		} else if( (focusView == fourthPageSecondLineIcon1) && 
+				keyCode == KeyEvent.KEYCODE_DPAD_LEFT){
+			snapToScreen(2);	
 		}
 
 		if (keyCode == 87) {// next music
-			if(mCurScreen == 2){
+			if(mCurScreen == 3){
 				atThirdPageSnapRight();
 			}else{		
 				snapNext();
 			}
-
 		}
 		
 		if (keyCode == 88) {// previous music
@@ -643,8 +718,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 				atFirstPageSnapLeft();
 			}else{
 				snapPrevious();
-			}
-		
+			}		
 		}
 		
 		if(keyCode == 183){//red
@@ -678,8 +752,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	}
 
 	private void setViewFocus(int index){
-		switch (index) {
-			
+		switch (index) {			
 		case 0:		
 			firstPageFirstLineIcon1.requestFocus();
 			break;

@@ -12,6 +12,7 @@
 		android:orientation="vertical">
 
 		<LinearLayout
+			android:id="@+id/thirdPage_first_line"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:orientation="horizontal"
@@ -35,7 +36,7 @@
 				android:id="@+id/third_page102_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
-				android:layout_weight="2">
+				android:layout_weight="1">
 				<ImageView
 					android:id="@+id/third_page102"
 					android:layout_width="match_parent"
@@ -75,7 +76,22 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/third_page104"/>
-			</LinearLayout>							
+			</LinearLayout>
+			<LinearLayout
+				android:id="@+id/third_page105_layout"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"	
+				android:layout_weight="1">
+				<ImageView
+					android:id="@+id/third_page105"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:layout_margin="8dip"
+					android:focusable="true"
+					android:clickable="true"
+					android:src="@drawable/third_page105"/>
+			</LinearLayout>				
 		</LinearLayout>
 
 		<LinearLayout
@@ -118,7 +134,7 @@
 				android:id="@+id/third_page203_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
-				android:layout_weight="2">
+				android:layout_weight="1">
 				<ImageView
 					android:id="@+id/third_page203"
 					android:layout_width="match_parent"
@@ -133,7 +149,7 @@
 				android:id="@+id/third_page204_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
-				android:layout_weight="2">
+				android:layout_weight="1">
 				<ImageView
 					android:id="@+id/third_page204"
 					android:layout_width="match_parent"
@@ -143,7 +159,22 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/third_page204"/>
-			</LinearLayout>										
+			</LinearLayout>
+			<LinearLayout
+				android:id="@+id/third_page205_layout"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"	
+				android:layout_weight="2">
+				<ImageView
+					android:id="@+id/third_page205"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:layout_margin="8dip"
+					android:focusable="true"
+					android:clickable="true"
+					android:src="@drawable/third_page205"/>
+			</LinearLayout>			
 		</LinearLayout>
 
 	</LinearLayout>
