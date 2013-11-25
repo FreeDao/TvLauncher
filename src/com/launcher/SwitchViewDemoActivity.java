@@ -75,7 +75,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	private ImageView dockImageView4;
 		
 	//first page
-	public VideoView firstPageFirstLineIcon1;
+	public static VideoView firstPageFirstLineIcon1;
 	private ImageView firstPageFirstLineIcon2;
 	private ImageView firstPageFirstLineIcon3;	
 	private ImageView firstPageSecondLineIcon1;

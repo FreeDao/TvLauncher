@@ -382,6 +382,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	private Handler SetVideoSizeHandler = new Handler();
 	private Runnable SetVideoSizeRunnable =new Runnable(){
 		public void run(){
+			getVideoViewSize(SwitchViewDemoActivity.firstPageFirstLineIcon1,0);
 			if(tv.GetDisplayMode(tv.GetSrcInputType())!=0 && SetDisplayModeTimes<10){
 				SetDisplayModeTimes++;
 				tv.SetDisplayMode(Tv.Dis_Mode.DISPLAY_MODE_169,Tv.Source_Input_Type.SOURCE_TYPE_MPEG, tv.GetCurrentSignalInfo().fmt);
