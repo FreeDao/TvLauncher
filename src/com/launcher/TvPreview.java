@@ -29,6 +29,7 @@ import android.content.Intent;
 public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSourcesListener{
 	private Context mContext;
 	static Tv tv = null;
+	tvin_info_t tv_info=null;
 	private final String TAG = "TvPreview";
 	private static final String Request_Owner = "atv";
 	private static final String Request_OwnerDtv = "dtv";
@@ -295,30 +296,34 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
   	Log.d(TAG,"StopTvPreview===============");
 		SetVideoSizeHandler.removeCallbacks(SetVideoSizeRunnable);
 		set3DAndDipostHandler.removeCallbacks(set3DAndDipostRunnable);
-		
+		showTvPreviewHandler.removeCallbacks(showTvPreviewRunnable);
 		SetVideoSize(0 , 0 , 1919 , 1079);
 		mySetDisplayMode();
+		if(status_3D_Auto)
+		  tv.Set3DMode(Tv.Mode_3D.MODE_3D_AUTO,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
 		//SetWindowSize(close_mode , 0 , 0 , 0 , 0);
 	}
 	
 	public void DisablePerview() {
 		Log.d(TAG,"DisablePerview===============");
 		SetDisplayModeTimes=0;
+		showTvPreviewHandler.removeCallbacks(showTvPreviewRunnable);
 		SetVideoSizeHandler.removeCallbacks(SetVideoSizeRunnable);
 		set3DAndDipostHandler.removeCallbacks(set3DAndDipostRunnable);
 		CurIntput = tv.GetCurrentSourceInput();
 		//SetWindowSize(close_mode , 0 , 0 , 0 , 0);
-		SetVideoSize(0 , 0 , 1920 , 1080);
+		SetVideoSize(0 , 0 , 1919 , 1079);
 		tv.SetSourceInput(Tv.SrcInput.MPEG);
 	}
 	
 	public void ShowPerview(){
 		Log.d(TAG,"ShowPerview===============");
 		SetDisplayModeTimes=0;
-		set_sourceInput(tv.SSMReadLastSelectSourceType());
-		tv.SetDisplayMode(Tv.Dis_Mode.DISPLAY_MODE_169,Tv.Source_Input_Type.SOURCE_TYPE_MPEG, tv.GetCurrentSignalInfo().fmt);
-		SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,500);
-		set3DAndDipostHandler.postDelayed(set3DAndDipostRunnable,500);
+		set_sourceInput(tv.SSMReadLastSelectSourceType());		
+		//tv.SetDisplayMode(Tv.Dis_Mode.DISPLAY_MODE_169,Tv.Source_Input_Type.SOURCE_TYPE_MPEG, tv.GetCurrentSignalInfo().fmt);
+		showTvPreviewHandler.postDelayed(showTvPreviewRunnable,200);
+		//set3DAndDipostHandler.postDelayed(set3DAndDipostRunnable,0);
+		//SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,5000);
 	}
 	
 	private void OpenTv() {
@@ -343,6 +348,23 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
         }
         return -1;
   }
+  private boolean status_3D_Auto = false;
+  private Handler showTvPreviewHandler = new Handler();
+	private Runnable showTvPreviewRunnable = new Runnable(){
+		public void run(){
+			if(tv.Get3DMode()==1){
+				status_3D_Auto = true;
+				Log.d(TAG,"tv.Get3DMode()==1...");
+				tv.Set3DTo2DMode(Tv.Mode_3D_2D.MODE_3D_2D_LEFT,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
+				SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,200);
+				showTvPreviewHandler.removeCallbacks(showTvPreviewRunnable);
+				
+			}else{
+				showTvPreviewHandler.removeCallbacks(showTvPreviewRunnable);
+				showTvPreviewHandler.postDelayed(showTvPreviewRunnable,200);
+			}
+	  }
+	};
 
 	private Handler StopTvRleasedResourceHandler = new Handler();
 	private Runnable StopTvRleasedResourceRunnable = new Runnable(){
@@ -364,7 +386,10 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	  	public void run(){
 			if(HandlerTimes<=8){
 				HandlerTimes++;
-				if(tv.Get3DMode()!=0){
+				if(tv.Get3DMode()==1){
+					status_3D_Auto = true;
+					tv.Set3DTo2DMode(Tv.Mode_3D_2D.MODE_3D_2D_LEFT,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
+				}else if(tv.Get3DMode()!=0){
 					tv.Set3DMode(Tv.Mode_3D.MODE_3D_CLOSE,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
 				}
 				set3DAndDipostHandler.removeCallbacks(set3DAndDipostRunnable);
