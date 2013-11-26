@@ -360,6 +360,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 				showTvPreviewHandler.removeCallbacks(showTvPreviewRunnable);
 				
 			}else{
+				SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,200);
 				showTvPreviewHandler.removeCallbacks(showTvPreviewRunnable);
 				showTvPreviewHandler.postDelayed(showTvPreviewRunnable,200);
 			}
