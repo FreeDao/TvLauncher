@@ -358,8 +358,8 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 				tv.Set3DTo2DMode(Tv.Mode_3D_2D.MODE_3D_2D_LEFT,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
 				SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,200);
 				showTvPreviewHandler.removeCallbacks(showTvPreviewRunnable);
-				
 			}else{
+				SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,200);
 				showTvPreviewHandler.removeCallbacks(showTvPreviewRunnable);
 				showTvPreviewHandler.postDelayed(showTvPreviewRunnable,200);
 			}
