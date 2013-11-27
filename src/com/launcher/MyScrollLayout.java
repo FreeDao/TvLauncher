@@ -23,6 +23,7 @@ import com.launcher.utils.LauncherUtil;
 import com.launcher.utils.ResourceManager;
 import android.app.ActivityManager;
 import android.os.SystemProperties;
+import android.content.SharedPreferences;
 
 public class MyScrollLayout extends ViewGroup implements ResourceManager.ResourceHasReleaseListener{
 
@@ -33,7 +34,6 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	public boolean resumeFromAtvScreen = true;
 	public boolean resumeFromSinaGallery = false;
 	public boolean resumeFromPaopaole = false;
-	public boolean resumeFromMultiScreen = false;
 	public boolean inAtvScreen = false;
 	public Context context;
 	private Scroller mScroller;
@@ -266,8 +266,14 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 				secondPageSecondLineIcon3.setFocusableInTouchMode(true);			
 				secondPageSecondLineIcon3.requestFocus();
 			}
-			if(resumeFromMultiScreen){
-			}			
+
+			if(getFocusIconName().matches("multiScreen")){
+				Log.d(TAG,"Relayout multiScreen RequestFocus");
+              thirdPageSecondLineIcon5.setFocusable(true);
+				thirdPageSecondLineIcon5.setFocusableInTouchMode(true);
+				thirdPageSecondLineIcon5.requestFocus();
+			}
+			
 			
 		}
 		else{				
@@ -404,7 +410,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		resumeFromAtvScreen = false;
 		resumeFromSinaGallery = false;
 		resumeFromPaopaole = false;
-		resumeFromMultiScreen = false;
+		setFocusIconName("none");		
 		//imageButton.setFocusableInTouchMode(true);
 		//imageButton.requestFocus();
 		String packageName = "";
@@ -531,6 +537,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == thirdPageSecondLineIcon5) {
+		    setFocusIconName("multiScreen");		
 			packageName = "com.awindinc.mirroropservice";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
@@ -557,7 +564,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		resumeFromAtvScreen = false;
 		resumeFromSinaGallery = false;
 		resumeFromPaopaole = false;
-		resumeFromMultiScreen = false;		
+		setFocusIconName("none");		
 		//imageButton.setFocusableInTouchMode(true);
 		//imageButton.requestFocus();
 		String packageName = "";
@@ -787,4 +794,20 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			hasEnterApp=0;
 		} 	
 	}
+
+	public void setFocusIconName(String focusIcon){
+	   SharedPreferences curFocs = context.getSharedPreferences("focus_position", Context.MODE_PRIVATE);
+	   SharedPreferences.Editor writeDate = curFocs.edit();
+		writeDate.putString("focus_icon",focusIcon);
+		writeDate.commit();
+	}
+
+	public String getFocusIconName(){
+		String focusIconName = null;
+	   SharedPreferences curFocs = context.getSharedPreferences("focus_position", Context.MODE_PRIVATE);
+		focusIconName = curFocs.getString("focus_icon","none");
+		Log.d(TAG,"get focusIconName : " + focusIconName);
+		return focusIconName;
+	}
+	
 }

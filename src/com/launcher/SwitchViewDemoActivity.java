@@ -312,6 +312,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		firstPageSecondLineIcon4.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mScrollLayout.setFocusIconName("none");			
 				startGreenNet();
 			}
 		});
