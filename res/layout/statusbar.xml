@@ -13,7 +13,7 @@
     </LinearLayout>	 
     <LinearLayout android:id="@+id/empty"
      	 android:layout_width="0dip"
-    	 android:layout_weight="1000"
+    	 android:layout_weight="908"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center">     
@@ -21,31 +21,32 @@
 
 	<LinearLayout android:id="@+id/statusbar_status_layout"
     	 android:layout_width="0dip"
-    	 android:layout_weight="200"
+    	 android:layout_weight="312"
 	    android:layout_height="match_parent"
 	    android:orientation="horizontal"
 	    android:gravity="center">
-	    <!--ImageView android:id="@+id/statusbar_mute"
-	        android:layout_width="78dip"
+	    <ImageView android:id="@+id/statusbar_face"
+	        android:layout_width="73dip"
 	        android:layout_height="78dip"
-	        android:gravity="center"
-	        android:src="@drawable/mute">
-	    </ImageView-->
+	        android:visibility="invisible"
+	        android:scaleType="center"
+	        android:src="@drawable/face">
+	    </ImageView>
 	    <ImageView android:id="@+id/statusbar_ethernet"
-	        android:layout_width="78dip"
+	        android:layout_width="73dip"
 	        android:layout_height="78dip"
 	        android:visibility="invisible"
 	        android:scaleType="center"
 	        android:src="@drawable/net">
 	    </ImageView>
 	    <ImageView android:id="@+id/statusbar_wifi"
-	        android:layout_width="78dip"
+	        android:layout_width="73dip"
 	        android:layout_height="78dip"
 	        android:scaleType="center"
 	        android:src="@drawable/wifi">
 	    </ImageView>
 	    <ImageView android:id="@+id/statusbar_usb"
-	        android:layout_width="78dip"
+	        android:layout_width="73dip"
 	        android:layout_height="78dip"
 	        android:scaleType="center"
 	        android:src="@drawable/usb">

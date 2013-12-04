@@ -26,7 +26,7 @@
 	     	android:hardwareAccelerated="true"
 			android:clearTaskOnLaunch="true"
 			android:stateNotNeeded="true"
-		   	android:theme="@android:style/Theme.NoTitleBar"
+		   	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 		   	android:screenOrientation="nosensor"
 		   	android:windowSoftInputMode="stateUnspecified|adjustPan">	        
 			<intent-filter>

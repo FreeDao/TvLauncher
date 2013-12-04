@@ -156,7 +156,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	private OnClickListener fourthPageSecondLineApp6ClickListener;
 	
 	//statusbarStatus
-	private ImageView muteImageView;
+	private ImageView faceImageView;
 	private ImageView ethernetImageView;
 	private ImageView usbImageView;
 	private ImageView wifiImageView;
@@ -227,7 +227,8 @@ public class SwitchViewDemoActivity extends Activity implements
 	private static final String REMOTE_ENABLE = "wab 0x14 0 1";
 	
 	//all kinds of receiver
-	private StartTvReceiver startTvReceiver = new StartTvReceiver();	
+	private StartTvReceiver startTvReceiver = new StartTvReceiver();
+	private StatusbarFaceReceiver faceReceiver = new StatusbarFaceReceiver();
 	private StatusbarWifiReceiver wifiReceiver = new StatusbarWifiReceiver();
 	private StatusbarUsbReceiver usbReceiver = new StatusbarUsbReceiver();
 	private StatusbarTimeReceiver timeReceiver = new StatusbarTimeReceiver();
@@ -272,6 +273,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	}
 
 	private void registerReceiver(){
+		registerStatusbarFaceReceiver();
 		registerStatusbarEthernetReceiver();
 		registerStatusbarWifiReceiver();
 		registerStatusbarUsbReceiver();
@@ -284,6 +286,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	}
 	
 	private void initIcons(){
+		faceImageView = (ImageView)findViewById(R.id.statusbar_face);
        usbImageView =(ImageView)findViewById(R.id.statusbar_usb);		
 		conceptScreen = (LinearLayout) findViewById(R.id.concept_pic);
 		wifiImageView = (ImageView)findViewById(R.id.statusbar_wifi);
@@ -671,6 +674,23 @@ public class SwitchViewDemoActivity extends Activity implements
 			Log.d(TAG,"weather empty");
 		}
 	}
+
+	private void updateFaceStatus(Intent intent){
+		boolean data = false;
+		if(intent != null){
+			data = intent.getExtras().getBoolean("face_switchs");
+		}else{
+			Log.d(TAG,"Face Recogize Intent is null");
+			return;
+		}
+		if( data){
+			Log.d(TAG,"Recogize Scuess!");
+			faceImageView.setVisibility(View.VISIBLE);
+		}else{
+			Log.d(TAG,"Recogize Failed!");		
+			faceImageView.setVisibility(View.INVISIBLE);
+		}
+	}
 	
 	class StatusbarEthernetReceiver extends BroadcastReceiver{
 		@Override
@@ -680,10 +700,18 @@ public class SwitchViewDemoActivity extends Activity implements
 		}		
 	}
 
-	class StatusbarWifiReceiver extends BroadcastReceiver{
+	class StatusbarFaceReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {		
 			Log.d(TAG,"wifi process");
+			updateFaceStatus(arg1);							
+		}		
+	}
+
+	class StatusbarWifiReceiver extends BroadcastReceiver{
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {		
+			Log.d(TAG,"face process");
 			updateWifiStatus();							
 		}		
 	}
@@ -1333,11 +1361,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			e.printStackTrace();
 		}
 
-		if(action != null && action.equals("start.settings.activity") ){//means it is myapp
-			Intent intent = new Intent();
-			intent.setAction("start.settings.activity");
-			mScrollLayout.releaseFirstThenStartApk(intent);
-		}else if( URL != null ){//means it is kaikou shang wang
+		if( URL != null ){//means it is kaikou shang wang
 			Uri uri = Uri.parse(URL);
 			Intent intent = new Intent(Intent.ACTION_VIEW,uri);
 			mScrollLayout.releaseFirstThenStartApk(intent);			
@@ -1652,7 +1676,8 @@ public class SwitchViewDemoActivity extends Activity implements
 		unregisterReceiver(startTvReceiver);
 		unregisterReceiver(userAppReceiver);
 		unregisterReceiver(userAppReceiver2);		
-		unregisterReceiver(voiceCommandReceiver);		
+		unregisterReceiver(voiceCommandReceiver);
+		unregisterReceiver(faceReceiver);
 	}
 
 	@Override
@@ -1780,7 +1805,8 @@ public class SwitchViewDemoActivity extends Activity implements
 								|| apinfo.processName.equals(wallpaperServiceList.get(k).serviceInfo.packageName) 
 								|| apinfo.processName.equals("com.amlogic.tvscreen")
 								|| apinfo.processName.equals("com.amlogic.AtvScreen") 
-								|| apinfo.processName.equals("com.amlogic.tvservice")){//process "com.lfzd.enews" started at  onResume
+								|| apinfo.processName.equals("com.amlogic.tvservice")
+								|| apinfo.processName.equals("com.reconova.tongfang")){
 							wallpaperProcess = true;
 						}
 					}
@@ -1792,6 +1818,11 @@ public class SwitchViewDemoActivity extends Activity implements
 				}
 			}
 		}
+	}
+
+	private void registerStatusbarFaceReceiver(){
+		IntentFilter filter = new IntentFilter("com.thtfcd.face.swiths");
+		registerReceiver(faceReceiver, filter);
 	}
 	
 	private void registerStatusbarEthernetReceiver(){
