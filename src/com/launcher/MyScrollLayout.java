@@ -521,12 +521,12 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 
 			//secondLine
 		else if (imageButton == thirdPageSecondLineIcon1) {		
-			packageName = "com.thtf.facerealize";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-			releaseFirstThenStartApk(intent);		
+			Intent intent = new Intent();
+			intent.setClassName("com.reconova.tongfang", "com.thtf.facerealize.FaceMainActivity");
+			releaseFirstThenStartApk(intent);	
 		} else if (imageButton == thirdPageSecondLineIcon2) {		
-			packageName = "com.reconova.tongfang";
-			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+			Intent intent = new Intent();
+			intent.setClassName("com.reconova.tongfang", "com.reconova.demo.SplashActivity");
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == thirdPageSecondLineIcon3) {
 			packageName = "viva.android.tv";

@@ -1349,6 +1349,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		Bundle startAppInformation = voiceCommand.getExtras();
 		String packageName = startAppInformation.getString("packageName");
 		String action = startAppInformation.getString("action");
+		String className = startAppInformation.getString("className");
 		String receiveMusicKeyWord = startAppInformation.getString("musicKeyWord");
 		String newMusicKeyword = "";
 		String URL = startAppInformation.getString("URL");
@@ -1361,7 +1362,15 @@ public class SwitchViewDemoActivity extends Activity implements
 			e.printStackTrace();
 		}
 
-		if( URL != null ){//means it is kaikou shang wang
+		if(className != null && className.equals("com.reconova.demo.SplashActivity") ){
+			Intent intent = new Intent();
+			intent.setClassName("com.reconova.tongfang", "com.reconova.demo.SplashActivity");
+			mScrollLayout.releaseFirstThenStartApk(intent);
+		}else if(className != null && className.equals("com.thtf.facerealize.FaceMainActivity") ){
+			Intent intent = new Intent();
+			intent.setClassName("com.reconova.tongfang", "com.thtf.facerealize.FaceMainActivity");
+			mScrollLayout.releaseFirstThenStartApk(intent);
+		}else if( URL != null ){//means it is kaikou shang wang
 			Uri uri = Uri.parse(URL);
 			Intent intent = new Intent(Intent.ACTION_VIEW,uri);
 			mScrollLayout.releaseFirstThenStartApk(intent);			
