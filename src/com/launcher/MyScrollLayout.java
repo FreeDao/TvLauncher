@@ -48,15 +48,15 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	private ImageView firstPageSecondLineIcon4;	
 	private ImageView firstPageSecondLineIcon5;	
 	private ImageView firstPageSecondLineIcon6;	
-	private LinearLayout firstPageFirstLineIcon1Layout;
-	private LinearLayout firstPageFirstLineIcon2Layout;
-	private LinearLayout firstPageFirstLineIcon3Layout;
-	private LinearLayout firstPageSecondLineIcon1Layout;
-	private LinearLayout firstPageSecondLineIcon2Layout;
-	private LinearLayout firstPageSecondLineIcon3Layout;
-	private LinearLayout firstPageSecondLineIcon4Layout;
-	private LinearLayout firstPageSecondLineIcon5Layout;
-	private LinearLayout firstPageSecondLineIcon6Layout;
+	public ImageView firstPageFirstLineIcon1HighLight;
+	private ImageView firstPageFirstLineIcon2HighLight;
+	private ImageView firstPageFirstLineIcon3HighLight;	
+	private ImageView firstPageSecondLineIcon1HighLight;
+	private ImageView firstPageSecondLineIcon2HighLight;
+	private ImageView firstPageSecondLineIcon3HighLight;
+	private ImageView firstPageSecondLineIcon4HighLight;	
+	private ImageView firstPageSecondLineIcon5HighLight;	
+	private ImageView firstPageSecondLineIcon6HighLight;
 	
 	//second page
 	private ImageView secondPageFirstLineIcon1;
@@ -66,13 +66,13 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	private ImageView secondPageSecondLineIcon2;
 	private ImageView secondPageSecondLineIcon3;
 	private ImageView secondPageSecondLineIcon4;
-	private LinearLayout secondPageFirstLineIcon1Layout;
-	private LinearLayout secondPageFirstLineIcon2Layout;
-	private LinearLayout secondPageFirstLineIcon3Layout;
-	private LinearLayout secondPageSecondLineIcon1Layout;
-	private LinearLayout secondPageSecondLineIcon2Layout;
-	private LinearLayout secondPageSecondLineIcon3Layout;
-	private LinearLayout secondPageSecondLineIcon4Layout;
+	private ImageView secondPageFirstLineIcon1HighLight;
+	private ImageView secondPageFirstLineIcon2HighLight;
+	private ImageView secondPageFirstLineIcon3HighLight;
+	private ImageView secondPageSecondLineIcon1HighLight;
+	private ImageView secondPageSecondLineIcon2HighLight;
+	private ImageView secondPageSecondLineIcon3HighLight;
+	private ImageView secondPageSecondLineIcon4HighLight;
 
 	//third page
 	private ImageView thirdPageFirstLineIcon1;
@@ -85,16 +85,16 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	private ImageView thirdPageSecondLineIcon3;
 	private ImageView thirdPageSecondLineIcon4;
 	private ImageView thirdPageSecondLineIcon5;
-	private LinearLayout thirdPageFirstLineIcon1Layout;
-	private LinearLayout thirdPageFirstLineIcon2Layout;
-	private LinearLayout thirdPageFirstLineIcon3Layout;
-	private LinearLayout thirdPageFirstLineIcon4Layout;
-	private LinearLayout thirdPageFirstLineIcon5Layout;
-	private LinearLayout thirdPageSecondLineIcon1Layout;
-	private LinearLayout thirdPageSecondLineIcon2Layout;
-	private LinearLayout thirdPageSecondLineIcon3Layout;
-	private LinearLayout thirdPageSecondLineIcon4Layout;
-	private LinearLayout thirdPageSecondLineIcon5Layout;
+	private ImageView thirdPageFirstLineIcon1HighLight;
+	private ImageView thirdPageFirstLineIcon2HighLight;
+	private ImageView thirdPageFirstLineIcon3HighLight;
+	private ImageView thirdPageFirstLineIcon4HighLight;
+	private ImageView thirdPageFirstLineIcon5HighLight;
+	private ImageView thirdPageSecondLineIcon1HighLight;
+	private ImageView thirdPageSecondLineIcon2HighLight;
+	private ImageView thirdPageSecondLineIcon3HighLight;
+	private ImageView thirdPageSecondLineIcon4HighLight;
+	private ImageView thirdPageSecondLineIcon5HighLight;
 
 	//fourth page
 	private ImageView fourthPageFirstLineIcon1;
@@ -102,9 +102,9 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	private ImageView fourthPageFirstLineIcon3;
 	private ImageView fourthPageFirstLineIcon4;
 	private ImageView fourthPageSecondLineIcon1;
-	private LinearLayout fourthPageFirstLineIcon1Layout;
-	private LinearLayout fourthPageFirstLineIcon2Layout;
-	private LinearLayout fourthPageFirstLineIcon3Layout;
+	private ImageView fourthPageFirstLineIcon1HighLight;
+	private ImageView fourthPageFirstLineIcon2HighLight;
+	private ImageView fourthPageFirstLineIcon3HighLight;
 
 	private LinearLayout userAppParent;
 	private GridView userApp;
@@ -164,15 +164,15 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 				if (i == 0) {
 					initFirstPageUi(childView);
 				
-					imageButtonFocuschange(firstPageFirstLineIcon1,firstPageFirstLineIcon1Layout);
-					imageButtonFocuschange(firstPageFirstLineIcon2,firstPageFirstLineIcon2Layout);
-					imageButtonFocuschange(firstPageFirstLineIcon3,firstPageFirstLineIcon3Layout);
-					imageButtonFocuschange(firstPageSecondLineIcon1,firstPageSecondLineIcon1Layout);
-					imageButtonFocuschange(firstPageSecondLineIcon2,firstPageSecondLineIcon2Layout);
-					imageButtonFocuschange(firstPageSecondLineIcon3,firstPageSecondLineIcon3Layout);
-					imageButtonFocuschange(firstPageSecondLineIcon4,firstPageSecondLineIcon4Layout);
-					imageButtonFocuschange(firstPageSecondLineIcon5,firstPageSecondLineIcon5Layout);
-					imageButtonFocuschange(firstPageSecondLineIcon6,firstPageSecondLineIcon6Layout);
+					imageButtonFocuschange(firstPageFirstLineIcon1,firstPageFirstLineIcon1HighLight);
+					imageButtonFocuschange(firstPageFirstLineIcon2,firstPageFirstLineIcon2HighLight);
+					imageButtonFocuschange(firstPageFirstLineIcon3,firstPageFirstLineIcon3HighLight);
+					imageButtonFocuschange(firstPageSecondLineIcon1,firstPageSecondLineIcon1HighLight);
+					imageButtonFocuschange(firstPageSecondLineIcon2,firstPageSecondLineIcon2HighLight);
+					imageButtonFocuschange(firstPageSecondLineIcon3,firstPageSecondLineIcon3HighLight);
+					imageButtonFocuschange(firstPageSecondLineIcon4,firstPageSecondLineIcon4HighLight);
+					imageButtonFocuschange(firstPageSecondLineIcon5,firstPageSecondLineIcon5HighLight);
+					imageButtonFocuschange(firstPageSecondLineIcon6,firstPageSecondLineIcon6HighLight);
 
 					imageButtonClick(firstPageFirstLineIcon1);
 					imageButtonClick(firstPageFirstLineIcon2);
@@ -188,13 +188,13 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 				if (i == 1) {
 					initSecondPageUi(childView);	
 					
-					imageButtonFocuschange(secondPageFirstLineIcon1,secondPageFirstLineIcon1Layout);
-					imageButtonFocuschange(secondPageFirstLineIcon2,secondPageFirstLineIcon2Layout);
-					imageButtonFocuschange(secondPageFirstLineIcon3,secondPageFirstLineIcon3Layout);
-					imageButtonFocuschange(secondPageSecondLineIcon1,secondPageSecondLineIcon1Layout);
-					imageButtonFocuschange(secondPageSecondLineIcon2,secondPageSecondLineIcon2Layout);
-					imageButtonFocuschange(secondPageSecondLineIcon3,secondPageSecondLineIcon3Layout);
-					imageButtonFocuschange(secondPageSecondLineIcon4,secondPageSecondLineIcon4Layout);
+					imageButtonFocuschange(secondPageFirstLineIcon1,secondPageFirstLineIcon1HighLight);
+					imageButtonFocuschange(secondPageFirstLineIcon2,secondPageFirstLineIcon2HighLight);
+					imageButtonFocuschange(secondPageFirstLineIcon3,secondPageFirstLineIcon3HighLight);
+					imageButtonFocuschange(secondPageSecondLineIcon1,secondPageSecondLineIcon1HighLight);
+					imageButtonFocuschange(secondPageSecondLineIcon2,secondPageSecondLineIcon2HighLight);
+					imageButtonFocuschange(secondPageSecondLineIcon3,secondPageSecondLineIcon3HighLight);
+					imageButtonFocuschange(secondPageSecondLineIcon4,secondPageSecondLineIcon4HighLight);
 
 					imageButtonClick(secondPageFirstLineIcon1);
 					imageButtonClick(secondPageFirstLineIcon2);
@@ -209,16 +209,16 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 				if (i == 2) {
 					initThirdPageUi(childView);	
 					
-					imageButtonFocuschange(thirdPageFirstLineIcon1,thirdPageFirstLineIcon1Layout);
-					imageButtonFocuschange(thirdPageFirstLineIcon2,thirdPageFirstLineIcon2Layout);
-					imageButtonFocuschange(thirdPageFirstLineIcon3,thirdPageFirstLineIcon3Layout);
-					imageButtonFocuschange(thirdPageFirstLineIcon4,thirdPageFirstLineIcon4Layout);
-					imageButtonFocuschange(thirdPageFirstLineIcon5,thirdPageFirstLineIcon5Layout);
-					imageButtonFocuschange(thirdPageSecondLineIcon1,thirdPageSecondLineIcon1Layout);
-					imageButtonFocuschange(thirdPageSecondLineIcon2,thirdPageSecondLineIcon2Layout);
-					imageButtonFocuschange(thirdPageSecondLineIcon3,thirdPageSecondLineIcon3Layout);
-					imageButtonFocuschange(thirdPageSecondLineIcon4,thirdPageSecondLineIcon4Layout);
-					imageButtonFocuschange(thirdPageSecondLineIcon5,thirdPageSecondLineIcon5Layout);
+					imageButtonFocuschange(thirdPageFirstLineIcon1,thirdPageFirstLineIcon1HighLight);
+					imageButtonFocuschange(thirdPageFirstLineIcon2,thirdPageFirstLineIcon2HighLight);
+					imageButtonFocuschange(thirdPageFirstLineIcon3,thirdPageFirstLineIcon3HighLight);
+					imageButtonFocuschange(thirdPageFirstLineIcon4,thirdPageFirstLineIcon4HighLight);
+					imageButtonFocuschange(thirdPageFirstLineIcon5,thirdPageFirstLineIcon5HighLight);
+					imageButtonFocuschange(thirdPageSecondLineIcon1,thirdPageSecondLineIcon1HighLight);
+					imageButtonFocuschange(thirdPageSecondLineIcon2,thirdPageSecondLineIcon2HighLight);
+					imageButtonFocuschange(thirdPageSecondLineIcon3,thirdPageSecondLineIcon3HighLight);
+					imageButtonFocuschange(thirdPageSecondLineIcon4,thirdPageSecondLineIcon4HighLight);
+					imageButtonFocuschange(thirdPageSecondLineIcon5,thirdPageSecondLineIcon5HighLight);
 
 					imageButtonClick(thirdPageFirstLineIcon1);
 					imageButtonClick(thirdPageFirstLineIcon2);
@@ -236,9 +236,9 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 				if (i == 3) {
 					initFourthPageUi(childView);
 
-					imageButtonFocuschange(fourthPageFirstLineIcon1,fourthPageFirstLineIcon1Layout);
-					imageButtonFocuschange(fourthPageFirstLineIcon2,fourthPageFirstLineIcon2Layout);
-					imageButtonFocuschange(fourthPageFirstLineIcon3,fourthPageFirstLineIcon3Layout);
+					imageButtonFocuschange(fourthPageFirstLineIcon1,fourthPageFirstLineIcon1HighLight);
+					imageButtonFocuschange(fourthPageFirstLineIcon2,fourthPageFirstLineIcon2HighLight);
+					imageButtonFocuschange(fourthPageFirstLineIcon3,fourthPageFirstLineIcon3HighLight);
 
 					imageButtonClick(fourthPageFirstLineIcon1);
 					imageButtonClick(fourthPageFirstLineIcon2);
@@ -254,7 +254,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			firstPageFirstLineIcon1.setFocusable(true);
 			firstPageFirstLineIcon1.setFocusableInTouchMode(true);
 			firstPageFirstLineIcon1.requestFocus();	
-			firstPageFirstLineIcon1Layout.setBackgroundResource(R.drawable.item_selected_big);
+			firstPageFirstLineIcon1HighLight.setBackgroundResource(R.drawable.item_selected_big);
 
 			if(resumeFromSinaGallery){
 				firstPageSecondLineIcon2.setFocusable(true);
@@ -342,15 +342,15 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		firstPageSecondLineIcon5 = (ImageView) view.findViewById(R.id.first_page205);
 		firstPageSecondLineIcon6 = (ImageView) view.findViewById(R.id.first_page206);
 
-		firstPageFirstLineIcon1Layout = (LinearLayout) view.findViewById(R.id.first_page101_layout);
-		firstPageFirstLineIcon2Layout = (LinearLayout) view.findViewById(R.id.first_page102_layout);
-		firstPageFirstLineIcon3Layout = (LinearLayout) view.findViewById(R.id.first_page103_layout);
-		firstPageSecondLineIcon1Layout = (LinearLayout) view.findViewById(R.id.first_page201_layout);
-		firstPageSecondLineIcon2Layout = (LinearLayout) view.findViewById(R.id.first_page202_layout);
-		firstPageSecondLineIcon3Layout = (LinearLayout) view.findViewById(R.id.first_page203_layout);		
-		firstPageSecondLineIcon4Layout = (LinearLayout) view.findViewById(R.id.first_page204_layout);			
-		firstPageSecondLineIcon5Layout = (LinearLayout) view.findViewById(R.id.first_page205_layout);			
-		firstPageSecondLineIcon6Layout = (LinearLayout) view.findViewById(R.id.first_page206_layout);			
+		firstPageFirstLineIcon1HighLight= (ImageView) view.findViewById(R.id.first_page101_highlight);
+		firstPageFirstLineIcon2HighLight = (ImageView) view.findViewById(R.id.first_page102_highlight);
+		firstPageFirstLineIcon3HighLight = (ImageView) view.findViewById(R.id.first_page103_highlight);
+		firstPageSecondLineIcon1HighLight= (ImageView) view.findViewById(R.id.first_page201_highlight);
+		firstPageSecondLineIcon2HighLight = (ImageView) view.findViewById(R.id.first_page202_highlight);
+		firstPageSecondLineIcon3HighLight = (ImageView) view.findViewById(R.id.first_page203_highlight);		
+		firstPageSecondLineIcon4HighLight = (ImageView) view.findViewById(R.id.first_page204_highlight);			
+		firstPageSecondLineIcon5HighLight = (ImageView) view.findViewById(R.id.first_page205_highlight);			
+		firstPageSecondLineIcon6HighLight = (ImageView) view.findViewById(R.id.first_page206_highlight);			
 	}
 
 	private void initSecondPageUi(View view) {	
@@ -362,13 +362,13 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		secondPageSecondLineIcon3 = (ImageView) view.findViewById(R.id.second_page203);
 		secondPageSecondLineIcon4 = (ImageView) view.findViewById(R.id.second_page204);
 		
-		secondPageFirstLineIcon1Layout = (LinearLayout) view.findViewById(R.id.second_page101_layout);
-		secondPageFirstLineIcon2Layout = (LinearLayout) view.findViewById(R.id.second_page102_layout);
-		secondPageFirstLineIcon3Layout = (LinearLayout) view.findViewById(R.id.second_page103_layout);
-		secondPageSecondLineIcon1Layout = (LinearLayout) view.findViewById(R.id.second_page201_layout);
-		secondPageSecondLineIcon2Layout = (LinearLayout) view.findViewById(R.id.second_page202_layout);
-		secondPageSecondLineIcon3Layout = (LinearLayout) view.findViewById(R.id.second_page203_layout);			
-		secondPageSecondLineIcon4Layout = (LinearLayout) view.findViewById(R.id.second_page204_layout);			
+		secondPageFirstLineIcon1HighLight= (ImageView) view.findViewById(R.id.second_page101_highlight);
+		secondPageFirstLineIcon2HighLight = (ImageView) view.findViewById(R.id.second_page102_highlight);
+		secondPageFirstLineIcon3HighLight = (ImageView) view.findViewById(R.id.second_page103_highlight);
+		secondPageSecondLineIcon1HighLight = (ImageView) view.findViewById(R.id.second_page201_highlight);
+		secondPageSecondLineIcon2HighLight = (ImageView) view.findViewById(R.id.second_page202_highlight);
+		secondPageSecondLineIcon3HighLight = (ImageView) view.findViewById(R.id.second_page203_highlight);			
+		secondPageSecondLineIcon4HighLight = (ImageView) view.findViewById(R.id.second_page204_highlight);			
 	}
 
 	private void initThirdPageUi(View view){
@@ -383,16 +383,16 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		thirdPageSecondLineIcon4 = (ImageView) view.findViewById(R.id.third_page204);
 		thirdPageSecondLineIcon5 = (ImageView) view.findViewById(R.id.third_page205);
 
-		thirdPageFirstLineIcon1Layout = (LinearLayout) view.findViewById(R.id.third_page101_layout);
-		thirdPageFirstLineIcon2Layout = (LinearLayout) view.findViewById(R.id.third_page102_layout);
-		thirdPageFirstLineIcon3Layout = (LinearLayout) view.findViewById(R.id.third_page103_layout);
-		thirdPageFirstLineIcon4Layout = (LinearLayout) view.findViewById(R.id.third_page104_layout);
-		thirdPageFirstLineIcon5Layout = (LinearLayout) view.findViewById(R.id.third_page105_layout);
-		thirdPageSecondLineIcon1Layout = (LinearLayout) view.findViewById(R.id.third_page201_layout);
-		thirdPageSecondLineIcon2Layout = (LinearLayout) view.findViewById(R.id.third_page202_layout);
-		thirdPageSecondLineIcon3Layout = (LinearLayout) view.findViewById(R.id.third_page203_layout);
-		thirdPageSecondLineIcon4Layout = (LinearLayout) view.findViewById(R.id.third_page204_layout);		
-		thirdPageSecondLineIcon5Layout = (LinearLayout) view.findViewById(R.id.third_page205_layout);		
+		thirdPageFirstLineIcon1HighLight= (ImageView) view.findViewById(R.id.third_page101_highlight);
+		thirdPageFirstLineIcon2HighLight = (ImageView) view.findViewById(R.id.third_page102_highlight);
+		thirdPageFirstLineIcon3HighLight = (ImageView) view.findViewById(R.id.third_page103_highlight);
+		thirdPageFirstLineIcon4HighLight = (ImageView) view.findViewById(R.id.third_page104_highlight);
+		thirdPageFirstLineIcon5HighLight = (ImageView) view.findViewById(R.id.third_page105_highlight);
+		thirdPageSecondLineIcon1HighLight= (ImageView) view.findViewById(R.id.third_page201_highlight);
+		thirdPageSecondLineIcon2HighLight = (ImageView) view.findViewById(R.id.third_page202_highlight);
+		thirdPageSecondLineIcon3HighLight = (ImageView) view.findViewById(R.id.third_page203_highlight);
+		thirdPageSecondLineIcon4HighLight = (ImageView) view.findViewById(R.id.third_page204_highlight);		
+		thirdPageSecondLineIcon5HighLight = (ImageView) view.findViewById(R.id.third_page205_highlight);		
 	}
 
 	private void initFourthPageUi(View view){
@@ -401,9 +401,9 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		fourthPageFirstLineIcon3 = (ImageView) view.findViewById(R.id.fourth_page103);
 		fourthPageFirstLineIcon4 = (ImageView) findViewById(R.id.fourth_page104_icon);
 		fourthPageSecondLineIcon1 = (ImageView) findViewById(R.id.fourth_page201_icon);		
-		fourthPageFirstLineIcon1Layout = (LinearLayout) view.findViewById(R.id.fourth_page101_layout);
-		fourthPageFirstLineIcon2Layout = (LinearLayout) view.findViewById(R.id.fourth_page102_layout);
-		fourthPageFirstLineIcon3Layout = (LinearLayout) view.findViewById(R.id.fourth_page103_layout);
+		fourthPageFirstLineIcon1HighLight= (ImageView) view.findViewById(R.id.fourth_page101_highlight);
+		fourthPageFirstLineIcon2HighLight = (ImageView) view.findViewById(R.id.fourth_page102_highlight);
+		fourthPageFirstLineIcon3HighLight = (ImageView) view.findViewById(R.id.fourth_page103_highlight);
 	}
 
 	private void startApks(final ImageView imageButton) {
@@ -600,37 +600,37 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		});
 	}
 
-	public void imageButtonFocuschange(final VideoView imageButton,final LinearLayout linearLayout) {
+	public void imageButtonFocuschange(final VideoView imageButton,final ImageView imageView) {
 		imageButton.setOnFocusChangeListener(new OnFocusChangeListener() {
 
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					if( imageButton.getWidth() > basicIconWith){
-						linearLayout.setBackgroundResource(R.drawable.item_selected_big);
+						imageView.setBackgroundResource(R.drawable.item_selected_big);
 					}else{
-						linearLayout.setBackgroundResource(R.drawable.item_selected_little);					
+						imageView.setBackgroundResource(R.drawable.item_selected_little);					
 					}
 				} else if (hasFocus == false) {
-					linearLayout.setBackgroundResource(R.drawable.nothing);
+					imageView.setBackgroundResource(R.drawable.nothing);
 			   }
 			}
 		});
 	}
 	
-	public void imageButtonFocuschange(final ImageView imageButton,final LinearLayout linearLayout) {
+	public void imageButtonFocuschange(final ImageView imageButton,final ImageView imageView) {
 		imageButton.setOnFocusChangeListener(new OnFocusChangeListener() {
 
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					if( imageButton.getWidth() > basicIconWith){
-						linearLayout.setBackgroundResource(R.drawable.item_selected_big);
+						imageView.setBackgroundResource(R.drawable.item_selected_big);
 					}else{
-						linearLayout.setBackgroundResource(R.drawable.item_selected_little);					
+						imageView.setBackgroundResource(R.drawable.item_selected_little);					
 					}
 				} else if (hasFocus == false) {
-					linearLayout.setBackgroundResource(R.drawable.nothing);
+					imageView.setBackgroundResource(R.drawable.nothing);
 			   }
 			}
 		});

@@ -131,13 +131,13 @@ public class SwitchViewDemoActivity extends Activity implements
 	private LinearLayout fourthPageSecondLineApp4Parent;
 	private LinearLayout fourthPageSecondLineApp5Parent;
 	private LinearLayout fourthPageSecondLineApp6Parent;
-	private LinearLayout fourthPageFirstLineIcon4Layout;
-	private LinearLayout fourthPageSecondLineIcon1Layout;
-	private LinearLayout fourthPageSecondLineIcon2Layout;
-	private LinearLayout fourthPageSecondLineIcon3Layout;
-	private LinearLayout fourthPageSecondLineIcon4Layout;
-	private LinearLayout fourthPageSecondLineIcon5Layout;
-	private LinearLayout fourthPageSecondLineIcon6Layout;
+	private ImageView fourthPageFirstLineIcon4HighLight;
+	private ImageView fourthPageSecondLineIcon1HighLight;
+	private ImageView fourthPageSecondLineIcon2HighLight;
+	private ImageView fourthPageSecondLineIcon3HighLight;
+	private ImageView fourthPageSecondLineIcon4HighLight;
+	private ImageView fourthPageSecondLineIcon5HighLight;
+	private ImageView fourthPageSecondLineIcon6HighLight;
 
 	private OnFocusChangeListener fourthPageFirstLineApp4FocusChangeListener;
 	private OnFocusChangeListener fourthPageSecondLineApp1FocusChangeListener;
@@ -161,7 +161,6 @@ public class SwitchViewDemoActivity extends Activity implements
 	private ImageView usbImageView;
 	private ImageView wifiImageView;
 
-	private final int ethernetStatusMsg = 0x3000;
 	private final int conceptScreenAppearMsg = 0x3001;
 	private final int conceptScreenDisappearMsg = 0x3002;
 	private final int greennetAppearMsg = 0x3003;
@@ -291,7 +290,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		conceptScreen = (LinearLayout) findViewById(R.id.concept_pic);
 		wifiImageView = (ImageView)findViewById(R.id.statusbar_wifi);
 		timeTextView = (TextView)findViewById(R.id.statusbar_time_time);
-		weekTextView = (TextView)findViewById(R.id.statusbar_time_week);		
+		//weekTextView = (TextView)findViewById(R.id.statusbar_time_week);		
 		ethernetImageView=(ImageView)findViewById(R.id.statusbar_ethernet); 
 		
 		cityTextView = (TextView) findViewById(R.id.statusbar_weather_city);	
@@ -365,13 +364,13 @@ public class SwitchViewDemoActivity extends Activity implements
 		fourthPageSecondLineApp4Parent = (LinearLayout) findViewById(R.id.fourth_page204_parent);
 		fourthPageSecondLineApp5Parent = (LinearLayout) findViewById(R.id.fourth_page205_parent);
 		fourthPageSecondLineApp6Parent = (LinearLayout) findViewById(R.id.fourth_page206_parent);
-		fourthPageFirstLineIcon4Layout = (LinearLayout) findViewById(R.id.fourth_page104_layout);
-		fourthPageSecondLineIcon1Layout =(LinearLayout) findViewById(R.id.fourth_page201_layout);
-		fourthPageSecondLineIcon2Layout =(LinearLayout) findViewById(R.id.fourth_page202_layout);
-		fourthPageSecondLineIcon3Layout =(LinearLayout) findViewById(R.id.fourth_page203_layout);
-		fourthPageSecondLineIcon4Layout =(LinearLayout) findViewById(R.id.fourth_page204_layout);
-		fourthPageSecondLineIcon5Layout =(LinearLayout) findViewById(R.id.fourth_page205_layout);
-		fourthPageSecondLineIcon6Layout =(LinearLayout) findViewById(R.id.fourth_page206_layout);
+		fourthPageFirstLineIcon4HighLight= (ImageView) findViewById(R.id.fourth_page104_highlight);
+		fourthPageSecondLineIcon1HighLight =(ImageView) findViewById(R.id.fourth_page201_highlight);
+		fourthPageSecondLineIcon2HighLight =(ImageView) findViewById(R.id.fourth_page202_highlight);
+		fourthPageSecondLineIcon3HighLight =(ImageView) findViewById(R.id.fourth_page203_highlight);
+		fourthPageSecondLineIcon4HighLight =(ImageView) findViewById(R.id.fourth_page204_highlight);
+		fourthPageSecondLineIcon5HighLight =(ImageView) findViewById(R.id.fourth_page205_highlight);
+		fourthPageSecondLineIcon6HighLight =(ImageView) findViewById(R.id.fourth_page206_highlight);
 	}
 	
 	public void inintVideoView(int resourceId){
@@ -497,7 +496,6 @@ public class SwitchViewDemoActivity extends Activity implements
 		//close the tvpreview window	
 		//mTvPreview.SetWindowSize(0 , 0 , 0 , 0 , 0);		
 		appearGreennet();
-		//mScrollLayout.mImageView=mScrollLayout.multiScreenImageView;
 		
 		String packageName = "com.android.browser";
 		final Intent intent = this.getPackageManager().getLaunchIntentForPackage(packageName);
@@ -587,16 +585,6 @@ public class SwitchViewDemoActivity extends Activity implements
 	    }
 	};
 	
-	Handler ethernetStatusHandler = new Handler() {
-	    @Override
-	    public void handleMessage(Message msg) {
-	    	if(msg.what == ethernetStatusMsg){
-			updateEthernetStatus();
-		}
-	        super.handleMessage(msg);
-	    }
-	};
-
 	private void updateEthernetStatus(){
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET).isConnected()){
@@ -656,8 +644,8 @@ public class SwitchViewDemoActivity extends Activity implements
 			hour=String.valueOf(ca.get(Calendar.HOUR_OF_DAY));
 			Log.d(TAG,"___24");	
 		}		 
-		String WeekOfYear = this.getString( aWeek[ca.get( Calendar.DAY_OF_WEEK ) - 1] ) ;
-		weekTextView.setText(WeekOfYear);
+		//String WeekOfYear = this.getString( aWeek[ca.get( Calendar.DAY_OF_WEEK ) - 1] ) ;
+		//weekTextView.setText(WeekOfYear);
 		timeTextView.setText(hour + " : " + minute);
 	}
 
@@ -850,24 +838,24 @@ public class SwitchViewDemoActivity extends Activity implements
        return apps != null ? apps : new ArrayList<ResolveInfo>();
 	}
 
-	private void setKingsoftStorage(ImageView KingSoftIcon,LinearLayout KingSoftIconParent,LinearLayout KingSoftIconLayout,
+	private void setKingsoftStorage(ImageView KingSoftIcon,LinearLayout KingSoftIconParent,ImageView KingSoftIconHighlight,
 			OnFocusChangeListener KingSoftIconFocusChangeListener,OnClickListener KingSoftIconClickListener){
 			
 		KingSoftIcon.setBackgroundDrawable(getResources().getDrawable(R.drawable.nothing));
 		KingSoftIcon.setVisibility(View.VISIBLE);
 		KingSoftIconParent.setBackgroundResource(R.drawable.fourth_page104);
-		userAppFocuschange(KingSoftIcon,KingSoftIconLayout,KingSoftIconFocusChangeListener);
+		userAppFocuschange(KingSoftIcon,KingSoftIconHighlight,KingSoftIconFocusChangeListener);
 		Intent intent = getPackageManager().getLaunchIntentForPackage(KingSoftPkgName);
 		userAppClick(KingSoftIcon,KingSoftIconClickListener,intent);
 	}
 
-	private void setNetworkNear(ImageView NetworkNearIcon,LinearLayout NetworkNearIconParent,LinearLayout NetworkNearIconLayout,
+	private void setNetworkNear(ImageView NetworkNearIcon,LinearLayout NetworkNearIconParent,ImageView NetworkNearIconHighlight,
 			OnFocusChangeListener NetworkNearIconFocusChangeListener,OnClickListener NetworkNearIconClickListener){
 
 		NetworkNearIcon.setBackgroundDrawable(getResources().getDrawable(R.drawable.nothing));
 		NetworkNearIcon.setVisibility(View.VISIBLE);
 		NetworkNearIconParent.setBackgroundResource(R.drawable.fourth_page201);
-		userAppFocuschange(NetworkNearIcon,NetworkNearIconLayout,NetworkNearIconFocusChangeListener);
+		userAppFocuschange(NetworkNearIcon,NetworkNearIconHighlight,NetworkNearIconFocusChangeListener);
 		Intent intent = new Intent();
 		intent.setClassName("com.amlogic.filebrowser", "com.amlogic.filebrowser.MediaFilebrowser");
 		intent.putExtra("launch_what","samba");
@@ -903,11 +891,11 @@ public class SwitchViewDemoActivity extends Activity implements
 		______________InitUserAppLayouT___________();
 		
 		//Set Kingsoft storage on fourthPageFirstLineIcon4 as default
-		setKingsoftStorage(fourthPageFirstLineIcon4,fourthPageFirstLineApp4Parent,fourthPageFirstLineIcon4Layout,
+		setKingsoftStorage(fourthPageFirstLineIcon4,fourthPageFirstLineApp4Parent,fourthPageFirstLineIcon4HighLight,
 			fourthPageFirstLineApp4FocusChangeListener,fourthPageFirstLineApp4ClickListener);
 		
 		//Set NetworkNear on foucthPageSecondLineIcon1 as default
-		setNetworkNear(fourthPageSecondLineIcon1,fourthPageSecondLineApp1Parent,fourthPageSecondLineIcon1Layout,
+		setNetworkNear(fourthPageSecondLineIcon1,fourthPageSecondLineApp1Parent,fourthPageSecondLineIcon1HighLight,
 			fourthPageSecondLineApp1FocusChangeListener,fourthPageSecondLineApp1ClickListener);
 
 		//set focus
@@ -1057,12 +1045,12 @@ public class SwitchViewDemoActivity extends Activity implements
 	private void set1stUserApp(){
 		if(KingSoftIndex == 0){
 			setKingsoftStorage(fourthPageFirstLineIcon4, fourthPageFirstLineApp4Parent, 
-				fourthPageFirstLineIcon4Layout, fourthPageFirstLineApp4FocusChangeListener, 
+				fourthPageFirstLineIcon4HighLight, fourthPageFirstLineApp4FocusChangeListener, 
 				fourthPageFirstLineApp4ClickListener);
 			return;
 		}else if(NetworkNearIndex == 0){
 			setNetworkNear(fourthPageFirstLineIcon4, fourthPageFirstLineApp4Parent, 
-				fourthPageFirstLineIcon4Layout, fourthPageFirstLineApp4FocusChangeListener, 
+				fourthPageFirstLineIcon4HighLight, fourthPageFirstLineApp4FocusChangeListener, 
 				fourthPageFirstLineApp4ClickListener);
 			return;
 		}
@@ -1074,7 +1062,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		Log.d(TAG,"title 1 " + userApplications.get(0).title);
 		fourthPageFirstLineIcon4.setVisibility(View.VISIBLE);
 		fourthPageFirstLineName4.setVisibility(View.VISIBLE);		
-		userAppFocuschange(fourthPageFirstLineIcon4,fourthPageFirstLineIcon4Layout,fourthPageFirstLineApp4FocusChangeListener);
+		userAppFocuschange(fourthPageFirstLineIcon4,fourthPageFirstLineIcon4HighLight,fourthPageFirstLineApp4FocusChangeListener);
 		userAppClick(fourthPageFirstLineIcon4,fourthPageFirstLineApp4ClickListener,userApplications.get(0).intent);
 		
 	}
@@ -1082,12 +1070,12 @@ public class SwitchViewDemoActivity extends Activity implements
 		set1stUserApp();
 		if(KingSoftIndex == 1){
 			setKingsoftStorage(fourthPageSecondLineIcon1, fourthPageSecondLineApp1Parent, 
-				fourthPageSecondLineIcon1Layout, fourthPageSecondLineApp1FocusChangeListener, 
+				fourthPageSecondLineIcon1HighLight, fourthPageSecondLineApp1FocusChangeListener, 
 				fourthPageSecondLineApp1ClickListener);
 			return;
 		}else if(NetworkNearIndex == 1){
 			setNetworkNear(fourthPageSecondLineIcon1, fourthPageSecondLineApp1Parent, 
-				fourthPageSecondLineIcon1Layout, fourthPageSecondLineApp1FocusChangeListener, 
+				fourthPageSecondLineIcon1HighLight, fourthPageSecondLineApp1FocusChangeListener, 
 				fourthPageSecondLineApp1ClickListener);
 			return;
 		}
@@ -1098,7 +1086,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		Log.d(TAG,"title 2 " + userApplications.get(1).title);		
 		fourthPageSecondLineIcon1.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName1.setVisibility(View.VISIBLE);
-		userAppFocuschange(fourthPageSecondLineIcon1,fourthPageSecondLineIcon1Layout,fourthPageSecondLineApp1FocusChangeListener);		
+		userAppFocuschange(fourthPageSecondLineIcon1,fourthPageSecondLineIcon1HighLight,fourthPageSecondLineApp1FocusChangeListener);		
 		userAppClick(fourthPageSecondLineIcon1,fourthPageSecondLineApp1ClickListener,userApplications.get(1).intent);
 		
 	}
@@ -1106,12 +1094,12 @@ public class SwitchViewDemoActivity extends Activity implements
 		set2ndUserApp();
 		if(KingSoftIndex == 2){
 			setKingsoftStorage(fourthPageSecondLineIcon2, fourthPageSecondLineApp2Parent, 
-				fourthPageSecondLineIcon2Layout, fourthPageSecondLineApp2FocusChangeListener, 
+				fourthPageSecondLineIcon2HighLight, fourthPageSecondLineApp2FocusChangeListener, 
 				fourthPageSecondLineApp2ClickListener);
 			return;
 		}else if(NetworkNearIndex == 2){
 			setNetworkNear(fourthPageSecondLineIcon2, fourthPageSecondLineApp2Parent, 
-				fourthPageSecondLineIcon2Layout, fourthPageSecondLineApp2FocusChangeListener, 
+				fourthPageSecondLineIcon2HighLight, fourthPageSecondLineApp2FocusChangeListener, 
 				fourthPageSecondLineApp2ClickListener);
 			return;
 		}
@@ -1122,7 +1110,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		Log.d(TAG,"title 3 " + userApplications.get(2).title);		
 		fourthPageSecondLineIcon2.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName2.setVisibility(View.VISIBLE);
-		userAppFocuschange(fourthPageSecondLineIcon2,fourthPageSecondLineIcon2Layout,fourthPageSecondLineApp2FocusChangeListener);		
+		userAppFocuschange(fourthPageSecondLineIcon2,fourthPageSecondLineIcon2HighLight,fourthPageSecondLineApp2FocusChangeListener);		
 		userAppClick(fourthPageSecondLineIcon2,fourthPageSecondLineApp2ClickListener,userApplications.get(2).intent);
 		
 	}
@@ -1131,12 +1119,12 @@ public class SwitchViewDemoActivity extends Activity implements
 		set3rdUserApp();
 		if(KingSoftIndex == 3){
 			setKingsoftStorage(fourthPageSecondLineIcon3, fourthPageSecondLineApp3Parent, 
-				fourthPageSecondLineIcon3Layout, fourthPageSecondLineApp3FocusChangeListener, 
+				fourthPageSecondLineIcon3HighLight, fourthPageSecondLineApp3FocusChangeListener, 
 				fourthPageSecondLineApp3ClickListener);
 			return;
 		}else if(NetworkNearIndex == 3){
 			setNetworkNear(fourthPageSecondLineIcon3, fourthPageSecondLineApp3Parent, 
-				fourthPageSecondLineIcon3Layout, fourthPageSecondLineApp3FocusChangeListener, 
+				fourthPageSecondLineIcon3HighLight, fourthPageSecondLineApp3FocusChangeListener, 
 				fourthPageSecondLineApp3ClickListener);
 			return;
 		}		
@@ -1147,7 +1135,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		fourthPageSecondLineIcon3.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName3.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp3Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon3,fourthPageSecondLineIcon3Layout,fourthPageSecondLineApp3FocusChangeListener);		
+		userAppFocuschange(fourthPageSecondLineIcon3,fourthPageSecondLineIcon3HighLight,fourthPageSecondLineApp3FocusChangeListener);		
 		userAppClick(fourthPageSecondLineIcon3,fourthPageSecondLineApp3ClickListener,userApplications.get(3).intent);
 
 	}
@@ -1156,12 +1144,12 @@ public class SwitchViewDemoActivity extends Activity implements
 		set4thUserApp();
 		if(KingSoftIndex == 4){
 			setKingsoftStorage(fourthPageSecondLineIcon4, fourthPageSecondLineApp4Parent, 
-				fourthPageSecondLineIcon4Layout, fourthPageSecondLineApp4FocusChangeListener, 
+				fourthPageSecondLineIcon4HighLight, fourthPageSecondLineApp4FocusChangeListener, 
 				fourthPageSecondLineApp4ClickListener);
 			return;
 		}else if(NetworkNearIndex == 4){
 			setNetworkNear(fourthPageSecondLineIcon4, fourthPageSecondLineApp4Parent, 
-				fourthPageSecondLineIcon4Layout, fourthPageSecondLineApp4FocusChangeListener, 
+				fourthPageSecondLineIcon4HighLight, fourthPageSecondLineApp4FocusChangeListener, 
 				fourthPageSecondLineApp4ClickListener);
 			return;
 		}		
@@ -1172,7 +1160,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		fourthPageSecondLineIcon4.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName4.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp4Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon4,fourthPageSecondLineIcon4Layout,fourthPageSecondLineApp4FocusChangeListener);		
+		userAppFocuschange(fourthPageSecondLineIcon4,fourthPageSecondLineIcon4HighLight,fourthPageSecondLineApp4FocusChangeListener);		
 		userAppClick(fourthPageSecondLineIcon4,fourthPageSecondLineApp4ClickListener,userApplications.get(4).intent);
 
 	}
@@ -1181,12 +1169,12 @@ public class SwitchViewDemoActivity extends Activity implements
 		set5thUserApp();
 		if(KingSoftIndex == 5){
 			setKingsoftStorage(fourthPageSecondLineIcon5, fourthPageSecondLineApp5Parent, 
-				fourthPageSecondLineIcon5Layout, fourthPageSecondLineApp5FocusChangeListener, 
+				fourthPageSecondLineIcon5HighLight, fourthPageSecondLineApp5FocusChangeListener, 
 				fourthPageSecondLineApp5ClickListener);
 			return;
 		}else if(NetworkNearIndex == 5){
 			setNetworkNear(fourthPageSecondLineIcon5, fourthPageSecondLineApp5Parent, 
-				fourthPageSecondLineIcon5Layout, fourthPageSecondLineApp5FocusChangeListener, 
+				fourthPageSecondLineIcon5HighLight, fourthPageSecondLineApp5FocusChangeListener, 
 				fourthPageSecondLineApp5ClickListener);
 			return;
 		}		
@@ -1197,7 +1185,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		fourthPageSecondLineIcon5.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName5.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp5Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon5,fourthPageSecondLineIcon5Layout,fourthPageSecondLineApp5FocusChangeListener);		
+		userAppFocuschange(fourthPageSecondLineIcon5,fourthPageSecondLineIcon5HighLight,fourthPageSecondLineApp5FocusChangeListener);		
 		userAppClick(fourthPageSecondLineIcon5,fourthPageSecondLineApp5ClickListener,userApplications.get(5).intent);
 
 	}
@@ -1206,12 +1194,12 @@ public class SwitchViewDemoActivity extends Activity implements
 		set6thUserApp();
 		if(KingSoftIndex == 6){
 			setKingsoftStorage(fourthPageSecondLineIcon6, fourthPageSecondLineApp6Parent, 
-				fourthPageSecondLineIcon6Layout, fourthPageSecondLineApp6FocusChangeListener, 
+				fourthPageSecondLineIcon6HighLight, fourthPageSecondLineApp6FocusChangeListener, 
 				fourthPageSecondLineApp6ClickListener);
 			return;
 		}else if(NetworkNearIndex == 6){
 			setNetworkNear(fourthPageSecondLineIcon6, fourthPageSecondLineApp6Parent, 
-				fourthPageSecondLineIcon6Layout, fourthPageSecondLineApp6FocusChangeListener, 
+				fourthPageSecondLineIcon6HighLight, fourthPageSecondLineApp6FocusChangeListener, 
 				fourthPageSecondLineApp6ClickListener);
 			return;
 		}	
@@ -1222,7 +1210,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		fourthPageSecondLineIcon6.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName6.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp6Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon6,fourthPageSecondLineIcon6Layout,fourthPageSecondLineApp6FocusChangeListener);		
+		userAppFocuschange(fourthPageSecondLineIcon6,fourthPageSecondLineIcon6HighLight,fourthPageSecondLineApp6FocusChangeListener);		
 		userAppClick(fourthPageSecondLineIcon6,fourthPageSecondLineApp6ClickListener,userApplications.get(6).intent);
 
 	}
@@ -1270,17 +1258,17 @@ public class SwitchViewDemoActivity extends Activity implements
 		fourthPageSecondLineApp6ClickListener = null;		
 	}
 
-	private void userAppFocuschange(final ImageView imageButton,final LinearLayout linearLayout,
+	private void userAppFocuschange(final ImageView imageButton,final ImageView imageView,
 			OnFocusChangeListener onFocusChangeListener) {
 		onFocusChangeListener = new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					Log.d(TAG,"hasFocus");
-					linearLayout.setBackgroundResource(R.drawable.item_selected_little);					
+					imageView.setBackgroundResource(R.drawable.item_selected_little);					
 				} else if (hasFocus == false) {
 					Log.d(TAG,"noFocus");
-					linearLayout.setBackgroundResource(R.drawable.nothing);
+					imageView.setBackgroundResource(R.drawable.nothing);
 			   }
 			}
 		};

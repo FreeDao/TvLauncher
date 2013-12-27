@@ -4,19 +4,40 @@
     android:layout_height="78dip"
     android:gravity="center"   
     android:orientation="horizontal" >
+    
     <LinearLayout android:id="@+id/statusbar_thtf_logo"
     	 android:layout_width="0dip"
-    	 android:layout_weight="300"
+    	 android:layout_weight="470"
     	 android:layout_height="match_parent"
     	 android:orientation="horizontal"
     	 android:background="@null">
-    </LinearLayout>	 
-    <LinearLayout android:id="@+id/empty"
+    </LinearLayout>
+    
+    <LinearLayout android:id="@+id/statusbar_weather_layout"
      	 android:layout_width="0dip"
-    	 android:layout_weight="908"
+    	 android:layout_weight="868"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="center">     
+        android:gravity="right">
+        <TextView android:id="@+id/statusbar_weather_city"
+        	android:layout_width="wrap_content"
+        	android:layout_height="match_parent"
+        	android:gravity="center"
+        	style="@style/LauncherStatusbarText"/>
+		<TextView android:id="@+id/statusbar_weather_weather"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_marginLeft="20dip"
+			android:layout_marginRight="20dip"
+			android:gravity="center"
+			android:singleLine="true"
+			style="@style/LauncherStatusbarText"/>
+		<TextView android:id="@+id/statusbar_weather_temp"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_marginRight="10dp"
+			android:gravity="center"
+			style="@style/LauncherStatusbarText"/>   
 	</LinearLayout>    
 
 	<LinearLayout android:id="@+id/statusbar_status_layout"
@@ -30,48 +51,49 @@
 	        android:layout_height="78dip"
 	        android:visibility="invisible"
 	        android:scaleType="center"
-	        android:src="@drawable/face">
-	    </ImageView>
+	        android:src="@drawable/face"/>
 	    <ImageView android:id="@+id/statusbar_ethernet"
 	        android:layout_width="73dip"
 	        android:layout_height="78dip"
 	        android:visibility="invisible"
 	        android:scaleType="center"
-	        android:src="@drawable/net">
-	    </ImageView>
+	        android:src="@drawable/net"/>
 	    <ImageView android:id="@+id/statusbar_wifi"
 	        android:layout_width="73dip"
 	        android:layout_height="78dip"
+	        android:visibility="invisible"
 	        android:scaleType="center"
-	        android:src="@drawable/wifi">
-	    </ImageView>
+	        android:src="@drawable/wifi"/>
 	    <ImageView android:id="@+id/statusbar_usb"
 	        android:layout_width="73dip"
 	        android:layout_height="78dip"
+	        android:visibility="invisible"
 	        android:scaleType="center"
-	        android:src="@drawable/usb">
-	    </ImageView>                
-	    
+	        android:src="@drawable/usb"/>	    
 	</LinearLayout>
     
     <LinearLayout android:id="@+id/statusbar_time_layout"
     	 android:layout_width="0dip"
-    	 android:layout_weight="400"
+    	 android:layout_weight="180"
         android:layout_height="match_parent"       
         android:orientation="horizontal"
         android:gravity="center"> 
-        <TextView android:id="@+id/statusbar_time_week"
+        <!--TextView android:id="@+id/statusbar_time_week"
         	android:layout_width="wrap_content"
         	android:layout_height="match_parent"
         	android:layout_marginRight="20dip"
         	android:gravity="center"
-			style="@style/LauncherStatusbarText">
-        </TextView>
+			style="@style/LauncherStatusbarText"/-->
         <TextView android:id="@+id/statusbar_time_time"
          	android:layout_width="wrap_content"
         	android:layout_height="match_parent"
         	android:gravity="center"
-        	style="@style/LauncherStatusbarText">
-        </TextView>
+        	style="@style/LauncherStatusbarText"/>
     </LinearLayout>
+
+    <LinearLayout android:id="@+id/statusbar_right_empty"
+    	 android:layout_width="0dip"
+    	 android:layout_weight="90"
+        android:layout_height="match_parent"/> 
+    
 </LinearLayout>
