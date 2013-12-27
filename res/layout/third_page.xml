@@ -5,18 +5,19 @@
 	android:gravity="center">
 
 	<LinearLayout 
-		android:layout_width="1830dp"
-		android:layout_height="625dp"
+		android:layout_width="1720dp"
+		android:layout_height="612dp"
 		android:layout_gravity="center"
 		android:gravity="center"
 		android:orientation="vertical">
 
 		<LinearLayout
+			android:id="@+id/thirdPage_first_line"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:orientation="horizontal"
 			android:layout_weight="1">
-			<LinearLayout
+			<FrameLayout
 				android:id="@+id/third_page101_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
@@ -30,12 +31,20 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/third_page101"/>
-			</LinearLayout>
-			<LinearLayout
+				<ImageView
+					android:id="@+id/third_page101_highlight"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:focusable="false"
+					android:clickable="false"
+					android:src="@drawable/nothing"/>						
+			</FrameLayout>
+			<FrameLayout
 				android:id="@+id/third_page102_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
-				android:layout_weight="2">
+				android:layout_weight="1">
 				<ImageView
 					android:id="@+id/third_page102"
 					android:layout_width="match_parent"
@@ -45,8 +54,16 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/third_page102"/>
-			</LinearLayout>
-			<LinearLayout
+				<ImageView
+					android:id="@+id/third_page102_highlight"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:focusable="false"
+					android:clickable="false"
+					android:src="@drawable/nothing"/>					
+			</FrameLayout>
+			<FrameLayout
 				android:id="@+id/third_page103_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
@@ -60,8 +77,16 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/third_page103"/>
-			</LinearLayout>
-			<LinearLayout
+				<ImageView
+					android:id="@+id/third_page103_highlight"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:focusable="false"
+					android:clickable="false"
+					android:src="@drawable/nothing"/>					
+			</FrameLayout>
+			<FrameLayout
 				android:id="@+id/third_page104_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
@@ -75,7 +100,38 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/third_page104"/>
-			</LinearLayout>							
+				<ImageView
+					android:id="@+id/third_page104_highlight"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:focusable="false"
+					android:clickable="false"
+					android:src="@drawable/nothing"/>					
+			</FrameLayout>
+			<FrameLayout
+				android:id="@+id/third_page105_layout"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"	
+				android:layout_weight="1">
+				<ImageView
+					android:id="@+id/third_page105"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:layout_margin="8dip"
+					android:focusable="true"
+					android:clickable="true"
+					android:src="@drawable/third_page105"/>
+				<ImageView
+					android:id="@+id/third_page105_highlight"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:focusable="false"
+					android:clickable="false"
+					android:src="@drawable/nothing"/>					
+			</FrameLayout>				
 		</LinearLayout>
 
 		<LinearLayout
@@ -84,7 +140,7 @@
 			android:layout_height="match_parent"
 			android:orientation="horizontal"
 			android:layout_weight="1">
-			<LinearLayout
+			<FrameLayout
 				android:id="@+id/third_page201_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
@@ -98,8 +154,16 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/third_page201"/>
-			</LinearLayout>
-			<LinearLayout
+				<ImageView
+					android:id="@+id/third_page201_highlight"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:focusable="false"
+					android:clickable="false"
+					android:src="@drawable/nothing"/>					
+			</FrameLayout>
+			<FrameLayout
 				android:id="@+id/third_page202_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
@@ -113,12 +177,20 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/third_page202"/>
-			</LinearLayout>
-			<LinearLayout
+				<ImageView
+					android:id="@+id/third_page202_highlight"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:focusable="false"
+					android:clickable="false"
+					android:src="@drawable/nothing"/>						
+			</FrameLayout>
+			<FrameLayout
 				android:id="@+id/third_page203_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
-				android:layout_weight="2">
+				android:layout_weight="1">
 				<ImageView
 					android:id="@+id/third_page203"
 					android:layout_width="match_parent"
@@ -128,12 +200,20 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/third_page203"/>
-			</LinearLayout>
-			<LinearLayout
+				<ImageView
+					android:id="@+id/third_page203_highlight"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:focusable="false"
+					android:clickable="false"
+					android:src="@drawable/nothing"/>						
+			</FrameLayout>
+			<FrameLayout
 				android:id="@+id/third_page204_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
-				android:layout_weight="2">
+				android:layout_weight="1">
 				<ImageView
 					android:id="@+id/third_page204"
 					android:layout_width="match_parent"
@@ -143,7 +223,38 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/third_page204"/>
-			</LinearLayout>										
+				<ImageView
+					android:id="@+id/third_page204_highlight"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:focusable="false"
+					android:clickable="false"
+					android:src="@drawable/nothing"/>						
+			</FrameLayout>
+			<FrameLayout
+				android:id="@+id/third_page205_layout"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"	
+				android:layout_weight="2">
+				<ImageView
+					android:id="@+id/third_page205"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:layout_margin="8dip"
+					android:focusable="true"
+					android:clickable="true"
+					android:src="@drawable/third_page205"/>
+				<ImageView
+					android:id="@+id/third_page205_highlight"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"						
+					android:scaleType="fitXY"
+					android:focusable="false"
+					android:clickable="false"
+					android:src="@drawable/nothing"/>						
+			</FrameLayout>			
 		</LinearLayout>
 
 	</LinearLayout>
