@@ -327,6 +327,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 		SetVideoSizeHandler.postDelayed(SetVideoSizeRunnable,1000);
 	}
 	
+	
 	private void OpenTv() {
         if (tv == null) {
             tv = Tv.open();

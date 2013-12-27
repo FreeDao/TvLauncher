@@ -5,19 +5,18 @@
 	android:gravity="center">
 
 	<LinearLayout 
-		android:layout_width="1720dp"
-		android:layout_height="612dp"
+		android:layout_width="1830dp"
+		android:layout_height="625dp"
 		android:layout_gravity="center"
 		android:gravity="center"
 		android:orientation="vertical">
 
 		<LinearLayout
-			android:id="@+id/fourthPage_first_line"		
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:orientation="horizontal"
 			android:layout_weight="1">
-			<FrameLayout
+			<LinearLayout
 				android:id="@+id/fourth_page101_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
@@ -31,20 +30,12 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/fourth_page101"/>
-				<ImageView
-					android:id="@+id/fourth_page101_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>					
-			</FrameLayout>
-			<FrameLayout
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/fourth_page102_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
-				android:layout_weight="1">
+				android:layout_weight="2">
 				<ImageView
 					android:id="@+id/fourth_page102"
 					android:layout_width="match_parent"
@@ -54,78 +45,72 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/fourth_page102"/>
-				<ImageView
-					android:id="@+id/fourth_page102_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>					
-			</FrameLayout>
-			<FrameLayout
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/fourth_page103_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
-				android:layout_weight="2">
-				<ImageView
-					android:id="@+id/fourth_page103"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:layout_margin="8dip"
-					android:focusable="true"
-					android:clickable="true"
-					android:src="@drawable/fourth_page103"/>
-				<ImageView
-					android:id="@+id/fourth_page103_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>					
-			</FrameLayout>
-			<FrameLayout
-				android:id="@+id/fourth_page104_layout"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"					
 				android:layout_weight="1">
 				<LinearLayout 
-					android:id="@+id/fourth_page104_parent"				
+					android:id="@+id/fourth_page103_parent"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:orientation="vertical"
 					android:gravity="center"
-					android:background="@drawable/user_app_background"					
-					android:layout_margin="8dip">					
+					android:background="@drawable/user_app_background"
+					android:layout_margin="8dip">
 					<ImageView
-						android:id="@+id/fourth_page104_icon"
-						android:layout_width="130dp"
-						android:layout_height="130dp"
-						android:gravity="center"
+						android:id="@+id/fourth_page103_icon"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 						android:scaleType="fitXY"
 						android:focusable="true"
-						android:clickable="true"/>
+						android:clickable="true"
+						android:visibility="gone"/>
 					<TextView 
-						android:id="@+id/fourth_page104_name"
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:ellipsize="marquee"
+						android:id="@+id/fourth_page103_name"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 						android:gravity="center"
 						style="@style/LauncherAppText"
+						android:visibility="gone"
 						android:focusable="false"
 						android:clickable="false"/>
-				</LinearLayout>	
-				<ImageView
-					android:id="@+id/fourth_page104_highlight"
+				</LinearLayout>		
+			</LinearLayout>
+			<LinearLayout
+				android:id="@+id/fourth_page104_layout"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"	
+				android:layout_weight="1">
+				<LinearLayout 
+					android:id="@+id/fourth_page104_parent"
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>				
-			</FrameLayout>			
+					android:layout_height="match_parent"
+					android:gravity="center"
+					android:orientation="vertical"
+					android:background="@drawable/user_app_background"					
+					android:layout_margin="8dip">				
+					<ImageView
+						android:id="@+id/fourth_page104_icon"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"				
+						android:scaleType="fitXY"
+						android:focusable="true"
+						android:clickable="true"
+						android:visibility="gone"/>
+					<TextView 
+						android:id="@+id/fourth_page104_name"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginBottom="20dip"						
+						android:gravity="center"
+						style="@style/LauncherAppText"						
+						android:visibility="gone"
+						android:focusable="false"
+						android:clickable="false"/>
+				</LinearLayout>		
+			</LinearLayout>							
 		</LinearLayout>
 
 		<LinearLayout
@@ -134,7 +119,7 @@
 			android:layout_height="match_parent"
 			android:orientation="horizontal"
 			android:layout_weight="1">
-			<FrameLayout
+			<LinearLayout
 				android:id="@+id/fourth_page201_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"					
@@ -149,32 +134,25 @@
 					android:layout_margin="8dip">					
 					<ImageView
 						android:id="@+id/fourth_page201_icon"
-						android:layout_width="130dp"
-						android:layout_height="130dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 						android:gravity="center"
 						android:scaleType="fitXY"
 						android:focusable="true"
-						android:clickable="true"/>
+						android:clickable="true"
+						android:visibility="gone"/>
 					<TextView 
 						android:id="@+id/fourth_page201_name"
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:ellipsize="marquee"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 						android:gravity="center"
-						style="@style/LauncherAppText"
+						style="@style/LauncherAppText"								
+						android:visibility="gone"
 						android:focusable="false"
 						android:clickable="false"/>
-				</LinearLayout>
-				<ImageView
-					android:id="@+id/fourth_page201_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>				
-			</FrameLayout>
-			<FrameLayout
+				</LinearLayout>		
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/fourth_page202_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"					
@@ -189,32 +167,25 @@
 					android:layout_margin="8dip">					
 					<ImageView
 						android:id="@+id/fourth_page202_icon"
-						android:layout_width="130dp"
-						android:layout_height="130dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 						android:gravity="center"
 						android:scaleType="fitXY"
 						android:focusable="true"
-						android:clickable="true"/>
+						android:clickable="true"
+						android:visibility="gone"/>
 					<TextView 
 						android:id="@+id/fourth_page202_name"
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:ellipsize="marquee"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 						android:gravity="center"
+						android:visibility="gone"
 						style="@style/LauncherAppText"									
 						android:focusable="false"
 						android:clickable="false"/>
-				</LinearLayout>
-				<ImageView
-					android:id="@+id/fourth_page202_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>				
-			</FrameLayout>
-			<FrameLayout
+				</LinearLayout>		
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/fourth_page203_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
@@ -229,32 +200,25 @@
 					android:layout_margin="8dip">					
 					<ImageView
 						android:id="@+id/fourth_page203_icon"
-						android:layout_width="130dp"
-						android:layout_height="130dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 						android:gravity="center"
 						android:scaleType="fitXY"
 						android:focusable="true"
-						android:clickable="true"/>
+						android:clickable="true"
+						android:visibility="gone"/>
 					<TextView 
 						android:id="@+id/fourth_page203_name"
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:ellipsize="marquee"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:visibility="gone"
 						android:focusable="false"
 						android:gravity="center"
 						style="@style/LauncherAppText"								
 						android:clickable="false"/>
-				</LinearLayout>
-				<ImageView
-					android:id="@+id/fourth_page203_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>				
-			</FrameLayout>
-			<FrameLayout
+				</LinearLayout>		
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/fourth_page204_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
@@ -269,32 +233,25 @@
 					android:layout_margin="8dip">						
 					<ImageView
 						android:id="@+id/fourth_page204_icon"
-						android:layout_width="130dp"
-						android:layout_height="130dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 						android:gravity="center"
 						android:scaleType="fitXY"
 						android:focusable="true"
-						android:clickable="true"/>
+						android:clickable="true"
+						android:visibility="gone"/>
 					<TextView 
 						android:id="@+id/fourth_page204_name"
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:ellipsize="marquee"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:visibility="gone"
 						android:gravity="center"
 						style="@style/LauncherAppText"							
 						android:focusable="false"
 						android:clickable="false"/>
-				</LinearLayout>
-				<ImageView
-					android:id="@+id/fourth_page204_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>				
-			</FrameLayout>
-			<FrameLayout
+				</LinearLayout>		
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/fourth_page205_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"						
@@ -309,32 +266,25 @@
 					android:layout_margin="8dip">					
 					<ImageView
 						android:id="@+id/fourth_page205_icon"
-						android:layout_width="130dp"
-						android:layout_height="130dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 						android:gravity="center"
 						android:scaleType="fitXY"
 						android:focusable="true"
-						android:clickable="true"/>
+						android:clickable="true"
+						android:visibility="gone"/>
 					<TextView 
 						android:id="@+id/fourth_page205_name"
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:ellipsize="marquee"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:visibility="gone"
 						android:gravity="center"
 						style="@style/LauncherAppText"							
 						android:focusable="false"
 						android:clickable="false"/>
-				</LinearLayout>
-				<ImageView
-					android:id="@+id/fourth_page205_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>				
-			</FrameLayout>										
-			<FrameLayout
+				</LinearLayout>		
+			</LinearLayout>										
+			<LinearLayout
 				android:id="@+id/fourth_page206_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"
@@ -349,31 +299,24 @@
 					android:layout_margin="8dip">					
 					<ImageView
 						android:id="@+id/fourth_page206_icon"
-						android:layout_width="130dp"
-						android:layout_height="130dp"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 						android:gravity="center"
 						android:scaleType="fitXY"
 						android:focusable="true"
-						android:clickable="true"/>
+						android:clickable="true"
+						android:visibility="gone"/>
 					<TextView 
 						android:id="@+id/fourth_page206_name"
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:ellipsize="marquee"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
 						android:gravity="center"
-						style="@style/LauncherAppText"
+						style="@style/LauncherAppText"							
+						android:visibility="gone"
 						android:focusable="false"
 						android:clickable="false"/>
-				</LinearLayout>
-				<ImageView
-					android:id="@+id/fourth_page206_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>				
-			</FrameLayout>
+				</LinearLayout>		
+			</LinearLayout>
 			
 		</LinearLayout>
 

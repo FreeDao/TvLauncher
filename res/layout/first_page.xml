@@ -5,8 +5,8 @@
 	android:gravity="center">
 
 	<LinearLayout 
-		android:layout_width="1720dp"
-		android:layout_height="612dp"
+		android:layout_width="1830dp"
+		android:layout_height="625dp"
 		android:layout_gravity="center"
 		android:gravity="center"
 		android:orientation="vertical">
@@ -17,7 +17,7 @@
 			android:layout_height="match_parent"
 			android:orientation="horizontal"
 			android:layout_weight="1">
-			<FrameLayout
+			<LinearLayout
 				android:id="@+id/first_page101_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"
@@ -31,16 +31,8 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/first_page101"/>
-				<ImageView
-					android:id="@+id/first_page101_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>					
-			</FrameLayout>
-			<FrameLayout
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/first_page102_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
@@ -54,16 +46,8 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/first_page102"/>
-				<ImageView
-					android:id="@+id/first_page102_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>					
-			</FrameLayout>
-			<FrameLayout
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/first_page103_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
@@ -77,15 +61,7 @@
 					android:focusable="true"
 					android:clickable="true"
 					android:src="@drawable/first_page103"/>
-				<ImageView
-					android:id="@+id/first_page103_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>					
-			</FrameLayout>			
+			</LinearLayout>			
 		</LinearLayout>
 
 		<LinearLayout
@@ -94,11 +70,11 @@
 			android:layout_height="match_parent"
 			android:orientation="horizontal"
 			android:layout_weight="1">
-			<FrameLayout
+			<LinearLayout
 				android:id="@+id/first_page201_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
-				android:layout_weight="1">			
+				android:layout_weight="2">			
 				<ImageView
 					android:id="@+id/first_page201"
 					android:layout_width="match_parent"
@@ -108,16 +84,8 @@
 					android:focusable="true"
 					android:clickable="true"				
 					android:src="@drawable/first_page201"/>
-				<ImageView
-					android:id="@+id/first_page201_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>					
-			</FrameLayout>
-			<FrameLayout
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/first_page202_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"
@@ -131,20 +99,12 @@
 					android:focusable="true"
 					android:clickable="true"				
 					android:src="@drawable/first_page202"/>
-				<ImageView
-					android:id="@+id/first_page202_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>						
-			</FrameLayout>
-			<FrameLayout
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/first_page203_layout"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"	
-				android:layout_weight="1">			
+				android:layout_weight="2">			
 				<ImageView
 					android:id="@+id/first_page203"
 					android:layout_width="match_parent"
@@ -154,19 +114,12 @@
 					android:focusable="true"
 					android:clickable="true"				
 					android:src="@drawable/first_page203"/>
-				<ImageView
-					android:id="@+id/first_page203_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>						
-			</FrameLayout>
-			<FrameLayout
+			</LinearLayout>
+			<LinearLayout
 				android:id="@+id/first_page204_layout"
 				android:layout_width="0dp"
-				android:layout_height="match_parent"				
+				android:layout_height="match_parent"	
+				android:layout_margin="-50dp"				
 				android:layout_weight="1">			
 				<ImageView
 					android:id="@+id/first_page204"
@@ -177,61 +130,7 @@
 					android:focusable="true"
 					android:clickable="true"				
 					android:src="@drawable/first_page204"/>
-				<ImageView
-					android:id="@+id/first_page204_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>						
-			</FrameLayout>
-			<FrameLayout
-				android:id="@+id/first_page205_layout"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"				
-				android:layout_weight="1">			
-				<ImageView
-					android:id="@+id/first_page205"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:scaleType="fitXY"
-					android:layout_margin="8dip"
-					android:focusable="true"
-					android:clickable="true"				
-					android:src="@drawable/first_page205"/>
-				<ImageView
-					android:id="@+id/first_page205_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>						
-			</FrameLayout>
-			<FrameLayout
-				android:id="@+id/first_page206_layout"
-				android:layout_width="0dp"
-				android:layout_height="match_parent"					
-				android:layout_weight="1">			
-				<ImageView
-					android:id="@+id/first_page206"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:scaleType="fitXY"
-					android:layout_margin="8dip"
-					android:focusable="true"
-					android:clickable="true"				
-					android:src="@drawable/first_page206"/>
-				<ImageView
-					android:id="@+id/first_page206_highlight"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"						
-					android:scaleType="fitXY"
-					android:focusable="false"
-					android:clickable="false"
-					android:src="@drawable/nothing"/>						
-			</FrameLayout>			
+			</LinearLayout>						
 		</LinearLayout>
 
 	</LinearLayout>

@@ -52,8 +52,10 @@ import android.widget.VideoView;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceHolder;
 
-public class SwitchViewDemoActivity extends Activity implements 
-		Callback,OnViewChangeListener,OnGestureListener{
+
+
+
+public class SwitchViewDemoActivity extends Activity implements Callback,OnViewChangeListener,OnGestureListener{
 
 	private int mViewCount;
 	private static int mCurSel;
@@ -82,8 +84,6 @@ public class SwitchViewDemoActivity extends Activity implements
 	private ImageView firstPageSecondLineIcon2;
 	private ImageView firstPageSecondLineIcon3;
 	private ImageView firstPageSecondLineIcon4;	
-	private ImageView firstPageSecondLineIcon5;	
-	private ImageView firstPageSecondLineIcon6;	
 	
 	//second page
 	private ImageView secondPageFirstLineIcon1;
@@ -92,19 +92,16 @@ public class SwitchViewDemoActivity extends Activity implements
 	private ImageView secondPageSecondLineIcon1;
 	private ImageView secondPageSecondLineIcon2;
 	private ImageView secondPageSecondLineIcon3;
-	private ImageView secondPageSecondLineIcon4;
 
 	//third page
 	private ImageView thirdPageFirstLineIcon1;
 	private ImageView thirdPageFirstLineIcon2;
 	private ImageView thirdPageFirstLineIcon3;
 	private ImageView thirdPageFirstLineIcon4;
-	private ImageView thirdPageFirstLineIcon5;
 	private ImageView thirdPageSecondLineIcon1;
 	private ImageView thirdPageSecondLineIcon2;
 	private ImageView thirdPageSecondLineIcon3;
 	private ImageView thirdPageSecondLineIcon4;
-	private ImageView thirdPageSecondLineIcon5;
 
 	//fourth page
 	private ImageView fourthPageFirstLineIcon1;
@@ -117,6 +114,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	private ImageView fourthPageSecondLineIcon4;
 	private ImageView fourthPageSecondLineIcon5;
 	private ImageView fourthPageSecondLineIcon6;
+	private TextView fourthPageFirstLineName3;
 	private TextView fourthPageFirstLineName4;
 	private TextView fourthPageSecondLineName1;
 	private TextView fourthPageSecondLineName2;
@@ -124,6 +122,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	private TextView fourthPageSecondLineName4;
 	private TextView fourthPageSecondLineName5;
 	private TextView fourthPageSecondLineName6;
+	private LinearLayout fourthPageFirstLineApp3Parent;
 	private LinearLayout fourthPageFirstLineApp4Parent;
 	private LinearLayout fourthPageSecondLineApp1Parent;
 	private LinearLayout fourthPageSecondLineApp2Parent;
@@ -131,14 +130,16 @@ public class SwitchViewDemoActivity extends Activity implements
 	private LinearLayout fourthPageSecondLineApp4Parent;
 	private LinearLayout fourthPageSecondLineApp5Parent;
 	private LinearLayout fourthPageSecondLineApp6Parent;
-	private ImageView fourthPageFirstLineIcon4HighLight;
-	private ImageView fourthPageSecondLineIcon1HighLight;
-	private ImageView fourthPageSecondLineIcon2HighLight;
-	private ImageView fourthPageSecondLineIcon3HighLight;
-	private ImageView fourthPageSecondLineIcon4HighLight;
-	private ImageView fourthPageSecondLineIcon5HighLight;
-	private ImageView fourthPageSecondLineIcon6HighLight;
-
+	private LinearLayout fourthPageFirstLineIcon3Layout;
+	private LinearLayout fourthPageFirstLineIcon4Layout;
+	private LinearLayout fourthPageSecondLineIcon1Layout;
+	private LinearLayout fourthPageSecondLineIcon2Layout;
+	private LinearLayout fourthPageSecondLineIcon3Layout;
+	private LinearLayout fourthPageSecondLineIcon4Layout;
+	private LinearLayout fourthPageSecondLineIcon5Layout;
+	private LinearLayout fourthPageSecondLineIcon6Layout;
+	
+	private OnFocusChangeListener fourthPageFirstLineApp3FocusChangeListener;
 	private OnFocusChangeListener fourthPageFirstLineApp4FocusChangeListener;
 	private OnFocusChangeListener fourthPageSecondLineApp1FocusChangeListener;
 	private OnFocusChangeListener fourthPageSecondLineApp2FocusChangeListener;
@@ -147,6 +148,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	private OnFocusChangeListener fourthPageSecondLineApp5FocusChangeListener;
 	private OnFocusChangeListener fourthPageSecondLineApp6FocusChangeListener;
 
+	private OnClickListener fourthPageFirstLineApp3ClickListener;
 	private OnClickListener fourthPageFirstLineApp4ClickListener;
 	private OnClickListener fourthPageSecondLineApp1ClickListener;
 	private OnClickListener fourthPageSecondLineApp2ClickListener;
@@ -156,17 +158,18 @@ public class SwitchViewDemoActivity extends Activity implements
 	private OnClickListener fourthPageSecondLineApp6ClickListener;
 	
 	//statusbarStatus
-	private ImageView faceImageView;
+	private ImageView muteImageView;
 	private ImageView ethernetImageView;
 	private ImageView usbImageView;
 	private ImageView wifiImageView;
 
+	private final int ethernetStatusMsg = 0x3000;
 	private final int conceptScreenAppearMsg = 0x3001;
 	private final int conceptScreenDisappearMsg = 0x3002;
 	private final int greennetAppearMsg = 0x3003;
 	private final int greennetDisappearMsg = 0x3004;	
 	private final int showTvpreviewDelayTime = 1000;
-	private final int handleUserAppMsg = 0x3005;	
+	
 	//statusbarWeather
 	private TextView cityTextView;
 	private TextView weatherTextView;
@@ -205,13 +208,6 @@ public class SwitchViewDemoActivity extends Activity implements
 	private ArrayList<ApplicationInfo> userApplications;
 	private int userAppSize;
 	private UserAppProcess userAppProcess;
-	
-	//record the index of two default app
-	private int KingSoftIndex = -1;
-	private int NetworkNearIndex = -1;
-	private final String KingSoftPkgName = "cn.kuaipan.android.tv";
-	//not need extra data to differentiate the myusb and networknear
-	private final String NetworkNearPkgName = "com.amlogic.filebrowser";
 
 	private int lastSource;
 	
@@ -226,8 +222,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	private static final String REMOTE_ENABLE = "wab 0x14 0 1";
 	
 	//all kinds of receiver
-	private StartTvReceiver startTvReceiver = new StartTvReceiver();
-	private StatusbarFaceReceiver faceReceiver = new StatusbarFaceReceiver();
+	private StartTvReceiver startTvReceiver = new StartTvReceiver();	
 	private StatusbarWifiReceiver wifiReceiver = new StatusbarWifiReceiver();
 	private StatusbarUsbReceiver usbReceiver = new StatusbarUsbReceiver();
 	private StatusbarTimeReceiver timeReceiver = new StatusbarTimeReceiver();
@@ -257,7 +252,11 @@ public class SwitchViewDemoActivity extends Activity implements
 		 	mystartPlayerHandler.sendMessageDelayed(msg, delayMillis);
 		 	first_preview_start_atv = false;
 		 	Log.v(TAG,"play preview window ");
-		}			 
+		}
+
+
+
+			 
 	}
 	
 	private void init() {
@@ -272,7 +271,6 @@ public class SwitchViewDemoActivity extends Activity implements
 	}
 
 	private void registerReceiver(){
-		registerStatusbarFaceReceiver();
 		registerStatusbarEthernetReceiver();
 		registerStatusbarWifiReceiver();
 		registerStatusbarUsbReceiver();
@@ -285,12 +283,11 @@ public class SwitchViewDemoActivity extends Activity implements
 	}
 	
 	private void initIcons(){
-		faceImageView = (ImageView)findViewById(R.id.statusbar_face);
        usbImageView =(ImageView)findViewById(R.id.statusbar_usb);		
 		conceptScreen = (LinearLayout) findViewById(R.id.concept_pic);
 		wifiImageView = (ImageView)findViewById(R.id.statusbar_wifi);
 		timeTextView = (TextView)findViewById(R.id.statusbar_time_time);
-		//weekTextView = (TextView)findViewById(R.id.statusbar_time_week);		
+		weekTextView = (TextView)findViewById(R.id.statusbar_time_week);		
 		ethernetImageView=(ImageView)findViewById(R.id.statusbar_ethernet); 
 		
 		cityTextView = (TextView) findViewById(R.id.statusbar_weather_city);	
@@ -310,46 +307,42 @@ public class SwitchViewDemoActivity extends Activity implements
 		firstPageSecondLineIcon2 = (ImageView) findViewById(R.id.first_page202);
 		firstPageSecondLineIcon3 = (ImageView) findViewById(R.id.first_page203);		
 		firstPageSecondLineIcon4 = (ImageView) findViewById(R.id.first_page204);
+
 		//special process for display GreenNet
-		firstPageSecondLineIcon4.setOnClickListener(new View.OnClickListener() {
+		firstPageSecondLineIcon3.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mScrollLayout.setFocusIconName("none");			
 				startGreenNet();
 			}
 		});
-		firstPageSecondLineIcon5 = (ImageView) findViewById(R.id.first_page205);
-		firstPageSecondLineIcon6 = (ImageView) findViewById(R.id.first_page206);
 		
 		secondPageFirstLineIcon1 = (ImageView) findViewById(R.id.second_page101);
 		secondPageFirstLineIcon2 = (ImageView) findViewById(R.id.second_page102);
 		secondPageFirstLineIcon3 = (ImageView) findViewById(R.id.second_page103);
 		secondPageSecondLineIcon1 = (ImageView) findViewById(R.id.second_page201);
 		secondPageSecondLineIcon2 = (ImageView) findViewById(R.id.second_page202);
-		secondPageSecondLineIcon3 = (ImageView) findViewById(R.id.second_page203);
-		secondPageSecondLineIcon4 = (ImageView) findViewById(R.id.second_page204);
+		secondPageSecondLineIcon3 = (ImageView) findViewById(R.id.second_page203);	
 
 		thirdPageFirstLineIcon1 = (ImageView) findViewById(R.id.third_page101);
 		thirdPageFirstLineIcon2 = (ImageView) findViewById(R.id.third_page102);
 		thirdPageFirstLineIcon3 = (ImageView) findViewById(R.id.third_page103);
 		thirdPageFirstLineIcon4 = (ImageView) findViewById(R.id.third_page104);
-		thirdPageFirstLineIcon5 = (ImageView) findViewById(R.id.third_page105);
 		thirdPageSecondLineIcon1 = (ImageView) findViewById(R.id.third_page201);
 		thirdPageSecondLineIcon2 = (ImageView) findViewById(R.id.third_page202);
 		thirdPageSecondLineIcon3 = (ImageView) findViewById(R.id.third_page203);
 		thirdPageSecondLineIcon4 = (ImageView) findViewById(R.id.third_page204);
-		thirdPageSecondLineIcon5 = (ImageView) findViewById(R.id.third_page205);
 
 		fourthPageFirstLineIcon1 = (ImageView) findViewById(R.id.fourth_page101);
 		fourthPageFirstLineIcon2 = (ImageView) findViewById(R.id.fourth_page102);
-		fourthPageFirstLineIcon3 = (ImageView) findViewById(R.id.fourth_page103);
+		fourthPageFirstLineIcon3 = (ImageView) findViewById(R.id.fourth_page103_icon);
 		fourthPageFirstLineIcon4 = (ImageView) findViewById(R.id.fourth_page104_icon);
 		fourthPageSecondLineIcon1 = (ImageView) findViewById(R.id.fourth_page201_icon);
 		fourthPageSecondLineIcon2 = (ImageView) findViewById(R.id.fourth_page202_icon);
 		fourthPageSecondLineIcon3 = (ImageView) findViewById(R.id.fourth_page203_icon);
 		fourthPageSecondLineIcon4 = (ImageView) findViewById(R.id.fourth_page204_icon);
 		fourthPageSecondLineIcon5 = (ImageView) findViewById(R.id.fourth_page205_icon);
-		fourthPageSecondLineIcon6 = (ImageView) findViewById(R.id.fourth_page206_icon);
+		fourthPageSecondLineIcon6 = (ImageView) findViewById(R.id.fourth_page206_icon);	
+		fourthPageFirstLineName3 = (TextView) findViewById(R.id.fourth_page103_name);
 		fourthPageFirstLineName4 = (TextView) findViewById(R.id.fourth_page104_name);
 		fourthPageSecondLineName1 = (TextView) findViewById(R.id.fourth_page201_name);
 		fourthPageSecondLineName2 = (TextView) findViewById(R.id.fourth_page202_name);
@@ -357,6 +350,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		fourthPageSecondLineName4 = (TextView) findViewById(R.id.fourth_page204_name);
 		fourthPageSecondLineName5 = (TextView) findViewById(R.id.fourth_page205_name);
 		fourthPageSecondLineName6 = (TextView) findViewById(R.id.fourth_page206_name);
+		fourthPageFirstLineApp3Parent = (LinearLayout) findViewById(R.id.fourth_page103_parent);
 		fourthPageFirstLineApp4Parent = (LinearLayout) findViewById(R.id.fourth_page104_parent);
 		fourthPageSecondLineApp1Parent = (LinearLayout) findViewById(R.id.fourth_page201_parent);
 		fourthPageSecondLineApp2Parent = (LinearLayout) findViewById(R.id.fourth_page202_parent);
@@ -364,13 +358,14 @@ public class SwitchViewDemoActivity extends Activity implements
 		fourthPageSecondLineApp4Parent = (LinearLayout) findViewById(R.id.fourth_page204_parent);
 		fourthPageSecondLineApp5Parent = (LinearLayout) findViewById(R.id.fourth_page205_parent);
 		fourthPageSecondLineApp6Parent = (LinearLayout) findViewById(R.id.fourth_page206_parent);
-		fourthPageFirstLineIcon4HighLight= (ImageView) findViewById(R.id.fourth_page104_highlight);
-		fourthPageSecondLineIcon1HighLight =(ImageView) findViewById(R.id.fourth_page201_highlight);
-		fourthPageSecondLineIcon2HighLight =(ImageView) findViewById(R.id.fourth_page202_highlight);
-		fourthPageSecondLineIcon3HighLight =(ImageView) findViewById(R.id.fourth_page203_highlight);
-		fourthPageSecondLineIcon4HighLight =(ImageView) findViewById(R.id.fourth_page204_highlight);
-		fourthPageSecondLineIcon5HighLight =(ImageView) findViewById(R.id.fourth_page205_highlight);
-		fourthPageSecondLineIcon6HighLight =(ImageView) findViewById(R.id.fourth_page206_highlight);
+		fourthPageFirstLineIcon3Layout =(LinearLayout) findViewById(R.id.fourth_page103_layout);
+		fourthPageFirstLineIcon4Layout =(LinearLayout) findViewById(R.id.fourth_page104_layout);
+		fourthPageSecondLineIcon1Layout =(LinearLayout) findViewById(R.id.fourth_page201_layout);
+		fourthPageSecondLineIcon2Layout =(LinearLayout) findViewById(R.id.fourth_page202_layout);
+		fourthPageSecondLineIcon3Layout =(LinearLayout) findViewById(R.id.fourth_page203_layout);
+		fourthPageSecondLineIcon4Layout =(LinearLayout) findViewById(R.id.fourth_page204_layout);
+		fourthPageSecondLineIcon5Layout =(LinearLayout) findViewById(R.id.fourth_page205_layout);
+		fourthPageSecondLineIcon6Layout =(LinearLayout) findViewById(R.id.fourth_page206_layout);
 	}
 	
 	public void inintVideoView(int resourceId){
@@ -396,30 +391,13 @@ public class SwitchViewDemoActivity extends Activity implements
 		Log.d(TAG, "====surfaceDestroyed====");
 	}
 
-	private Handler initUserAppHandler = new Handler(){
-		@Override
-		public void handleMessage(Message msg){
-			if(msg.what == handleUserAppMsg){
-				Log.d(TAG,"in initUserAppHandler");
-				initUserApp();
-			}
-			super.handleMessage(msg);
-		}
-	};
-
 	private void initUserApp(){
 		if(userAppProcess == null){
 			userAppProcess = new UserAppProcess(this);
 		}
-		//next is cowork with THTF Engineer
-		if(userAppProcess.isDbFileExist()){
-			userAppProcess.readGroupDetail();
-			loadAllAppInfo();
-			setUserAppInfo();
-		}else{
-			setDefaultUserAppInfo();
-		}
-		//end of cowork with THTF Engineer
+		userAppProcess.readGroupDetail();
+		loadAllAppInfo();
+		setUserAppInfo();
 	}
 
 	private void initDock(){
@@ -445,8 +423,6 @@ public class SwitchViewDemoActivity extends Activity implements
 		firstPageSecondLineIcon2.setOnTouchListener(mOnTouchListener);
 		firstPageSecondLineIcon3.setOnTouchListener(mOnTouchListener);
 		firstPageSecondLineIcon4.setOnTouchListener(mOnTouchListener);
-		firstPageSecondLineIcon5.setOnTouchListener(mOnTouchListener);
-		firstPageSecondLineIcon6.setOnTouchListener(mOnTouchListener);
 
 		secondPageFirstLineIcon1.setOnTouchListener(mOnTouchListener);
 		secondPageFirstLineIcon2.setOnTouchListener(mOnTouchListener);
@@ -454,23 +430,18 @@ public class SwitchViewDemoActivity extends Activity implements
 		secondPageSecondLineIcon1.setOnTouchListener(mOnTouchListener);
 		secondPageSecondLineIcon2.setOnTouchListener(mOnTouchListener);
 		secondPageSecondLineIcon3.setOnTouchListener(mOnTouchListener);
-		secondPageSecondLineIcon4.setOnTouchListener(mOnTouchListener);
 
 		thirdPageFirstLineIcon1.setOnTouchListener(mOnTouchListener);
 		thirdPageFirstLineIcon2.setOnTouchListener(mOnTouchListener);
 		thirdPageFirstLineIcon3.setOnTouchListener(mOnTouchListener);
 		thirdPageFirstLineIcon4.setOnTouchListener(mOnTouchListener);
-		thirdPageFirstLineIcon5.setOnTouchListener(mOnTouchListener);
 		thirdPageSecondLineIcon1.setOnTouchListener(mOnTouchListener);
 		thirdPageSecondLineIcon2.setOnTouchListener(mOnTouchListener);
 		thirdPageSecondLineIcon3.setOnTouchListener(mOnTouchListener);
 		thirdPageSecondLineIcon4.setOnTouchListener(mOnTouchListener);
-		thirdPageSecondLineIcon5.setOnTouchListener(mOnTouchListener);
 
 		fourthPageFirstLineIcon1.setOnTouchListener(mOnTouchListener);
 		fourthPageFirstLineIcon2.setOnTouchListener(mOnTouchListener);
-		fourthPageFirstLineIcon3.setOnTouchListener(mOnTouchListener);
-		fourthPageFirstLineIcon4.setOnTouchListener(mOnTouchListener);
 		fourthPageSecondLineIcon1.setOnTouchListener(mOnTouchListener);
 		fourthPageSecondLineIcon2.setOnTouchListener(mOnTouchListener);
 		fourthPageSecondLineIcon3.setOnTouchListener(mOnTouchListener);
@@ -496,6 +467,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		//close the tvpreview window	
 		//mTvPreview.SetWindowSize(0 , 0 , 0 , 0 , 0);		
 		appearGreennet();
+		//mScrollLayout.mImageView=mScrollLayout.multiScreenImageView;
 		
 		String packageName = "com.android.browser";
 		final Intent intent = this.getPackageManager().getLaunchIntentForPackage(packageName);
@@ -537,7 +509,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		}, showTvpreviewDelayTime * 2);		
 	}
 
-	//display when start internetBrowser
+	//display 1 second when start internetBrowser
 	public void appearGreennet(){
 	 	Message appearGreennetMsg = new Message();
 		appearGreennetMsg.what = greennetAppearMsg;
@@ -560,13 +532,13 @@ public class SwitchViewDemoActivity extends Activity implements
 	    @Override
 	    public void handleMessage(Message msg) {
 	    	if(msg.what == conceptScreenAppearMsg){
-				conceptScreen.setBackgroundResource(R.drawable.concept);
-				conceptScreen.setVisibility(View.VISIBLE);
-				Log.d(TAG,"appearConceptScreen");
-			}else if(msg.what == conceptScreenDisappearMsg){
-				conceptScreen.setVisibility(View.GONE);
-				Log.d(TAG,"disConceptScreen");			
-			}
+			conceptScreen.setBackgroundResource(R.drawable.concept);
+			conceptScreen.setVisibility(View.VISIBLE);
+			Log.d(TAG,"appearConceptScreen");
+		}else if(msg.what == conceptScreenDisappearMsg){
+			conceptScreen.setVisibility(View.GONE);
+			Log.d(TAG,"disConceptScreen");			
+		}
 	        super.handleMessage(msg);
 	    }
 	};
@@ -585,6 +557,16 @@ public class SwitchViewDemoActivity extends Activity implements
 	    }
 	};
 	
+	Handler ethernetStatusHandler = new Handler() {
+	    @Override
+	    public void handleMessage(Message msg) {
+	    	if(msg.what == ethernetStatusMsg){
+			updateEthernetStatus();
+		}
+	        super.handleMessage(msg);
+	    }
+	};
+
 	private void updateEthernetStatus(){
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET).isConnected()){
@@ -627,11 +609,9 @@ public class SwitchViewDemoActivity extends Activity implements
 	}
 
 	private void updateTimeStatus(){
-		int [] aWeek ={R.string.sunday,R.string.monday,R.string.tuesday,R.string.wednesday,
-				R.string.thursday,R.string.friday,R.string.saturday };
+		int [] aWeek ={R.string.sunday,R.string.monday,R.string.tuesday,R.string.wednesday,R.string.thursday,R.string.friday,R.string.saturday };
 		ContentResolver cv = this.getContentResolver();
-		String strTimeFormat = android.provider.Settings.System.getString(cv,
-				android.provider.Settings.System.TIME_12_24);
+		String strTimeFormat = android.provider.Settings.System.getString(cv,android.provider.Settings.System.TIME_12_24);
 	        	        	        
 		Calendar ca = Calendar.getInstance();
 		String minute=String.valueOf(ca.get(Calendar.MINUTE));
@@ -644,8 +624,8 @@ public class SwitchViewDemoActivity extends Activity implements
 			hour=String.valueOf(ca.get(Calendar.HOUR_OF_DAY));
 			Log.d(TAG,"___24");	
 		}		 
-		//String WeekOfYear = this.getString( aWeek[ca.get( Calendar.DAY_OF_WEEK ) - 1] ) ;
-		//weekTextView.setText(WeekOfYear);
+		String WeekOfYear = this.getString( aWeek[ca.get( Calendar.DAY_OF_WEEK ) - 1] ) ;
+		weekTextView.setText(WeekOfYear);
 		timeTextView.setText(hour + " : " + minute);
 	}
 
@@ -662,23 +642,6 @@ public class SwitchViewDemoActivity extends Activity implements
 			Log.d(TAG,"weather empty");
 		}
 	}
-
-	private void updateFaceStatus(Intent intent){
-		boolean data = false;
-		if(intent != null){
-			data = intent.getExtras().getBoolean("face_switchs");
-		}else{
-			Log.d(TAG,"Face Recogize Intent is null");
-			return;
-		}
-		if( data){
-			Log.d(TAG,"Recogize Scuess!");
-			faceImageView.setVisibility(View.VISIBLE);
-		}else{
-			Log.d(TAG,"Recogize Failed!");		
-			faceImageView.setVisibility(View.INVISIBLE);
-		}
-	}
 	
 	class StatusbarEthernetReceiver extends BroadcastReceiver{
 		@Override
@@ -688,18 +651,10 @@ public class SwitchViewDemoActivity extends Activity implements
 		}		
 	}
 
-	class StatusbarFaceReceiver extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context arg0, Intent arg1) {		
-			Log.d(TAG,"wifi process");
-			updateFaceStatus(arg1);							
-		}		
-	}
-
 	class StatusbarWifiReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {		
-			Log.d(TAG,"face process");
+			Log.d(TAG,"wifi process");
 			updateWifiStatus();							
 		}		
 	}
@@ -752,22 +707,14 @@ public class SwitchViewDemoActivity extends Activity implements
 	class UserAppReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG,"Receiver 1");		
-			Message msg = new Message();
-			msg.what = handleUserAppMsg;
-			initUserAppHandler.sendMessage(msg);
-			Log.d(TAG,"send handleUserAppMsg1");
+			initUserApp();
 		}
 	}
 
 	class UserAppReceiver2 extends BroadcastReceiver{
 		@Override
-		public void onReceive(Context arg0, Intent arg1) {
-			Log.d(TAG,"Receiver 2");
-			Message msg = new Message();
-			msg.what = handleUserAppMsg;
-			initUserAppHandler.sendMessage(msg);
-			Log.d(TAG,"send handleUserAppMsg2");
+		public void onReceive(Context arg0, Intent arg1) {		
+			initUserApp();							
 		}		
 	}
 
@@ -777,26 +724,14 @@ public class SwitchViewDemoActivity extends Activity implements
 		if( userApplications== null ){
 			userApplications = new ArrayList<ApplicationInfo>();
 		}
-		
 		userApplications.clear();
-		KingSoftIndex = -1;
-		NetworkNearIndex = -1;
 		
 		for (int i = 0; i < UserAppProcess.allApksToDisplayInDesktop.size(); i++) {
 			
 			ApplicationInfo appInfo = new ApplicationInfo();
 			String curApkPkgName=UserAppProcess.allApksToDisplayInDesktop.get(i);
-			
-			//Record the THTF default display 2 apps index
-			if(curApkPkgName.equals(KingSoftPkgName)){
-				KingSoftIndex = i;
-				Log.d(TAG,"KingSoftIndex :" + KingSoftIndex);				
-			}else if(curApkPkgName.matches(NetworkNearPkgName)){
-				NetworkNearIndex = i;
-				Log.d(TAG,"NetworkNearInex :" + NetworkNearIndex);				
-			}
-			
-			Log.d(TAG,"get PKG name from userprocess added arraylist:" + curApkPkgName);
+
+			Log.d(TAG,"=======================get PKG name :" + curApkPkgName);
 			
 			ResolveInfo info2 = getResolveInfoByPackage( curApkPkgName );
 			
@@ -810,7 +745,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			}
 			
 		}
-		Log.d(TAG,"userApplications.size() = " + userApplications.size());
+			
 	}	
 
 	private ResolveInfo getResolveInfoByPackage(String packageName) {
@@ -838,401 +773,259 @@ public class SwitchViewDemoActivity extends Activity implements
        return apps != null ? apps : new ArrayList<ResolveInfo>();
 	}
 
-	private void setKingsoftStorage(ImageView KingSoftIcon,LinearLayout KingSoftIconParent,ImageView KingSoftIconHighlight,
-			OnFocusChangeListener KingSoftIconFocusChangeListener,OnClickListener KingSoftIconClickListener){
-			
-		KingSoftIcon.setBackgroundDrawable(getResources().getDrawable(R.drawable.nothing));
-		KingSoftIcon.setVisibility(View.VISIBLE);
-		KingSoftIconParent.setBackgroundResource(R.drawable.fourth_page104);
-		userAppFocuschange(KingSoftIcon,KingSoftIconHighlight,KingSoftIconFocusChangeListener);
-		Intent intent = getPackageManager().getLaunchIntentForPackage(KingSoftPkgName);
-		userAppClick(KingSoftIcon,KingSoftIconClickListener,intent);
-	}
-
-	private void setNetworkNear(ImageView NetworkNearIcon,LinearLayout NetworkNearIconParent,ImageView NetworkNearIconHighlight,
-			OnFocusChangeListener NetworkNearIconFocusChangeListener,OnClickListener NetworkNearIconClickListener){
-
-		NetworkNearIcon.setBackgroundDrawable(getResources().getDrawable(R.drawable.nothing));
-		NetworkNearIcon.setVisibility(View.VISIBLE);
-		NetworkNearIconParent.setBackgroundResource(R.drawable.fourth_page201);
-		userAppFocuschange(NetworkNearIcon,NetworkNearIconHighlight,NetworkNearIconFocusChangeListener);
-		Intent intent = new Intent();
-		intent.setClassName("com.amlogic.filebrowser", "com.amlogic.filebrowser.MediaFilebrowser");
-		intent.putExtra("launch_what","samba");
-		userAppClick(NetworkNearIcon,NetworkNearIconClickListener,intent);
-	}
-
-	private void setAllPageLeft$rightDefaultFocus(){
-		firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
-		firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page201_icon);
-		thirdPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page201_icon);
-		fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);
-		fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);
-		fourthPageSecondLineIcon1.setNextFocusRightId(R.id.first_page201);
-	}
-
-	private void setFourthPageDefaultDownFocusID(){
-		fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page201_icon);
-		fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page201_icon);
-		fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page201_icon);
-		fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page201_icon);
-	}
-
-	private void setFourthPageItselfDownFocusID(){
-		fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page101);
-		fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page102);			
-		fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page103);			
-		fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page104_icon);
-	}	
-
-	private void setDefaultUserAppInfo(){
-		//need to display the default 2 user applications information 
-		//Kingsoft storage and NetworkNear
-		______________InitUserAppLayouT___________();
-		
-		//Set Kingsoft storage on fourthPageFirstLineIcon4 as default
-		setKingsoftStorage(fourthPageFirstLineIcon4,fourthPageFirstLineApp4Parent,fourthPageFirstLineIcon4HighLight,
-			fourthPageFirstLineApp4FocusChangeListener,fourthPageFirstLineApp4ClickListener);
-		
-		//Set NetworkNear on foucthPageSecondLineIcon1 as default
-		setNetworkNear(fourthPageSecondLineIcon1,fourthPageSecondLineApp1Parent,fourthPageSecondLineIcon1HighLight,
-			fourthPageSecondLineApp1FocusChangeListener,fourthPageSecondLineApp1ClickListener);
-
-		//set focus
-		setAllPageLeft$rightDefaultFocus();		
-		setFourthPageDefaultDownFocusID();
-	}
-
 	private void setUserAppInfo(){
 
-		______________InitUserAppLayouT___________();
+		initUserAppInfo();
 		userAppSize = userApplications.size();
-	    Log.d(TAG,"userAppSize :" + userAppSize);
+
 		if(userAppSize == 0){
-			Log.d(TAG,"userAppSize == 0");
-			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page103);
-			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page103);
-			thirdPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page101);
-			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.first_page101);
-			//set down key focus
-			setFourthPageDefaultDownFocusID();		
+			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page102);
+			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page102);
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page101);			
+			fourthPageFirstLineIcon2.setNextFocusRightId(R.id.first_page101);
+			//process down key focus
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page101);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page102);			
 		}else if( userAppSize == 1){
-			Log.d(TAG,"userAppSize == 1");		
-			set1stUserApp();
+			setThirdUserApp();
 			
+			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page103_icon);
+			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page103_icon);
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page101);						
+			fourthPageFirstLineIcon2.setNextFocusRightId(R.id.fourth_page103_icon);			
+			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.first_page101);
+			//process down key focus
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page101);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page102);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page103_icon);			
+		}else if( userAppSize == 2){
+			setFourthUserApp();
+
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
-			thirdPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page101);
-			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
-			//set down key focus
-			setFourthPageItselfDownFocusID();
-				
-		}else if( userAppSize == 2){
-			Log.d(TAG,"userAppSize == 2");			
-			set2ndUserApp();
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page101);
+			//process down key focus
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page101);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page102);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page103_icon);
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page104_icon);
+		}else if( userAppSize == 3){
+			setFifthUserApp();
 			
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page201_icon);
-			thirdPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
-			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.first_page201);			
-			//set down key focus
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);		
+			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.first_page201);
+			//process down key focus			
 			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page201_icon);
 			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page201_icon);
 			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page201_icon);	
-			
-		}else if( userAppSize == 3){
-			Log.d(TAG,"userAppSize == 3");			
-			set3rdUserApp();
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page201_icon);			
+		}else if( userAppSize == 4){
+			setSixthUserApp();
 			
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page202_icon);
-			thirdPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);
 			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
 			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.first_page201);
-			//set down key focus			
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page201_icon);
+			//process down key focus			
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
 			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page202_icon);
 			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page202_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page202_icon);
-			
-		}else if( userAppSize == 4){
-			Log.d(TAG,"userAppSize == 4");			
-			set4thUserApp();
-			
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page202_icon);			
+		}else if( userAppSize == 5){
+			setSeventhUserApp();
+
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page203_icon);
-			thirdPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);
 			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
-			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);	
-			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.first_page201);	
-			//set down key focus			
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page201_icon);
+			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
+			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.first_page201);
+			//process down key focus			
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
 			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page203_icon);
 			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page203_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page203_icon);
-						
-		}else if( userAppSize == 5){
-			Log.d(TAG,"userAppSize == 5");			
-			set5thUserApp();
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page203_icon);				
+		}else if( userAppSize == 6){
+			setEighthUserApp();
 
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page204_icon);
-			thirdPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);	
 			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
-			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);	
+			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
 			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.fourth_page204_icon);
 			fourthPageSecondLineIcon4.setNextFocusRightId(R.id.first_page201);
 			//process down key focus			
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page203_icon);
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page204_icon);
 			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page204_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page204_icon);
-			
-		}else if( userAppSize == 6){
-			Log.d(TAG,"userAppSize == 6");			
-			set6thUserApp();
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page204_icon);			
+		}else if( userAppSize == 7){
+			setNinthUserApp();
 
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page205_icon);
-			thirdPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);	
 			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
-			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);	
+			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
 			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.fourth_page204_icon);
 			fourthPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page205_icon);
 			fourthPageSecondLineIcon5.setNextFocusRightId(R.id.first_page201);
-			//set down key focus			
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page203_icon);
-			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page204_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page205_icon);
-			
-		}else if( userAppSize >= 7){
-			Log.d(TAG,"userAppSize == 7");			
-			set7thUserApp();
+			//process down key focus			
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page204_icon);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page205_icon);
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page205_icon);				
+		}else if( userAppSize >= 8){
+			setTenthUserApp();
 
 			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
 			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page206_icon);
-			thirdPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);			
-			fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);			
+			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);	
 			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
-			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);	
+			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
 			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.fourth_page204_icon);
 			fourthPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page205_icon);
 			fourthPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page206_icon);
 			fourthPageSecondLineIcon6.setNextFocusRightId(R.id.first_page201);
-			//set down key focus			
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page203_icon);
-			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page204_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page206_icon);	
-			
+			//process down key focus			
+			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
+			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page204_icon);
+			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page205_icon);
+			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page206_icon);			
 		}
 	}
 
-	private void set1stUserApp(){
-		if(KingSoftIndex == 0){
-			setKingsoftStorage(fourthPageFirstLineIcon4, fourthPageFirstLineApp4Parent, 
-				fourthPageFirstLineIcon4HighLight, fourthPageFirstLineApp4FocusChangeListener, 
-				fourthPageFirstLineApp4ClickListener);
-			return;
-		}else if(NetworkNearIndex == 0){
-			setNetworkNear(fourthPageFirstLineIcon4, fourthPageFirstLineApp4Parent, 
-				fourthPageFirstLineIcon4HighLight, fourthPageFirstLineApp4FocusChangeListener, 
-				fourthPageFirstLineApp4ClickListener);
-			return;
-		}
+	private void setThirdUserApp(){
+		fourthPageFirstLineIcon3.setBackgroundDrawable(userApplications.get(0).icon);
+		fourthPageFirstLineName3.setText(userApplications.get(0).title);
+		Log.d(TAG,"______________________icon 0 " + userApplications.get(0).icon);		
+		Log.d(TAG,"______________________title 0 " + userApplications.get(0).title);
+		fourthPageFirstLineIcon3.setVisibility(View.VISIBLE);
+		fourthPageFirstLineName3.setVisibility(View.VISIBLE);
+		fourthPageFirstLineApp3Parent.setBackgroundResource(R.drawable.user_app_background);		
+		userAppFocuschange(fourthPageFirstLineIcon3,fourthPageFirstLineIcon3Layout,fourthPageFirstLineApp3FocusChangeListener);
+		userAppClick(fourthPageFirstLineIcon3,fourthPageFirstLineApp3ClickListener,userApplications.get(0).intent);
+	}
 
-		fourthPageFirstLineApp4Parent.setBackgroundResource(R.drawable.user_app_background);
-		fourthPageFirstLineIcon4.setBackgroundDrawable(userApplications.get(0).icon);
-		fourthPageFirstLineName4.setText(userApplications.get(0).title);
-		Log.d(TAG,"icon 1 " + userApplications.get(0).icon);		
-		Log.d(TAG,"title 1 " + userApplications.get(0).title);
+	private void setFourthUserApp(){
+		setThirdUserApp();
+		fourthPageFirstLineIcon4.setBackgroundDrawable(userApplications.get(1).icon);
+		fourthPageFirstLineName4.setText(userApplications.get(1).title);
+		Log.d(TAG,"______________________icon 1 " + userApplications.get(1).icon);		
+		Log.d(TAG,"______________________title 1 " + userApplications.get(1).title);		
 		fourthPageFirstLineIcon4.setVisibility(View.VISIBLE);
-		fourthPageFirstLineName4.setVisibility(View.VISIBLE);		
-		userAppFocuschange(fourthPageFirstLineIcon4,fourthPageFirstLineIcon4HighLight,fourthPageFirstLineApp4FocusChangeListener);
-		userAppClick(fourthPageFirstLineIcon4,fourthPageFirstLineApp4ClickListener,userApplications.get(0).intent);
-		
+		fourthPageFirstLineName4.setVisibility(View.VISIBLE);
+		fourthPageFirstLineApp4Parent.setBackgroundResource(R.drawable.user_app_background);		
+		userAppFocuschange(fourthPageFirstLineIcon4,fourthPageFirstLineIcon4Layout,fourthPageFirstLineApp4FocusChangeListener);		
+		userAppClick(fourthPageFirstLineIcon4,fourthPageFirstLineApp4ClickListener,userApplications.get(1).intent);
 	}
-	private void set2ndUserApp(){
-		set1stUserApp();
-		if(KingSoftIndex == 1){
-			setKingsoftStorage(fourthPageSecondLineIcon1, fourthPageSecondLineApp1Parent, 
-				fourthPageSecondLineIcon1HighLight, fourthPageSecondLineApp1FocusChangeListener, 
-				fourthPageSecondLineApp1ClickListener);
-			return;
-		}else if(NetworkNearIndex == 1){
-			setNetworkNear(fourthPageSecondLineIcon1, fourthPageSecondLineApp1Parent, 
-				fourthPageSecondLineIcon1HighLight, fourthPageSecondLineApp1FocusChangeListener, 
-				fourthPageSecondLineApp1ClickListener);
-			return;
-		}
-		fourthPageSecondLineApp1Parent.setBackgroundResource(R.drawable.user_app_background);				
-		fourthPageSecondLineIcon1.setBackgroundDrawable(userApplications.get(1).icon);
-		fourthPageSecondLineName1.setText(userApplications.get(1).title);
-		Log.d(TAG,"icon 2 " + userApplications.get(1).icon);		
-		Log.d(TAG,"title 2 " + userApplications.get(1).title);		
+
+	private void setFifthUserApp(){
+		setFourthUserApp();
+		fourthPageSecondLineIcon1.setBackgroundDrawable(userApplications.get(2).icon);
+		fourthPageSecondLineName1.setText(userApplications.get(2).title);
+		Log.d(TAG,"______________________icon 2 " + userApplications.get(2).icon);		
+		Log.d(TAG,"______________________title 2 " + userApplications.get(2).title);		
 		fourthPageSecondLineIcon1.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName1.setVisibility(View.VISIBLE);
-		userAppFocuschange(fourthPageSecondLineIcon1,fourthPageSecondLineIcon1HighLight,fourthPageSecondLineApp1FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon1,fourthPageSecondLineApp1ClickListener,userApplications.get(1).intent);
-		
+		fourthPageSecondLineApp1Parent.setBackgroundResource(R.drawable.user_app_background);		
+		userAppFocuschange(fourthPageSecondLineIcon1,fourthPageSecondLineIcon1Layout,fourthPageSecondLineApp1FocusChangeListener);		
+		userAppClick(fourthPageSecondLineIcon1,fourthPageSecondLineApp1ClickListener,userApplications.get(2).intent);
 	}
-	private void set3rdUserApp(){
-		set2ndUserApp();
-		if(KingSoftIndex == 2){
-			setKingsoftStorage(fourthPageSecondLineIcon2, fourthPageSecondLineApp2Parent, 
-				fourthPageSecondLineIcon2HighLight, fourthPageSecondLineApp2FocusChangeListener, 
-				fourthPageSecondLineApp2ClickListener);
-			return;
-		}else if(NetworkNearIndex == 2){
-			setNetworkNear(fourthPageSecondLineIcon2, fourthPageSecondLineApp2Parent, 
-				fourthPageSecondLineIcon2HighLight, fourthPageSecondLineApp2FocusChangeListener, 
-				fourthPageSecondLineApp2ClickListener);
-			return;
-		}
-		fourthPageSecondLineApp2Parent.setBackgroundResource(R.drawable.user_app_background);				
-		fourthPageSecondLineIcon2.setBackgroundDrawable(userApplications.get(2).icon);
-		fourthPageSecondLineName2.setText(userApplications.get(2).title);
-		Log.d(TAG,"icon 3 " + userApplications.get(2).icon);		
-		Log.d(TAG,"title 3 " + userApplications.get(2).title);		
+	
+	private void setSixthUserApp(){
+		setFifthUserApp();
+		fourthPageSecondLineIcon2.setBackgroundDrawable(userApplications.get(3).icon);
+		fourthPageSecondLineName2.setText(userApplications.get(3).title);
+		Log.d(TAG,"______________________icon 3 " + userApplications.get(3).icon);		
+		Log.d(TAG,"______________________title 3 " + userApplications.get(3).title);		
 		fourthPageSecondLineIcon2.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName2.setVisibility(View.VISIBLE);
-		userAppFocuschange(fourthPageSecondLineIcon2,fourthPageSecondLineIcon2HighLight,fourthPageSecondLineApp2FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon2,fourthPageSecondLineApp2ClickListener,userApplications.get(2).intent);
-		
+		fourthPageSecondLineApp2Parent.setBackgroundResource(R.drawable.user_app_background);		
+		userAppFocuschange(fourthPageSecondLineIcon2,fourthPageSecondLineIcon2Layout,fourthPageSecondLineApp2FocusChangeListener);		
+		userAppClick(fourthPageSecondLineIcon2,fourthPageSecondLineApp2ClickListener,userApplications.get(3).intent);
 	}
 
-	private void set4thUserApp(){
-		set3rdUserApp();
-		if(KingSoftIndex == 3){
-			setKingsoftStorage(fourthPageSecondLineIcon3, fourthPageSecondLineApp3Parent, 
-				fourthPageSecondLineIcon3HighLight, fourthPageSecondLineApp3FocusChangeListener, 
-				fourthPageSecondLineApp3ClickListener);
-			return;
-		}else if(NetworkNearIndex == 3){
-			setNetworkNear(fourthPageSecondLineIcon3, fourthPageSecondLineApp3Parent, 
-				fourthPageSecondLineIcon3HighLight, fourthPageSecondLineApp3FocusChangeListener, 
-				fourthPageSecondLineApp3ClickListener);
-			return;
-		}		
-		fourthPageSecondLineIcon3.setBackgroundDrawable(userApplications.get(3).icon);
-		fourthPageSecondLineName3.setText(userApplications.get(3).title);
-		Log.d(TAG,"icon 4 " + userApplications.get(3).icon);		
-		Log.d(TAG,"title 4" + userApplications.get(3).title);		
+	private void setSeventhUserApp(){
+		setSixthUserApp();
+		fourthPageSecondLineIcon3.setBackgroundDrawable(userApplications.get(4).icon);
+		fourthPageSecondLineName3.setText(userApplications.get(4).title);
+		Log.d(TAG,"______________________icon 4 " + userApplications.get(4).icon);		
+		Log.d(TAG,"______________________title 4 " + userApplications.get(4).title);			
 		fourthPageSecondLineIcon3.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName3.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp3Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon3,fourthPageSecondLineIcon3HighLight,fourthPageSecondLineApp3FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon3,fourthPageSecondLineApp3ClickListener,userApplications.get(3).intent);
-
+		userAppFocuschange(fourthPageSecondLineIcon3,fourthPageSecondLineIcon3Layout,fourthPageSecondLineApp3FocusChangeListener);		
+		userAppClick(fourthPageSecondLineIcon3,fourthPageSecondLineApp3ClickListener,userApplications.get(4).intent);
 	}
-	
-	private void set5thUserApp(){
-		set4thUserApp();
-		if(KingSoftIndex == 4){
-			setKingsoftStorage(fourthPageSecondLineIcon4, fourthPageSecondLineApp4Parent, 
-				fourthPageSecondLineIcon4HighLight, fourthPageSecondLineApp4FocusChangeListener, 
-				fourthPageSecondLineApp4ClickListener);
-			return;
-		}else if(NetworkNearIndex == 4){
-			setNetworkNear(fourthPageSecondLineIcon4, fourthPageSecondLineApp4Parent, 
-				fourthPageSecondLineIcon4HighLight, fourthPageSecondLineApp4FocusChangeListener, 
-				fourthPageSecondLineApp4ClickListener);
-			return;
-		}		
-		fourthPageSecondLineIcon4.setBackgroundDrawable(userApplications.get(4).icon);
-		fourthPageSecondLineName4.setText(userApplications.get(4).title);
-		Log.d(TAG,"icon 5 " + userApplications.get(4).icon);		
-		Log.d(TAG,"title 5 " + userApplications.get(4).title);		
+
+	private void setEighthUserApp(){
+		setSeventhUserApp();
+		fourthPageSecondLineIcon4.setBackgroundDrawable(userApplications.get(5).icon);
+		fourthPageSecondLineName4.setText(userApplications.get(5).title);
+		Log.d(TAG,"______________________icon 5 " + userApplications.get(5).icon);		
+		Log.d(TAG,"______________________title 5 " + userApplications.get(5).title);		
 		fourthPageSecondLineIcon4.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName4.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp4Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon4,fourthPageSecondLineIcon4HighLight,fourthPageSecondLineApp4FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon4,fourthPageSecondLineApp4ClickListener,userApplications.get(4).intent);
-
+		userAppFocuschange(fourthPageSecondLineIcon4,fourthPageSecondLineIcon4Layout,fourthPageSecondLineApp4FocusChangeListener);		
+		userAppClick(fourthPageSecondLineIcon4,fourthPageSecondLineApp4ClickListener,userApplications.get(5).intent);
 	}
 
-	private void set6thUserApp(){
-		set5thUserApp();
-		if(KingSoftIndex == 5){
-			setKingsoftStorage(fourthPageSecondLineIcon5, fourthPageSecondLineApp5Parent, 
-				fourthPageSecondLineIcon5HighLight, fourthPageSecondLineApp5FocusChangeListener, 
-				fourthPageSecondLineApp5ClickListener);
-			return;
-		}else if(NetworkNearIndex == 5){
-			setNetworkNear(fourthPageSecondLineIcon5, fourthPageSecondLineApp5Parent, 
-				fourthPageSecondLineIcon5HighLight, fourthPageSecondLineApp5FocusChangeListener, 
-				fourthPageSecondLineApp5ClickListener);
-			return;
-		}		
-		fourthPageSecondLineIcon5.setBackgroundDrawable(userApplications.get(5).icon);
-		fourthPageSecondLineName5.setText(userApplications.get(5).title);
-		Log.d(TAG,"icon 6 " + userApplications.get(5).icon);		
-		Log.d(TAG,"title 6 " + userApplications.get(5).title);			
+	private void setNinthUserApp(){
+		setEighthUserApp();
+		fourthPageSecondLineIcon5.setBackgroundDrawable(userApplications.get(6).icon);
+		fourthPageSecondLineName5.setText(userApplications.get(6).title);
+		Log.d(TAG,"______________________icon 6 " + userApplications.get(6).icon);		
+		Log.d(TAG,"______________________title 6 " + userApplications.get(6).title);		
 		fourthPageSecondLineIcon5.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName5.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp5Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon5,fourthPageSecondLineIcon5HighLight,fourthPageSecondLineApp5FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon5,fourthPageSecondLineApp5ClickListener,userApplications.get(5).intent);
-
+		userAppFocuschange(fourthPageSecondLineIcon5,fourthPageSecondLineIcon5Layout,fourthPageSecondLineApp5FocusChangeListener);		
+		userAppClick(fourthPageSecondLineIcon5,fourthPageSecondLineApp5ClickListener,userApplications.get(6).intent);
 	}
 
-	private void set7thUserApp(){
-		set6thUserApp();
-		if(KingSoftIndex == 6){
-			setKingsoftStorage(fourthPageSecondLineIcon6, fourthPageSecondLineApp6Parent, 
-				fourthPageSecondLineIcon6HighLight, fourthPageSecondLineApp6FocusChangeListener, 
-				fourthPageSecondLineApp6ClickListener);
-			return;
-		}else if(NetworkNearIndex == 6){
-			setNetworkNear(fourthPageSecondLineIcon6, fourthPageSecondLineApp6Parent, 
-				fourthPageSecondLineIcon6HighLight, fourthPageSecondLineApp6FocusChangeListener, 
-				fourthPageSecondLineApp6ClickListener);
-			return;
-		}	
-		fourthPageSecondLineIcon6.setBackgroundDrawable(userApplications.get(6).icon);
-		fourthPageSecondLineName6.setText(userApplications.get(6).title.toString());
-		Log.d(TAG,"icon 7 " + userApplications.get(6).icon);		
-		Log.d(TAG,"title 7 " + userApplications.get(6).title.toString());		
+	private void setTenthUserApp(){
+		setNinthUserApp();
+		fourthPageSecondLineIcon6.setBackgroundDrawable(userApplications.get(7).icon);
+		fourthPageSecondLineName6.setText(userApplications.get(7).title);
+		Log.d(TAG,"______________________icon 7 " + userApplications.get(7).icon);		
+		Log.d(TAG,"______________________title 7 " + userApplications.get(7).title);		
 		fourthPageSecondLineIcon6.setVisibility(View.VISIBLE);
 		fourthPageSecondLineName6.setVisibility(View.VISIBLE);
 		fourthPageSecondLineApp6Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon6,fourthPageSecondLineIcon6HighLight,fourthPageSecondLineApp6FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon6,fourthPageSecondLineApp6ClickListener,userApplications.get(6).intent);
-
+		userAppFocuschange(fourthPageSecondLineIcon6,fourthPageSecondLineIcon6Layout,fourthPageSecondLineApp6FocusChangeListener);		
+		userAppClick(fourthPageSecondLineIcon6,fourthPageSecondLineApp6ClickListener,userApplications.get(7).intent);
 	}
 	
-	private void ______________InitUserAppLayouT___________(){
-		Log.d(TAG,"________________INIT__________");
-		fourthPageFirstLineIcon4.setVisibility(View.INVISIBLE);
-		fourthPageSecondLineIcon1.setVisibility(View.INVISIBLE);
-		fourthPageSecondLineIcon2.setVisibility(View.INVISIBLE);
-		fourthPageSecondLineIcon3.setVisibility(View.INVISIBLE);
-		fourthPageSecondLineIcon4.setVisibility(View.INVISIBLE);
-		fourthPageSecondLineIcon5.setVisibility(View.INVISIBLE);
-		fourthPageSecondLineIcon6.setVisibility(View.INVISIBLE);
+	private void initUserAppInfo(){
+		fourthPageFirstLineIcon2.setNextFocusRightId(R.id.fourth_page103_icon);			
+		fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);			
+		fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);
+			
+		fourthPageFirstLineIcon3.setVisibility(View.GONE);
+		fourthPageFirstLineIcon4.setVisibility(View.GONE);
+		fourthPageSecondLineIcon1.setVisibility(View.GONE);
+		fourthPageSecondLineIcon2.setVisibility(View.GONE);
+		fourthPageSecondLineIcon3.setVisibility(View.GONE);
+		fourthPageSecondLineIcon4.setVisibility(View.GONE);
+		fourthPageSecondLineIcon5.setVisibility(View.GONE);
+		fourthPageSecondLineIcon6.setVisibility(View.GONE);
 
-		fourthPageFirstLineName4.setVisibility(View.INVISIBLE);
-		fourthPageSecondLineName1.setVisibility(View.INVISIBLE);		
-		fourthPageSecondLineName2.setVisibility(View.INVISIBLE);		
-		fourthPageSecondLineName3.setVisibility(View.INVISIBLE);		
-		fourthPageSecondLineName4.setVisibility(View.INVISIBLE);		
-		fourthPageSecondLineName5.setVisibility(View.INVISIBLE);		
-		fourthPageSecondLineName6.setVisibility(View.INVISIBLE);		
-
+		fourthPageFirstLineName3.setVisibility(View.GONE);		
+		fourthPageFirstLineName4.setVisibility(View.GONE);		
+		fourthPageSecondLineName1.setVisibility(View.GONE);		
+		fourthPageSecondLineName2.setVisibility(View.GONE);		
+		fourthPageSecondLineName3.setVisibility(View.GONE);		
+		fourthPageSecondLineName4.setVisibility(View.GONE);		
+		fourthPageSecondLineName5.setVisibility(View.GONE);		
+		fourthPageSecondLineName6.setVisibility(View.GONE);		
+		
+		fourthPageFirstLineApp3Parent.setBackgroundResource(R.drawable.nothing);
 		fourthPageFirstLineApp4Parent.setBackgroundResource(R.drawable.nothing);
 		fourthPageSecondLineApp1Parent.setBackgroundResource(R.drawable.nothing);
 		fourthPageSecondLineApp2Parent.setBackgroundResource(R.drawable.nothing);
@@ -1241,34 +1034,33 @@ public class SwitchViewDemoActivity extends Activity implements
 		fourthPageSecondLineApp5Parent.setBackgroundResource(R.drawable.nothing);
 		fourthPageSecondLineApp6Parent.setBackgroundResource(R.drawable.nothing);
 
+		fourthPageFirstLineApp3FocusChangeListener = null;
 		fourthPageFirstLineApp4FocusChangeListener = null;
 		fourthPageSecondLineApp1FocusChangeListener = null;
 		fourthPageSecondLineApp2FocusChangeListener = null;
 		fourthPageSecondLineApp3FocusChangeListener = null;
 		fourthPageSecondLineApp4FocusChangeListener = null;
 		fourthPageSecondLineApp5FocusChangeListener = null;
-		fourthPageSecondLineApp6FocusChangeListener = null;
+		fourthPageSecondLineApp6FocusChangeListener = null;	
 
+		fourthPageFirstLineApp3ClickListener = null;
 		fourthPageFirstLineApp4ClickListener = null;
 		fourthPageSecondLineApp1ClickListener = null;
 		fourthPageSecondLineApp2ClickListener = null;
 		fourthPageSecondLineApp3ClickListener = null;
 		fourthPageSecondLineApp4ClickListener = null;
 		fourthPageSecondLineApp5ClickListener = null;
-		fourthPageSecondLineApp6ClickListener = null;		
+		fourthPageSecondLineApp6ClickListener = null;			
 	}
 
-	private void userAppFocuschange(final ImageView imageButton,final ImageView imageView,
-			OnFocusChangeListener onFocusChangeListener) {
+	private void userAppFocuschange(final ImageView imageButton,final LinearLayout linearLayout,OnFocusChangeListener onFocusChangeListener) {
 		onFocusChangeListener = new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					Log.d(TAG,"hasFocus");
-					imageView.setBackgroundResource(R.drawable.item_selected_little);					
+					linearLayout.setBackgroundResource(R.drawable.item_selected_little);					
 				} else if (hasFocus == false) {
-					Log.d(TAG,"noFocus");
-					imageView.setBackgroundResource(R.drawable.nothing);
+					linearLayout.setBackgroundResource(R.drawable.nothing);
 			   }
 			}
 		};
@@ -1276,7 +1068,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	}
 
 	private void userAppClick(final ImageView imageButton,OnClickListener onClickListener,final Intent intent) {
-		onClickListener = new OnClickListener() {
+		onClickListener = new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Log.d(TAG, "onClick");
@@ -1337,7 +1129,6 @@ public class SwitchViewDemoActivity extends Activity implements
 		Bundle startAppInformation = voiceCommand.getExtras();
 		String packageName = startAppInformation.getString("packageName");
 		String action = startAppInformation.getString("action");
-		String className = startAppInformation.getString("className");
 		String receiveMusicKeyWord = startAppInformation.getString("musicKeyWord");
 		String newMusicKeyword = "";
 		String URL = startAppInformation.getString("URL");
@@ -1350,13 +1141,9 @@ public class SwitchViewDemoActivity extends Activity implements
 			e.printStackTrace();
 		}
 
-		if(className != null && className.equals("com.reconova.demo.SplashActivity") ){
+		if(action != null && action.equals("start.settings.activity") ){//means it is myapp
 			Intent intent = new Intent();
-			intent.setClassName("com.reconova.tongfang", "com.reconova.demo.SplashActivity");
-			mScrollLayout.releaseFirstThenStartApk(intent);
-		}else if(className != null && className.equals("com.thtf.facerealize.FaceMainActivity") ){
-			Intent intent = new Intent();
-			intent.setClassName("com.reconova.tongfang", "com.thtf.facerealize.FaceMainActivity");
+			intent.setAction("start.settings.activity");
 			mScrollLayout.releaseFirstThenStartApk(intent);
 		}else if( URL != null ){//means it is kaikou shang wang
 			Uri uri = Uri.parse(URL);
@@ -1494,7 +1281,7 @@ public class SwitchViewDemoActivity extends Activity implements
 
 		}
 	};
-
+//
 	private void forceStartSinaService(){
 		Intent intent = new Intent("com.lfzd.enews.thtfservice"); 
 		this.startService(intent); 
@@ -1673,8 +1460,6 @@ public class SwitchViewDemoActivity extends Activity implements
 		unregisterReceiver(startTvReceiver);
 		unregisterReceiver(userAppReceiver);
 		unregisterReceiver(userAppReceiver2);		
-		unregisterReceiver(voiceCommandReceiver);
-		unregisterReceiver(faceReceiver);
 	}
 
 	@Override
@@ -1688,8 +1473,8 @@ public class SwitchViewDemoActivity extends Activity implements
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			return true;
 		}
-		
-		/*slow down the focus move
+		/*
+		//slow down the focus move
 		if(keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
 			if(event.getRepeatCount() % maxSpeedOfFocusMove == 0){
 				mScrollLayout.onKeyDown(keyCode,event);
@@ -1698,58 +1483,58 @@ public class SwitchViewDemoActivity extends Activity implements
 			}
 		}else{
 			mScrollLayout.onKeyDown(keyCode, event);
-		}*/
-
+		}
+		*/
 		View focusView = mScrollLayout.findFocus();
 		Log.d(TAG,"userAppSize = " + userAppSize);
-		if( !userAppProcess.isDbFileExist() ){	
-			if( focusView == fourthPageSecondLineIcon1 && 
+		if( userAppSize == 0 ){
+			if( focusView == fourthPageFirstLineIcon2 && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+				mScrollLayout.snapToScreen(0);	
+			}				
+		}else if( userAppSize == 1){
+			if( focusView == fourthPageFirstLineIcon3 && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+				mScrollLayout.snapToScreen(0);	
+			}	
+		}else if( userAppSize == 2){
+			if( focusView == fourthPageFirstLineIcon4 && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+				mScrollLayout.snapToScreen(0);	
+			}	
+		}else if( userAppSize == 3){
+			if( (focusView == fourthPageSecondLineIcon1 || focusView == fourthPageFirstLineIcon4) && 
 					keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
 				mScrollLayout.snapToScreen(0);	
-			}
-			if( focusView == fourthPageSecondLineIcon1 && 
+			}		
+		}else if( userAppSize == 4){
+			if( (focusView == fourthPageSecondLineIcon2 || focusView == fourthPageFirstLineIcon4) && 
+					keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+				mScrollLayout.snapToScreen(0);	
+			}	
+		}else if( userAppSize == 5){
+			if(  (focusView == fourthPageSecondLineIcon3 || focusView == fourthPageFirstLineIcon4) && 
+					keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+				mScrollLayout.snapToScreen(0);	
+			}	
+		}else if( userAppSize == 6){
+			if(  (focusView == fourthPageSecondLineIcon4 || focusView == fourthPageFirstLineIcon4) && 
+					keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+				mScrollLayout.snapToScreen(0);	
+			}	
+		}else if( userAppSize == 7){
+			if(  (focusView == fourthPageSecondLineIcon5 || focusView == fourthPageFirstLineIcon4)  
+					&& keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+				mScrollLayout.snapToScreen(0);	
+			}	
+		}else if( userAppSize >= 8){
+			if(  (focusView == fourthPageSecondLineIcon6 || focusView == fourthPageFirstLineIcon4) 
+					&& keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+				mScrollLayout.snapToScreen(0);	
+			}	
+		}
+		if(userAppSize >= 3){
+			if( (focusView == fourthPageSecondLineIcon1) && 
 					keyCode == KeyEvent.KEYCODE_DPAD_LEFT){
 				mScrollLayout.snapToScreen(2);	
-			}			
-		}else{
-			if( userAppSize == 0 ){	
-				if( focusView == fourthPageFirstLineIcon3 && 
-						keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-					mScrollLayout.snapToScreen(0);	
-				}				
-			}else if( userAppSize == 1){
-
-			}else if( userAppSize == 2){
-				if( focusView == fourthPageSecondLineIcon1 && 
-						keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-					mScrollLayout.snapToScreen(0);	
-				}	
-			}else if( userAppSize == 3){
-				if( (focusView == fourthPageSecondLineIcon2) && 
-						keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-					mScrollLayout.snapToScreen(0);	
-				}		
-			}else if( userAppSize == 4){
-				if( (focusView == fourthPageSecondLineIcon3) && 
-						keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-					mScrollLayout.snapToScreen(0);	
-				}	
-			}else if( userAppSize == 5){
-				if(  (focusView == fourthPageSecondLineIcon4) && 
-						keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-					mScrollLayout.snapToScreen(0);	
-				}	
-			}else if( userAppSize == 6){
-				if(  (focusView == fourthPageSecondLineIcon5) && 
-						keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-					mScrollLayout.snapToScreen(0);	
-				}	
-			}else if( userAppSize == 7){
-				if(  (focusView == fourthPageSecondLineIcon6) && 
-						keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-					mScrollLayout.snapToScreen(0);	
-				}	
-			}
+			}		
 		}
 		mScrollLayout.onKeyDown(keyCode, event);
 		return super.onKeyDown(keyCode, event);
@@ -1802,8 +1587,7 @@ public class SwitchViewDemoActivity extends Activity implements
 								|| apinfo.processName.equals(wallpaperServiceList.get(k).serviceInfo.packageName) 
 								|| apinfo.processName.equals("com.amlogic.tvscreen")
 								|| apinfo.processName.equals("com.amlogic.AtvScreen") 
-								|| apinfo.processName.equals("com.amlogic.tvservice")
-								|| apinfo.processName.equals("com.reconova.tongfang")){
+								|| apinfo.processName.equals("com.amlogic.tvservice")){//process "com.lfzd.enews" started at  onResume
 							wallpaperProcess = true;
 						}
 					}
@@ -1815,11 +1599,6 @@ public class SwitchViewDemoActivity extends Activity implements
 				}
 			}
 		}
-	}
-
-	private void registerStatusbarFaceReceiver(){
-		IntentFilter filter = new IntentFilter("com.thtfcd.face.swiths");
-		registerReceiver(faceReceiver, filter);
 	}
 	
 	private void registerStatusbarEthernetReceiver(){
@@ -1869,7 +1648,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	}
 
 	private void registerUserAppReceiver2(){
-		IntentFilter filter = new IntentFilter("org.thtf.myapp.datachange");
+		IntentFilter filter = new IntentFilter("org.thtfce.appstore.update.groupdata");
 		registerReceiver(userAppReceiver2, filter);
 	}
 
@@ -1898,6 +1677,8 @@ public class SwitchViewDemoActivity extends Activity implements
 		    }
 		}
 	}
+
+
 	
 	@Override
 	public boolean onDown(MotionEvent e) {
@@ -1944,5 +1725,6 @@ public class SwitchViewDemoActivity extends Activity implements
 		public boolean onTouch(View v, MotionEvent event) {
 			return detector.onTouchEvent(event);
 		}
-	};		
+	};	
+
 }
