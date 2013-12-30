@@ -545,18 +545,21 @@ public class SwitchViewDemoActivity extends Activity implements
 		}else{
 			delayTime = 6000;
 		}
-	
+		mTvPreview.SetRegBit(REMOTE_DISABLE);
 	 	Message appearGreennetMsg = new Message();
 		appearGreennetMsg.what = greennetAppearMsg;
 		greenNetScreenHandler.sendMessage(appearGreennetMsg);
 		Log.d(TAG,"Send greennetAppear Command");
-
+		//set the page property	if (launcher not in first page){hide the tvprevie source icon}
+		SystemProperties.set("tv.launcher_page", "8888");	
+		
 		new Timer().schedule(new TimerTask(){
 			@Override
 			public void run() {
 			 	Message greennetMsg = new Message();
 				greennetMsg.what = greennetDisappearMsg;
 				greenNetScreenHandler.sendMessage(greennetMsg);
+				mTvPreview.SetRegBit(REMOTE_ENABLE);
 				Log.d(TAG,"Send greennetDisappear Command");				
 			}
 			
@@ -683,7 +686,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			faceImageView.setVisibility(View.VISIBLE);
 		}else{
 			Log.d(TAG,"Recogize Failed!");		
-			faceImageView.setVisibility(View.INVISIBLE);
+			faceImageView.setVisibility(View.GONE);
 		}
 	}
 	
