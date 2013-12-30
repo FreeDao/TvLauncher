@@ -539,6 +539,13 @@ public class SwitchViewDemoActivity extends Activity implements
 
 	//display when start internetBrowser
 	public void appearGreennet(){
+		int delayTime = 3000;
+		if( resumeCount > 2){
+			delayTime = 3000;
+		}else{
+			delayTime = 6000;
+		}
+	
 	 	Message appearGreennetMsg = new Message();
 		appearGreennetMsg.what = greennetAppearMsg;
 		greenNetScreenHandler.sendMessage(appearGreennetMsg);
@@ -553,7 +560,7 @@ public class SwitchViewDemoActivity extends Activity implements
 				Log.d(TAG,"Send greennetDisappear Command");				
 			}
 			
-		}, 2500);		
+		}, delayTime);		
 	}
 
 	Handler conceptScreenHandler = new Handler() {
