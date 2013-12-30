@@ -5,7 +5,7 @@
 	        android:gravity="center" 
 	        android:src="@drawable/dock_image4_selected"/>
 	</item>
-	<item 	android:top="68dp">
+	<item 	android:top="85dp">
 	    <bitmap 
 	        android:gravity="center" 
 	        android:src="@drawable/dock_image_underline"/>
