@@ -176,7 +176,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	private TextView timeTextView;
 
 	//flip condition
-	private final int FLIP_DISTANCE = 100;
+	private final int FLIP_DISTANCE = 300;
 
 	//mouse support
 	private GestureDetector detector;
