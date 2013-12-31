@@ -1710,6 +1710,16 @@ public class SwitchViewDemoActivity extends Activity implements
        }else{
        	mTvPreview.DisablePerview();
        }
+			 
+		Log.d(TAG,"Resume count:" + resumeCount);
+		//force refresh userAppLayout when back to home every 20 times
+		if(resumeCount % 20 == 0){
+			Message msg = new Message();
+			msg.what = handleUserAppMsg;
+			initUserAppHandler.sendMessage(msg);
+			Log.d(TAG,"send handleUserAppMsg3");
+		}
+		
 		resumeCount ++;
 		SystemProperties.set("tv.in_launcher", "true");
 	}
