@@ -8,38 +8,38 @@
 		android:id="@+id/dockImageView1"
 		android:scaleType="center"
 		android:layout_width="0dp"
-		android:layout_height="fill_parent"
+		android:layout_height="wrap_content"
 		android:layout_weight="3"
-		android:layout_gravity="center"
+		android:layout_gravity="bottom|center_horizontal"
 		android:focusable="false"/>
 	<ImageView
 		android:id="@+id/dockImageView2"
 		android:scaleType="center"
 		android:layout_width="0dp"
 		android:layout_weight="3"		
-		android:layout_height="fill_parent"
-		android:layout_gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|center_horizontal"
 		android:focusable="false"/>
 	<ImageView
 		android:id="@+id/dockImageView3"
 		android:scaleType="center"
 		android:layout_width="0dp"
 		android:layout_weight="3"		
-		android:layout_height="fill_parent"
-		android:layout_gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|center_horizontal"
 		android:focusable="false"/>
 	<ImageView
 		android:id="@+id/dockImageView4"
 		android:scaleType="center"
 		android:layout_width="0dp"
 		android:layout_weight="3"		
-		android:layout_height="fill_parent"
-		android:layout_gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|center_horizontal"
 		android:focusable="false"/>
 		
     <LinearLayout android:id="@+id/dock_right_empty"
 		android:layout_width="0dp"
-		android:layout_weight="20"	
+		android:layout_weight="18"	
         android:layout_height="match_parent"/>      
 	
 </LinearLayout>			

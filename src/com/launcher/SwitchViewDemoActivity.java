@@ -1351,7 +1351,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		String receiveMusicKeyWord = startAppInformation.getString("musicKeyWord");
 		String newMusicKeyword = "";
 		String URL = startAppInformation.getString("URL");
-		
+		/*
 		try {//encode the musicKeyWord
 			if( receiveMusicKeyWord != null){
 				newMusicKeyword = URLEncoder.encode(receiveMusicKeyWord,"gb2312");
@@ -1359,7 +1359,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
+		*/
 		if(className != null && className.equals("com.reconova.demo.SplashActivity") ){
 			Intent intent = new Intent();
 			intent.setClassName("com.reconova.tongfang", "com.reconova.demo.SplashActivity");
@@ -1373,7 +1373,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			Intent intent = new Intent(Intent.ACTION_VIEW,uri);
 			mScrollLayout.releaseFirstThenStartApk(intent);			
 		}else if( receiveMusicKeyWord != null ){//launch baidu to search the keyword of music
-			Uri uri = Uri.parse( "http://mp3.baidu.com/m?word=" + newMusicKeyword);
+			Uri uri = Uri.parse( "http://mp3.baidu.com/m?word=" + receiveMusicKeyWord);
 			Log.d(TAG,"_uri = " + uri);
 			Intent intent = new Intent(Intent.ACTION_VIEW,uri);
 			mScrollLayout.releaseFirstThenStartApk(intent);			
