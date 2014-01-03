@@ -298,10 +298,8 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 		SetVideoSizeHandler.removeCallbacks(SetVideoSizeRunnable);
 		set3DAndDipostHandler.removeCallbacks(set3DAndDipostRunnable);
 		//showTvPreviewHandler.removeCallbacks(showTvPreviewRunnable);
-		SetVideoSize(0 , 0 , 1919 , 1079);
-		mySetDisplayMode();
-		if(status_3D_Auto)
-		  tv.Set3DMode(Tv.Mode_3D.MODE_3D_AUTO,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
+		setScreenHandler.postDelayed(setScreenRunnable,1000);
+		
 		//SetWindowSize(close_mode , 0 , 0 , 0 , 0);
 	}
 	
@@ -366,6 +364,17 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	//		}
 	//  }
 	//};
+
+
+    private Handler setScreenHandler = new Handler();
+	private Runnable setScreenRunnable = new Runnable(){
+	  	public void run(){
+			SetVideoSize(0 , 0 , 1919 , 1079);
+			mySetDisplayMode();
+			if(status_3D_Auto)
+				tv.Set3DMode(Tv.Mode_3D.MODE_3D_AUTO,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
+	  	}
+	};
 
 	private Handler StopTvRleasedResourceHandler = new Handler();
 	private Runnable StopTvRleasedResourceRunnable = new Runnable(){
