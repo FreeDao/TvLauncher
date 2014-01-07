@@ -1396,6 +1396,9 @@ public class SwitchViewDemoActivity extends Activity implements
 				}
 				mScrollLayout.releaseFirstThenStartApk(intent);
 			}else{//means it is besTV
+				//-----------------------------------this variable is set for BesTv
+				SwitchViewDemoActivity.mTvPreview.tv.SetBestvSoundCurveEnable(1);
+				//----------------------------------------------------------			
 				Intent intent = new Intent();
 				intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
 				mScrollLayout.releaseFirstThenStartApk(intent);

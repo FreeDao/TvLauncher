@@ -418,6 +418,9 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		/***first page***/
 			//firstLine
 		if (imageButton == firstPageFirstLineIcon2) {
+			//-----------------------------------this variable is set for BesTv
+			SwitchViewDemoActivity.mTvPreview.tv.SetBestvSoundCurveEnable(1);
+			//----------------------------------------------------------			
 			Intent intent = new Intent();
 			intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
 			releaseFirstThenStartApk(intent);
