@@ -85,8 +85,8 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 				  	res_status |= 0x10;
 				  }
 		}
-		if (res_status == 0xf) {
-			if(DEBUG) Log.d(TAG,"onStateChanged====res_status == 0xf");
+		if (res_status == 0x1f) {
+			if(DEBUG) Log.d(TAG,"onStateChanged====res_status == 0x1f");
 			res_status = 0;
 			SourcePlay();
 			SetDisplayModeTimes=0;

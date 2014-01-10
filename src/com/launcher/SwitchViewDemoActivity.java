@@ -315,6 +315,9 @@ public class SwitchViewDemoActivity extends Activity implements
 		firstPageSecondLineIcon4.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				firstPageSecondLineIcon4.setFocusableInTouchMode(true);
+				firstPageSecondLineIcon4.requestFocus();
+				firstPageSecondLineIcon4.requestFocusFromTouch();
 				mScrollLayout.setFocusIconName("none");			
 				startGreenNet();
 			}
@@ -1292,6 +1295,9 @@ public class SwitchViewDemoActivity extends Activity implements
 			@Override
 			public void onClick(View v) {
 				Log.d(TAG, "onClick");
+				imageButton.setFocusableInTouchMode(true);
+				imageButton.requestFocus();
+				imageButton.requestFocusFromTouch();
 				mScrollLayout.releaseFirstThenStartApk(intent);
 			}
 		};

@@ -411,8 +411,9 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		resumeFromSinaGallery = false;
 		resumeFromPaopaole = false;
 		setFocusIconName("none");		
-		//imageButton.setFocusableInTouchMode(true);
-		//imageButton.requestFocus();
+		imageButton.setFocusableInTouchMode(true);
+		imageButton.requestFocus();
+		imageButton.requestFocusFromTouch();
 		String packageName = "";
 	
 		/***first page***/
@@ -764,22 +765,29 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	private void setViewFocus(int index){
 		switch (index) {			
 		case 0:		
+			firstPageFirstLineIcon1.setFocusableInTouchMode(true);
 			firstPageFirstLineIcon1.requestFocus();
+			firstPageFirstLineIcon1.requestFocusFromTouch();			
 			break;
 		case 1:
+			secondPageFirstLineIcon1.setFocusableInTouchMode(true);
 			secondPageFirstLineIcon1.requestFocus();
+			secondPageFirstLineIcon1.requestFocusFromTouch();
 			break;
 		case 2:			
+			thirdPageFirstLineIcon1.setFocusableInTouchMode(true);
 			thirdPageFirstLineIcon1.requestFocus();
+			thirdPageFirstLineIcon1.requestFocusFromTouch();
 			break;
 		case 3:			
+			fourthPageFirstLineIcon1.setFocusableInTouchMode(true);
 			fourthPageFirstLineIcon1.requestFocus();
+			fourthPageFirstLineIcon1.requestFocusFromTouch();
 			break;
 		default:
 			break;
 		}
 	}
-
 	public void killBrowser() {
 		ActivityManager am = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
 		am.restartPackage("com.android.browser");
