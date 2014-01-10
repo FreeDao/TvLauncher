@@ -9,8 +9,12 @@
     	 android:layout_width="0dip"
     	 android:layout_weight="470"
     	 android:layout_height="match_parent"
-    	 android:orientation="horizontal"
+    	 android:gravity="right|center_vertical"
     	 android:background="@null">
+		<TextView android:id="@+id/statusbar_weather_temp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@drawable/logo"/>       	 
     </LinearLayout>
     
     <LinearLayout android:id="@+id/statusbar_weather_layout"

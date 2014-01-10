@@ -40,6 +40,13 @@
     <LinearLayout android:id="@+id/dock_right_empty"
 		android:layout_width="0dp"
 		android:layout_weight="18"	
-        android:layout_height="match_parent"/>      
+       android:layout_height="match_parent"
+       android:gravity="right|center_vertical">
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="110dp"
+			android:background="@drawable/shape_code"/>
+    </LinearLayout>      
 	
 </LinearLayout>			
