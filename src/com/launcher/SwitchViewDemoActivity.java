@@ -167,6 +167,9 @@ public class SwitchViewDemoActivity extends Activity implements
 	private final int greennetDisappearMsg = 0x3004;	
 	private final int showTvpreviewDelayTime = 1000;
 	private final int handleUserAppMsg = 0x3005;	
+	private final int startBrowserDelayTime = 5000;
+	
+	
 	//statusbarWeather
 	private TextView cityTextView;
 	private TextView weatherTextView;
@@ -541,13 +544,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	}
 
 	//display when start internetBrowser
-	public void appearGreennet(){
-		int delayTime = 3000;
-		if( resumeCount > 2){
-			delayTime = 3000;
-		}else{
-			delayTime = 6000;
-		}
+	public void appearGreennet(){		
 		mTvPreview.SetRegBit(REMOTE_DISABLE);
 	 	Message appearGreennetMsg = new Message();
 		appearGreennetMsg.what = greennetAppearMsg;
@@ -563,10 +560,10 @@ public class SwitchViewDemoActivity extends Activity implements
 				greennetMsg.what = greennetDisappearMsg;
 				greenNetScreenHandler.sendMessage(greennetMsg);
 				mTvPreview.SetRegBit(REMOTE_ENABLE);
-				Log.d(TAG,"Send greennetDisappear Command");				
+				Log.d(TAG,"Send greennetDisappear Command");
 			}
 			
-		}, delayTime);		
+		}, startBrowserDelayTime);		
 	}
 
 	Handler conceptScreenHandler = new Handler() {
@@ -1691,6 +1688,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	protected void onResume() {
 		super.onResume();
 		Log.d(TAG, "====onResume=====");
+		Log.d(TAG,"_____RESUME COUNT____"+resumeCount);
 		//show only resume from atvscreen
 		if(mScrollLayout.resumeFromAtvScreen){
 			//set the page property 
@@ -1895,7 +1893,10 @@ public class SwitchViewDemoActivity extends Activity implements
 								|| apinfo.processName.equals("com.amlogic.tvscreen")
 								|| apinfo.processName.equals("com.amlogic.AtvScreen") 
 								|| apinfo.processName.equals("com.amlogic.tvservice")
-								|| apinfo.processName.equals("com.reconova.tongfang")){
+								|| apinfo.processName.equals("com.reconova.tongfang")
+								|| apinfo.processName.equals("com.rockitv.android")
+                    			|| apinfo.processName.equals("com.rockitv.ai")
+                    			|| apinfo.processName.equals("com.awindinc.mirroropservice")){
 							wallpaperProcess = true;
 						}
 					}
