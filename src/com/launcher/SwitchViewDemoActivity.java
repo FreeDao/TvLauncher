@@ -51,6 +51,7 @@ import android.amlogic.Tv;
 import android.widget.VideoView;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceHolder;
+import android.graphics.PixelFormat;
 
 public class SwitchViewDemoActivity extends Activity implements 
 		Callback,OnViewChangeListener,OnGestureListener{
@@ -382,6 +383,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	public void inintVideoView(int resourceId){
 		firstPageFirstLineIcon1 = (VideoView) findViewById(R.id.first_page101);
 		firstPageFirstLineIcon1.getHolder().addCallback(this);
+        firstPageFirstLineIcon1.getHolder().setFormat(PixelFormat.VIDEO_HOLE_REAL);
 	}
 	
 	@Override
