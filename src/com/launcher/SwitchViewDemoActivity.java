@@ -52,6 +52,7 @@ import android.widget.VideoView;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceHolder;
 import android.graphics.PixelFormat;
+import android.graphics.Canvas;
 
 public class SwitchViewDemoActivity extends Activity implements 
 		Callback,OnViewChangeListener,OnGestureListener{
@@ -263,6 +264,12 @@ public class SwitchViewDemoActivity extends Activity implements
 		 	Log.v(TAG,"play preview window ");
 		}			 
 	}
+
+	@Override
+	protected void onStart(){
+		super.onStart();
+		inintVideoView();
+	}
 	
 	private void init() {
 		initIcons();
@@ -379,9 +386,12 @@ public class SwitchViewDemoActivity extends Activity implements
 		fourthPageSecondLineIcon5HighLight =(ImageView) findViewById(R.id.fourth_page205_highlight);
 		fourthPageSecondLineIcon6HighLight =(ImageView) findViewById(R.id.fourth_page206_highlight);
 	}
-	
+
 	public void inintVideoView(int resourceId){
 		firstPageFirstLineIcon1 = (VideoView) findViewById(R.id.first_page101);
+	}
+	
+	public void inintVideoView(){
 		firstPageFirstLineIcon1.getHolder().addCallback(this);
         firstPageFirstLineIcon1.getHolder().setFormat(PixelFormat.VIDEO_HOLE_REAL);
 	}
@@ -389,19 +399,30 @@ public class SwitchViewDemoActivity extends Activity implements
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		
+		initSurface(holder);
 		Log.d(TAG, "====surfaceChanged====");
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		
+		initSurface(holder);
 		Log.d(TAG, "====surfaceCreated====");
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		Log.d(TAG, "====surfaceDestroyed====");
+	}
+
+	private void initSurface(SurfaceHolder h) {
+		Canvas c = null;
+		try {
+			Log.d(TAG, "initSurface");
+			c = h.lockCanvas();
+		} finally {
+			if (c != null)
+			h.unlockCanvasAndPost(c);
+		}
 	}
 
 	private Handler initUserAppHandler = new Handler(){
