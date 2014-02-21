@@ -555,8 +555,11 @@ public class SwitchViewDemoActivity extends Activity implements
 				mScrollLayout.resumeFromAtvScreen = false;
 				mScrollLayout.inAtvScreen = false;
 				if(mCurSel == mTvPriviewIndex ){
-					//enable remote control
-					mTvPreview.SetRegBit(REMOTE_ENABLE);
+					if(!SystemProperties.getBoolean("persist.tv.factory_aging_mode", false )){
+						Log.d(TAG,"not in aging mode");//add this for aging mode remote cannot use
+						//enable remote control
+						mTvPreview.SetRegBit(REMOTE_ENABLE);
+					}
 					//delay for source change  completed
 					setSourceIconAfterResume(1000);	
 				}				
