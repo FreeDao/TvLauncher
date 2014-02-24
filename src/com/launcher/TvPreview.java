@@ -379,7 +379,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 			SetVideoSize(0 , 0 , 1919 , 1079);
 			mySetDisplayMode();
 			if(status_3D_Auto)
-				tv.Set3DMode(Tv.Mode_3D.MODE_3D_AUTO,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
+				tv.Save3DTo2DMode(Tv.Mode_3D_2D.MODE_3D_2D_CLOSE,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
 	  	}
 	};
 
