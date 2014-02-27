@@ -16,6 +16,8 @@ import android.widget.GridView;
 import android.widget.Scroller;
 import android.widget.VideoView;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.MotionEvent;
 import android.view.LayoutInflater;
 import android.view.animation.TranslateAnimation;
 
@@ -588,7 +590,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		imageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d(TAG, "=============onClick===============");
+				Log.d(TAG, "onClick");
 				startApks(imageButton);
 			}
 		});
@@ -598,10 +600,20 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		imageButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d(TAG, "=============onClick===============");
+				Log.d(TAG, "onClick");
 				startApks(imageButton);
 			}
 		});
+        imageButton.setOnTouchListener(new OnTouchListener(){
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Log.d(TAG,"onTouch");
+				firstPageFirstLineIcon1.setFocusableInTouchMode(true);
+				firstPageFirstLineIcon1.requestFocus();					
+				startApks(imageButton);
+				return false;
+			}     	
+        });		
 	}
 
 	public void imageButtonFocuschange(final VideoView imageButton,final ImageView imageView) {
