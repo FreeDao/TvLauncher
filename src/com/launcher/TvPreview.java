@@ -312,6 +312,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 			  	enter_app = false;
 			  	tv.Save3DTo2DMode(Tv.Mode_3D_2D.MODE_3D_2D_CLOSE,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
 			  } else {
+			  	tv.Save3DTo2DMode(Tv.Mode_3D_2D.MODE_3D_2D_CLOSE,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
 			  	tv.Set3DMode(Tv.Mode_3D.MODE_3D_AUTO,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
 			  }
 		}
