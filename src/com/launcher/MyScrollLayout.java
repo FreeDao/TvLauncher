@@ -799,8 +799,10 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 		}
 		Log.d(TAG, "=====owner====" + owner); 
 		if (owner != null && owner.equals(CLICK_A_APP)) {
-			startActivitySafely(startApkIntent);
 			mResourceManager.release();
+			SwitchViewDemoActivity.mTvPreview.enter_app = true;
+			startActivitySafely(startApkIntent);
+			//mResourceManager.release();
 			//SwitchViewDemoActivity.mTvPreview.SetAllbypass("1");
 			hasEnterApp=0;
 		} 	
