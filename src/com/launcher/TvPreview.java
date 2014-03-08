@@ -31,7 +31,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	static Tv tv = null;
 	tvin_info_t tv_info=null;
 	private final String TAG = "TvPreview";
-	private boolean DEBUG = true;
+	private boolean DEBUG = false;
 	private static final String Request_Owner = "atv";
 	private static final String Request_OwnerDtv = "dtv";
 	private static final int open_mode=1;
@@ -412,7 +412,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 	private Handler set3DAndDipostHandler = new Handler();
 	private Runnable set3DAndDipostRunnable = new Runnable(){
 	  	public void run(){
-			if(HandlerTimes<=11){
+			if(HandlerTimes<=2){
 				HandlerTimes++;
 				if(tv.Get3DMode()==1){
 					//status_3D_Auto = true;
@@ -441,7 +441,7 @@ public class TvPreview implements Tv.ResourceStateCallback, Tv.RequestReleaseSou
 				Log.d(TAG,"Auto 3D to 2D....");
 				tv.Set3DTo2DMode(Tv.Mode_3D_2D.MODE_3D_2D_LEFT,Tv.Tvin_3d_Status.values()[tv.Get3DMode()]);
 			}
-			if(tv.GetDisplayMode(tv.GetSrcInputType())!=0 && SetDisplayModeTimes<10){
+			if(tv.GetDisplayMode(tv.GetSrcInputType())!=0 && SetDisplayModeTimes<3){
 				SetDisplayModeTimes++;
 				tv.SetDisplayMode(Tv.Dis_Mode.DISPLAY_MODE_169,Tv.Source_Input_Type.SOURCE_TYPE_MPEG, tv.GetCurrentSignalInfo().fmt);
 			}
