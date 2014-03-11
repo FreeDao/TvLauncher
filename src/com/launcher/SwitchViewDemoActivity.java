@@ -205,6 +205,10 @@ public class SwitchViewDemoActivity extends Activity implements
 	
 	private static boolean   first_preview_start_atv = true;
 
+	//source icon displayed flag
+	private boolean preload = false;
+	private boolean conceptScreenDisplayed =false;
+
 	//user App
 	private List<ResolveInfo> userResolveInfo; 
 	private ArrayList<ApplicationInfo> userApplications;
@@ -280,6 +284,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		getBasicNeededProcess();
 		forceStartSinaService();
 		setSourceIcon();
+		processIntent();
 	}
 
 	private void registerReceiver(){
@@ -293,6 +298,13 @@ public class SwitchViewDemoActivity extends Activity implements
 		registerVoiceCommandReceiver();
 		registerUserAppReceiver();
 		registerUserAppReceiver2();
+	}
+
+	private void processIntent(){
+		Intent intent = getIntent();
+		preload = intent.getBooleanExtra("preload",false);
+		Log.d(TAG,"ProcessIntent");
+
 	}
 	
 	private void initIcons(){
@@ -541,7 +553,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	}
 	
 	//display conceptScreen for 2 second
-	private void appearConceptScreen(){
+	private void appearConceptScreen(final int delayTime){
 	 	Message appearConceptScreenMsg = new Message();
 		appearConceptScreenMsg.what = conceptScreenAppearMsg;
 		conceptScreenHandler.sendMessage(appearConceptScreenMsg);
@@ -561,7 +573,7 @@ public class SwitchViewDemoActivity extends Activity implements
 						mTvPreview.SetRegBit(REMOTE_ENABLE);
 					}
 					//delay for source change  completed
-					setSourceIconAfterResume(1000);	
+					setSourceIconAfterResume(delayTime);	
 				}				
 				Log.d(TAG,"Send concetpDisappear Command");
 			}
@@ -1715,9 +1727,15 @@ public class SwitchViewDemoActivity extends Activity implements
 		super.onResume();
 		Log.d(TAG, "====onResume=====");
 		Log.d(TAG,"_____RESUME COUNT____"+resumeCount);
-		//show only resume from atvscreen
-		if(mScrollLayout.resumeFromAtvScreen 
-				||(!mScrollLayout.resumeFromAtvScreen && resumeCount == 2) ){
+		
+		//--------------start the concept screen and souceIcon display logic--------------//
+		//there are two conditions 1: boot and start atvScreen 2:boot and start Launcher
+		//and int first condition there are two conditions too.
+		// 1) user press home key before the system preload Launcher 
+		// 2) user press home key after the system preload Launcher
+
+		if(conceptScreenDisplayed && mScrollLayout.resumeFromAtvScreen){
+			Log.d(TAG,"__Normal Condition 1__");
 
 			//set the page property 
 	       SystemProperties.set("tv.launcher_page", "0");
@@ -1726,12 +1744,45 @@ public class SwitchViewDemoActivity extends Activity implements
 				//disable remote control
 				mTvPreview.SetRegBit(REMOTE_DISABLE);
 			}
-			appearConceptScreen();
-		}else{
-			//delay 1 second to wait resume completed		
-			setSourceIconAfterResume(2300);
-
+			appearConceptScreen(1000);
+		}else if(conceptScreenDisplayed && !mScrollLayout.resumeFromAtvScreen){
+			//delay to wait resume from apk completed
+			Log.d(TAG,"__Normal Condition 2__");
+			setSourceIconAfterResume(2500);
 		}
+
+		if(!conceptScreenDisplayed && (mTvPreview.tv.SSMReadTVPortal() == Tv.SrcInput.MPEG.toInt()) ){//boot then go launcher
+			Log.d(TAG,"__First Condition__");
+
+			//set the page property 
+	       SystemProperties.set("tv.launcher_page", "0");
+
+			appearConceptScreen(1000);
+			conceptScreenDisplayed = true;
+		}else if(!conceptScreenDisplayed && (mTvPreview.tv.SSMReadTVPortal() != Tv.SrcInput.MPEG.toInt()) ){//boot then go tv
+			//set the page property 
+	       SystemProperties.set("tv.launcher_page", "0");
+			//don't disable remote control just boot completed	
+			if( resumeCount > 1){
+				//disable remote control
+				mTvPreview.SetRegBit(REMOTE_DISABLE);
+			}
+		
+			if(resumeCount ==1 && preload){
+				Log.d(TAG,"___Second Condition__");
+				conceptScreenDisplayed = false;
+			}else if(resumeCount ==1 && !preload){
+				Log.d(TAG,"___Third Condition__");
+				appearConceptScreen(2500);
+				conceptScreenDisplayed = true;
+			}else if(resumeCount ==2){
+				appearConceptScreen(2500);
+				conceptScreenDisplayed = true;
+			}
+		}
+		//---------------end of the concept screen and souceIcon display logic---------------//
+
+
 		//don't kill background process  first time for record basic needed process
 		if(resumeCount >1){
 			killExtraProcess();
