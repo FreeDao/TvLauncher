@@ -1727,7 +1727,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			appearConceptScreen();
 		}else{
 			//delay 1 second to wait resume completed		
-			setSourceIconAfterResume(2300);
+			setSourceIconAfterResume(1000);
 		}
 		//don't kill background process  first time for record basic needed process
 		if(resumeCount >1){
