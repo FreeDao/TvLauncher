@@ -1716,9 +1716,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		Log.d(TAG, "====onResume=====");
 		Log.d(TAG,"_____RESUME COUNT____"+resumeCount);
 		//show only resume from atvscreen
-		if(mScrollLayout.resumeFromAtvScreen 
-				||(!mScrollLayout.resumeFromAtvScreen && resumeCount == 2) ){
-
+		if(mScrollLayout.resumeFromAtvScreen){
 			//set the page property 
 	       SystemProperties.set("tv.launcher_page", "0");
 			//don't disable remote control just boot completed	
@@ -1730,7 +1728,6 @@ public class SwitchViewDemoActivity extends Activity implements
 		}else{
 			//delay 1 second to wait resume completed		
 			setSourceIconAfterResume(2300);
-
 		}
 		//don't kill background process  first time for record basic needed process
 		if(resumeCount >1){
