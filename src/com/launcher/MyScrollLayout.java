@@ -428,6 +428,9 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == firstPageFirstLineIcon3) {
+			//disable the Greenkey
+			setColorKeyFlag("on");
+		
 			packageName = "com.lfzd.enews";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
@@ -440,6 +443,10 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == firstPageSecondLineIcon2) {
 		   resumeFromSinaGallery = true;
+
+			//disable the Greenkey
+			setColorKeyFlag("on");
+			
 			packageName = "com.lfzd.sinagallery";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
@@ -475,6 +482,10 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
 		} else if (imageButton == secondPageFirstLineIcon3) {
+
+			//disable the Greenkey
+			setColorKeyFlag("on");
+					
 			packageName = "com.thtfce.web";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
@@ -483,6 +494,10 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 
 			//secondLine
 		else if (imageButton == secondPageSecondLineIcon1) {
+
+			//disable the Greenkey
+			setColorKeyFlag("on");
+						
 			packageName = "com.thtfce.edu";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
@@ -507,7 +522,11 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			packageName = "com.cvte.health";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
-		} else if (imageButton == thirdPageFirstLineIcon2) {		
+		} else if (imageButton == thirdPageFirstLineIcon2) {
+
+			//disable the Greenkey
+			setColorKeyFlag("on");
+					
 			packageName = "com.thtf.guide";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
@@ -560,6 +579,10 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
 		}else if(imageButton == fourthPageFirstLineIcon3){
+
+			//disable the Greenkey
+			setColorKeyFlag("on");
+					
 			packageName = "org.thtf.myapp";
 			Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 			releaseFirstThenStartApk(intent);
@@ -825,6 +848,10 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 	   SharedPreferences.Editor writeDate = curFocs.edit();
 		writeDate.putString("focus_icon",focusIcon);
 		writeDate.commit();
+	}
+
+	public void setColorKeyFlag(String flag){
+		SystemProperties.set("tv.color_key", flag);
 	}
 
 	public String getFocusIconName(){

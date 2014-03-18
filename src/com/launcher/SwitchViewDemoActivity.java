@@ -1754,6 +1754,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		}
 		
 		resumeCount ++;
+		mScrollLayout.setColorKeyFlag("off");
 		SystemProperties.set("tv.in_launcher", "true");
 	}
 
