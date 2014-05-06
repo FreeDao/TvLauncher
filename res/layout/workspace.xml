@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>  
 <RelativeLayout      xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" 
-	android:layout_height="fill_parent"
+	android:layout_width="match_parent" 
+	android:layout_height="match_parent"
 	android:id="@+id/workspace"	
-	android:background="@drawable/background">    
+	android:background="@null">    
+
+	<ImageView
+		android:id="@+id/pageBackground"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="130dp"
+		android:layout_centerHorizontal="true">
+	</ImageView>	
 	
 	<LinearLayout    
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="115dip"
 		android:focusable="false"
 		android:layout_marginTop="30dip"
@@ -18,12 +26,7 @@
 
 	<LinearLayout 
 		android:layout_width="match_parent"
-		android:layout_height="110dip"
-		android:layout_marginTop="140dip"
-		android:layout_marginLeft="30dip"
-		android:layout_marginRight="20dip" 		
-		android:layout_alignParentTop="true"
-		android:gravity="center">
+		android:layout_height="match_parent">
 
 		<include android:id="@+id/dock" layout="@layout/dock"/>
 	</LinearLayout>	  	
@@ -31,9 +34,8 @@
 	<com.launcher.MyScrollLayout    
 		xmlns:android="http://schemas.android.com/apk/res/android"    
 		android:id="@+id/ScrollLayout"    
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:layout_marginTop="80dip"> 
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"> 
 
 		<include android:id="@+id/first_page" layout="@layout/first_page" />	   
 		<include android:id="@+id/second_page" layout="@layout/second_page" />
@@ -41,7 +43,7 @@
 		<include android:id="@+id/fourth_page" layout="@layout/fourth_page"/>
 	</com.launcher.MyScrollLayout> 
 
-	<LinearLayout android:id="@+id/concept_pic"
+	<LinearLayout android:id="@+id/conceptPic"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:clickable="false"

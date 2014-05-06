@@ -13,5 +13,9 @@
     <string name="thursday">星期四</string>
     <string name="friday">星期五</string>
     <string name="saturday">星期六</string>
+    <string name="title_firstpage">首页</string>
+	 	<string name="title_education">教育</string>
+	 	<string name="title_live">生活</string>
+	 	<string name="title_application">应用</string>
 
 </resources>

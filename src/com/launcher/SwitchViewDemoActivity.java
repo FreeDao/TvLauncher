@@ -25,7 +25,9 @@ import android.os.Message;
 import android.os.Handler;
 import android.net.Uri;
 import android.util.Log;
+
 import java.net.URLEncoder;
+
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,132 +46,70 @@ import android.view.View.OnTouchListener;
 import android.service.wallpaper.WallpaperService;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
+
 import java.io.UnsupportedEncodingException;
+
 import android.os.SystemProperties;
 import android.view.View.OnFocusChangeListener;;
 import android.amlogic.Tv;
 import android.widget.VideoView;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceHolder;
+import android.graphics.PixelFormat;
+import android.graphics.Canvas;
 
-
-
-
-public class SwitchViewDemoActivity extends Activity implements Callback,OnViewChangeListener,OnGestureListener{
-
-	private int mViewCount;
-	private static int mCurSel;
-	private static int mTvPriviewIndex = 0;
-	private static int screenWidth = 1920;
-	private MyScrollLayout mScrollLayout;
-	private final static String TAG = "SwitchViewDemoActivity";
-
-	private final static float TARGET_HEAP_UTILIZATION = 0.75f;
-	private final static int HEAP_SIZE = 600 * 1024 * 1024;
+public class SwitchViewDemoActivity extends Activity implements 
+		Callback,OnViewChangeListener,OnGestureListener{
+		
+	private final static String TAG = "SwitchViewDemoActivity";	
 	
 	//tvPreview
-	public static TvPreview mTvPreview;
-	
+	public static TvPreview mTvPreview;	
 	//dock
-	private ImageView dockImageView1;
-	private ImageView dockImageView2;
-	private ImageView dockImageView3;
-	private ImageView dockImageView4;
-		
+	private ImageView pageBackground;
 	//first page
-	public static VideoView firstPageFirstLineIcon1;
+	//the tvVideoView and the firstPageFirstLineIcon0 are 
+	//in same position and with same size just z-order different
+	private VideoView tvVideoView;
+	public static ImageView firstPageFirstLineIcon0;
+	private ImageView firstPageFirstLineIcon1;
 	private ImageView firstPageFirstLineIcon2;
 	private ImageView firstPageFirstLineIcon3;	
+	private ImageView firstPageFirstLineIcon4;	
 	private ImageView firstPageSecondLineIcon1;
 	private ImageView firstPageSecondLineIcon2;
 	private ImageView firstPageSecondLineIcon3;
-	private ImageView firstPageSecondLineIcon4;	
-	
+	private ImageView firstPageSecondLineIcon4;		
 	//second page
+	private ImageView secondPageFirstLineIcon0;
 	private ImageView secondPageFirstLineIcon1;
 	private ImageView secondPageFirstLineIcon2;
-	private ImageView secondPageFirstLineIcon3;
 	private ImageView secondPageSecondLineIcon1;
 	private ImageView secondPageSecondLineIcon2;
 	private ImageView secondPageSecondLineIcon3;
-
+	private ImageView secondPageSecondLineIcon4;
 	//third page
 	private ImageView thirdPageFirstLineIcon1;
 	private ImageView thirdPageFirstLineIcon2;
 	private ImageView thirdPageFirstLineIcon3;
 	private ImageView thirdPageFirstLineIcon4;
+	private ImageView thirdPageFirstLineIcon5;
 	private ImageView thirdPageSecondLineIcon1;
 	private ImageView thirdPageSecondLineIcon2;
 	private ImageView thirdPageSecondLineIcon3;
 	private ImageView thirdPageSecondLineIcon4;
-
+	private ImageView thirdPageSecondLineIcon5;
 	//fourth page
+	private ImageView fourthPageFirstLineIcon0;
 	private ImageView fourthPageFirstLineIcon1;
-	private ImageView fourthPageFirstLineIcon2;
-	private ImageView fourthPageFirstLineIcon3;
-	private ImageView fourthPageFirstLineIcon4;
+	private ImageView fourthPageFirstLineIcon2;;
 	private ImageView fourthPageSecondLineIcon1;
 	private ImageView fourthPageSecondLineIcon2;
-	private ImageView fourthPageSecondLineIcon3;
-	private ImageView fourthPageSecondLineIcon4;
-	private ImageView fourthPageSecondLineIcon5;
-	private ImageView fourthPageSecondLineIcon6;
-	private TextView fourthPageFirstLineName3;
-	private TextView fourthPageFirstLineName4;
-	private TextView fourthPageSecondLineName1;
-	private TextView fourthPageSecondLineName2;
-	private TextView fourthPageSecondLineName3;
-	private TextView fourthPageSecondLineName4;
-	private TextView fourthPageSecondLineName5;
-	private TextView fourthPageSecondLineName6;
-	private LinearLayout fourthPageFirstLineApp3Parent;
-	private LinearLayout fourthPageFirstLineApp4Parent;
-	private LinearLayout fourthPageSecondLineApp1Parent;
-	private LinearLayout fourthPageSecondLineApp2Parent;
-	private LinearLayout fourthPageSecondLineApp3Parent;
-	private LinearLayout fourthPageSecondLineApp4Parent;
-	private LinearLayout fourthPageSecondLineApp5Parent;
-	private LinearLayout fourthPageSecondLineApp6Parent;
-	private LinearLayout fourthPageFirstLineIcon3Layout;
-	private LinearLayout fourthPageFirstLineIcon4Layout;
-	private LinearLayout fourthPageSecondLineIcon1Layout;
-	private LinearLayout fourthPageSecondLineIcon2Layout;
-	private LinearLayout fourthPageSecondLineIcon3Layout;
-	private LinearLayout fourthPageSecondLineIcon4Layout;
-	private LinearLayout fourthPageSecondLineIcon5Layout;
-	private LinearLayout fourthPageSecondLineIcon6Layout;
-	
-	private OnFocusChangeListener fourthPageFirstLineApp3FocusChangeListener;
-	private OnFocusChangeListener fourthPageFirstLineApp4FocusChangeListener;
-	private OnFocusChangeListener fourthPageSecondLineApp1FocusChangeListener;
-	private OnFocusChangeListener fourthPageSecondLineApp2FocusChangeListener;
-	private OnFocusChangeListener fourthPageSecondLineApp3FocusChangeListener;
-	private OnFocusChangeListener fourthPageSecondLineApp4FocusChangeListener;
-	private OnFocusChangeListener fourthPageSecondLineApp5FocusChangeListener;
-	private OnFocusChangeListener fourthPageSecondLineApp6FocusChangeListener;
-
-	private OnClickListener fourthPageFirstLineApp3ClickListener;
-	private OnClickListener fourthPageFirstLineApp4ClickListener;
-	private OnClickListener fourthPageSecondLineApp1ClickListener;
-	private OnClickListener fourthPageSecondLineApp2ClickListener;
-	private OnClickListener fourthPageSecondLineApp3ClickListener;
-	private OnClickListener fourthPageSecondLineApp4ClickListener;
-	private OnClickListener fourthPageSecondLineApp5ClickListener;
-	private OnClickListener fourthPageSecondLineApp6ClickListener;
-	
 	//statusbarStatus
-	private ImageView muteImageView;
+	private ImageView faceImageView;
 	private ImageView ethernetImageView;
 	private ImageView usbImageView;
 	private ImageView wifiImageView;
-
-	private final int ethernetStatusMsg = 0x3000;
-	private final int conceptScreenAppearMsg = 0x3001;
-	private final int conceptScreenDisappearMsg = 0x3002;
-	private final int greennetAppearMsg = 0x3003;
-	private final int greennetDisappearMsg = 0x3004;	
-	private final int showTvpreviewDelayTime = 1000;
-	
 	//statusbarWeather
 	private TextView cityTextView;
 	private TextView weatherTextView;
@@ -177,61 +117,59 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	//statusbarTime
 	private TextView weekTextView;
 	private TextView timeTextView;
-
-	//flip condition
-	private final int FLIP_DISTANCE = 100;
-
+	//concept screen
+	private LinearLayout conceptScreen;
+	//action of receiver
+	private static final String ACTION_USB_MOUNTED = 	Intent.ACTION_MEDIA_MOUNTED;
+	private static final String ACTION_USB_UNMOUNTED = Intent.ACTION_MEDIA_UNMOUNTED;
+	private static final String ACTION_THTF_FACE_IDENTIFY = "com.thtfcd.face.swiths";
+	private static final String ACTION_CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
+	private static final String ACTION_WIFI_CHANGE = "android.net.wifi.WIFI_STATE_CHANGED";
+	private static final String ACTION_TIME_TICK = Intent.ACTION_TIME_TICK;
+	private static final String ACTION_THTF_WEATHER = "com.amlogic.tv.requestStartTV";
+	private static final String ACTION_THTF_START_TV  = "com.thtfcd.face.swiths";
+	private static final String ACTION_THTF_START_APP = "com.amlogic.tv.requestStartApp";
+	private GlobalReceiver gloableReceiver = null;
+	private UsbReceiver usbReceiver = null;
+	//messages
+	private final int conceptScreenAppearMsg = 0x3001;
+	private final int conceptScreenDisappearMsg = 0x3002;
+	private final int greennetAppearMsg = 0x3003;
+	private final int greennetDisappearMsg = 0x3004;	
+	private final int showTvpreviewDelayTime = 1000;
+	private final int handleUserAppMsg = 0x3005;	
+	private final int startBrowserDelayTime = 5000;	
+	//mouse flip condition
+	private final int FLIP_DISTANCE = 300;
 	//mouse support
 	private GestureDetector detector;
-
 	//record the basic needed process as reference
 	private static List<ActivityManager.RunningAppProcessInfo> basicNeededProcess;
-
-	private static int resumeCount =1;
-	
-	private LinearLayout conceptScreen;
-	
-	private ImageView tvPreView;
-			
-	private String StartPlayer = "com.amlogic.tvservice.startplayer";
-	public static final String StartPlayDTV = "com.launcher.play.dtv";
-	
-	private StartPlayerHandler  mystartPlayerHandler = null;
-	
+	//variables
+	private int lastSource;	
+	private int mViewCount;
 	private final int TIME_OVER = 1;
 	private final int maxSpeedOfFocusMove = 3;
-	
-	private static boolean   first_preview_start_atv = true;
-
-	//user App
-	private List<ResolveInfo> userResolveInfo; 
-	private ArrayList<ApplicationInfo> userApplications;
-	private int userAppSize;
-	private UserAppProcess userAppProcess;
-
-	private int lastSource;
-	
+	private static int resumeCount =1;
+	private static int mCurSel;
+	private static int mTvPriviewIndex = 0;
+	private static int screenWidth = 1920;
+	private MyScrollLayout mScrollLayout;
+	private final static float TARGET_HEAP_UTILIZATION = 0.75f;
+	private final static int HEAP_SIZE = 600 * 1024 * 1024;				
+	private String StartPlayer = "com.amlogic.tvservice.startplayer";
+	public static final String StartPlayDTV = "com.launcher.play.dtv";	
+	private StartPlayerHandler  mystartPlayerHandler = null;	
+	private static boolean   first_preview_start_atv = true;	
 	//the source menu state , hide or show	
 	private String menuState;
 	private String lastMenuState = "false";
-	private boolean menuStateChanged = false;
-	
+	private boolean menuStateChanged = false;	
 	//disable remote control
 	private static final String REMOTE_DISABLE = "wab 0x14 0 0";
 	//enable remote control
 	private static final String REMOTE_ENABLE = "wab 0x14 0 1";
 	
-	//all kinds of receiver
-	private StartTvReceiver startTvReceiver = new StartTvReceiver();	
-	private StatusbarWifiReceiver wifiReceiver = new StatusbarWifiReceiver();
-	private StatusbarUsbReceiver usbReceiver = new StatusbarUsbReceiver();
-	private StatusbarTimeReceiver timeReceiver = new StatusbarTimeReceiver();
-	private StatusbarWeatherReceiver weatherReceiver = new StatusbarWeatherReceiver();
-	private StatusbarEthernetReceiver ethernetReceiver = new StatusbarEthernetReceiver();	
-	private VoiceCommandReceiver voiceCommandReceiver = new VoiceCommandReceiver();
-	private UserAppReceiver userAppReceiver = new UserAppReceiver();
-	private UserAppReceiver2 userAppReceiver2 = new UserAppReceiver2();
-
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.workspace);
@@ -242,8 +180,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		int port = 0;
 		if(mTvPreview.tv != null)
 			port = mTvPreview.tv.SSMReadTVPortal() ;
-		Log.v(TAG,"SSMReadTVPortal " + port);
-		if(port == Tv.SrcInput.MPEG.ordinal() &&  first_preview_start_atv &&  (mTvPreview.tv.SSMReadLastSelectSourceType()==0
+			Log.v(TAG,"SSMReadTVPortal " + port);
+			if(port == Tv.SrcInput.MPEG.ordinal() &&  first_preview_start_atv &&  (mTvPreview.tv.SSMReadLastSelectSourceType()==0
 				|| (mTvPreview.tv.SSMReadLastSelectSourceType()== Tv.SrcInput.DTV.toInt()))){
 			mystartPlayerHandler = new StartPlayerHandler();
 		    int flag = (mTvPreview.tv.SSMReadLastSelectSourceType()== Tv.SrcInput.TV.toInt() ? 1 : 2);
@@ -252,137 +190,130 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		 	mystartPlayerHandler.sendMessageDelayed(msg, delayMillis);
 		 	first_preview_start_atv = false;
 		 	Log.v(TAG,"play preview window ");
-		}
+		}			 
+	}
 
-
-
-			 
+	@Override
+	protected void onStart(){
+		super.onStart();
+		inintVideoView();
 	}
 	
 	private void init() {
 		initIcons();
-		initUserApp();
-		registerReceiver();		
+		registerAllReceiver();		
 		initDock();		
 		initGestureDetector();
 		getBasicNeededProcess();
 		forceStartSinaService();
 		setSourceIcon();
 	}
-
-	private void registerReceiver(){
-		registerStatusbarEthernetReceiver();
-		registerStatusbarWifiReceiver();
-		registerStatusbarUsbReceiver();
-		registerStatusbarTimeReceiver();
-		registerWeatherReceiver();
-		registerStartTvReceiver();
-		registerVoiceCommandReceiver();
-		registerUserAppReceiver();
-		registerUserAppReceiver2();
-	}
 	
 	private void initIcons(){
+		faceImageView = (ImageView)findViewById(R.id.statusbar_face);
        usbImageView =(ImageView)findViewById(R.id.statusbar_usb);		
-		conceptScreen = (LinearLayout) findViewById(R.id.concept_pic);
+		conceptScreen = (LinearLayout) findViewById(R.id.conceptPic);
 		wifiImageView = (ImageView)findViewById(R.id.statusbar_wifi);
 		timeTextView = (TextView)findViewById(R.id.statusbar_time_time);
-		weekTextView = (TextView)findViewById(R.id.statusbar_time_week);		
+		//weekTextView = (TextView)findViewById(R.id.statusbar_time_week);		
 		ethernetImageView=(ImageView)findViewById(R.id.statusbar_ethernet); 
 		
 		cityTextView = (TextView) findViewById(R.id.statusbar_weather_city);	
 		tempTextView = (TextView) findViewById(R.id.statusbar_weather_temp);					
 		weatherTextView = (TextView) findViewById(R.id.statusbar_weather_weather);
 
-		dockImageView1=(ImageView) findViewById(R.id.dockImageView1);
-		dockImageView2=(ImageView) findViewById(R.id.dockImageView2);
-		dockImageView3=(ImageView) findViewById(R.id.dockImageView3);
-		dockImageView4=(ImageView) findViewById(R.id.dockImageView4);
+		pageBackground=(ImageView) findViewById(R.id.pageBackground);
 
-		//firstPageFirstLineIcon1 = (VideoView) findViewById(R.id.first_page101);
-		inintVideoView(R.id.first_page101);
-		firstPageFirstLineIcon2 = (ImageView) findViewById(R.id.first_page102);
-		firstPageFirstLineIcon3 = (ImageView) findViewById(R.id.first_page103);
-		firstPageSecondLineIcon1 = (ImageView) findViewById(R.id.first_page201);
-		firstPageSecondLineIcon2 = (ImageView) findViewById(R.id.first_page202);
-		firstPageSecondLineIcon3 = (ImageView) findViewById(R.id.first_page203);		
-		firstPageSecondLineIcon4 = (ImageView) findViewById(R.id.first_page204);
-
+		firstPageFirstLineIcon0 = (ImageView) findViewById(R.id.firstPage000ImageView);
+		inintVideoView(R.id.firstPage000VideoView);
+		firstPageFirstLineIcon1 = (ImageView) findViewById(R.id.firstPage101ImageView);
+		firstPageFirstLineIcon2 = (ImageView) findViewById(R.id.firstPage102ImageView);
+		firstPageFirstLineIcon3 = (ImageView) findViewById(R.id.firstPage102ImageView);
+		firstPageFirstLineIcon4 = (ImageView) findViewById(R.id.firstPage104ImageView);
+		firstPageSecondLineIcon1 = (ImageView) findViewById(R.id.firstPage201ImageView);
+		firstPageSecondLineIcon2 = (ImageView) findViewById(R.id.firstPage202ImageView);
+		firstPageSecondLineIcon3 = (ImageView) findViewById(R.id.firstPage203ImageView);		
+		firstPageSecondLineIcon4 = (ImageView) findViewById(R.id.firstPage204ImageView);
+		
 		//special process for display GreenNet
-		firstPageSecondLineIcon3.setOnClickListener(new View.OnClickListener() {
+		firstPageSecondLineIcon4.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				firstPageSecondLineIcon4.setFocusableInTouchMode(true);
+				firstPageSecondLineIcon4.requestFocus();
+				firstPageSecondLineIcon4.requestFocusFromTouch();
+				mScrollLayout.setFocusIconName("none");			
 				startGreenNet();
 			}
 		});
 		
-		secondPageFirstLineIcon1 = (ImageView) findViewById(R.id.second_page101);
-		secondPageFirstLineIcon2 = (ImageView) findViewById(R.id.second_page102);
-		secondPageFirstLineIcon3 = (ImageView) findViewById(R.id.second_page103);
-		secondPageSecondLineIcon1 = (ImageView) findViewById(R.id.second_page201);
-		secondPageSecondLineIcon2 = (ImageView) findViewById(R.id.second_page202);
-		secondPageSecondLineIcon3 = (ImageView) findViewById(R.id.second_page203);	
+		secondPageFirstLineIcon0 = (ImageView) findViewById(R.id.secondPage000ImageView);
+		secondPageFirstLineIcon1 = (ImageView) findViewById(R.id.secondPage101ImageView);
+		secondPageFirstLineIcon2 = (ImageView) findViewById(R.id.secondPage102ImageView);
+		secondPageSecondLineIcon1 = (ImageView) findViewById(R.id.secondPage201ImageView);
+		secondPageSecondLineIcon2 = (ImageView) findViewById(R.id.secondPage202ImageView);
+		secondPageSecondLineIcon3 = (ImageView) findViewById(R.id.secondPage203ImageView);
+		secondPageSecondLineIcon4 = (ImageView) findViewById(R.id.secondPage204ImageView);
 
-		thirdPageFirstLineIcon1 = (ImageView) findViewById(R.id.third_page101);
-		thirdPageFirstLineIcon2 = (ImageView) findViewById(R.id.third_page102);
-		thirdPageFirstLineIcon3 = (ImageView) findViewById(R.id.third_page103);
-		thirdPageFirstLineIcon4 = (ImageView) findViewById(R.id.third_page104);
-		thirdPageSecondLineIcon1 = (ImageView) findViewById(R.id.third_page201);
-		thirdPageSecondLineIcon2 = (ImageView) findViewById(R.id.third_page202);
-		thirdPageSecondLineIcon3 = (ImageView) findViewById(R.id.third_page203);
-		thirdPageSecondLineIcon4 = (ImageView) findViewById(R.id.third_page204);
+		thirdPageFirstLineIcon1 = (ImageView) findViewById(R.id.thirdPage101ImageView);
+		thirdPageFirstLineIcon2 = (ImageView) findViewById(R.id.thirdPage102ImageView);
+		thirdPageFirstLineIcon3 = (ImageView) findViewById(R.id.thirdPage103ImageView);
+		thirdPageFirstLineIcon4 = (ImageView) findViewById(R.id.thirdPage104ImageView);
+		thirdPageFirstLineIcon5 = (ImageView) findViewById(R.id.thirdPage105ImageView);
+		thirdPageSecondLineIcon1 = (ImageView) findViewById(R.id.thirdPage201ImageView);
+		thirdPageSecondLineIcon2 = (ImageView) findViewById(R.id.thirdPage202ImageView);
+		thirdPageSecondLineIcon3 = (ImageView) findViewById(R.id.thirdPage203ImageView);
+		thirdPageSecondLineIcon4 = (ImageView) findViewById(R.id.thirdPage204ImageView);
+		thirdPageSecondLineIcon5 = (ImageView) findViewById(R.id.thirdPage205ImageView);
 
-		fourthPageFirstLineIcon1 = (ImageView) findViewById(R.id.fourth_page101);
-		fourthPageFirstLineIcon2 = (ImageView) findViewById(R.id.fourth_page102);
-		fourthPageFirstLineIcon3 = (ImageView) findViewById(R.id.fourth_page103_icon);
-		fourthPageFirstLineIcon4 = (ImageView) findViewById(R.id.fourth_page104_icon);
-		fourthPageSecondLineIcon1 = (ImageView) findViewById(R.id.fourth_page201_icon);
-		fourthPageSecondLineIcon2 = (ImageView) findViewById(R.id.fourth_page202_icon);
-		fourthPageSecondLineIcon3 = (ImageView) findViewById(R.id.fourth_page203_icon);
-		fourthPageSecondLineIcon4 = (ImageView) findViewById(R.id.fourth_page204_icon);
-		fourthPageSecondLineIcon5 = (ImageView) findViewById(R.id.fourth_page205_icon);
-		fourthPageSecondLineIcon6 = (ImageView) findViewById(R.id.fourth_page206_icon);	
-		fourthPageFirstLineName3 = (TextView) findViewById(R.id.fourth_page103_name);
-		fourthPageFirstLineName4 = (TextView) findViewById(R.id.fourth_page104_name);
-		fourthPageSecondLineName1 = (TextView) findViewById(R.id.fourth_page201_name);
-		fourthPageSecondLineName2 = (TextView) findViewById(R.id.fourth_page202_name);
-		fourthPageSecondLineName3 = (TextView) findViewById(R.id.fourth_page203_name);
-		fourthPageSecondLineName4 = (TextView) findViewById(R.id.fourth_page204_name);
-		fourthPageSecondLineName5 = (TextView) findViewById(R.id.fourth_page205_name);
-		fourthPageSecondLineName6 = (TextView) findViewById(R.id.fourth_page206_name);
-		fourthPageFirstLineApp3Parent = (LinearLayout) findViewById(R.id.fourth_page103_parent);
-		fourthPageFirstLineApp4Parent = (LinearLayout) findViewById(R.id.fourth_page104_parent);
-		fourthPageSecondLineApp1Parent = (LinearLayout) findViewById(R.id.fourth_page201_parent);
-		fourthPageSecondLineApp2Parent = (LinearLayout) findViewById(R.id.fourth_page202_parent);
-		fourthPageSecondLineApp3Parent = (LinearLayout) findViewById(R.id.fourth_page203_parent);
-		fourthPageSecondLineApp4Parent = (LinearLayout) findViewById(R.id.fourth_page204_parent);
-		fourthPageSecondLineApp5Parent = (LinearLayout) findViewById(R.id.fourth_page205_parent);
-		fourthPageSecondLineApp6Parent = (LinearLayout) findViewById(R.id.fourth_page206_parent);
-		fourthPageFirstLineIcon3Layout =(LinearLayout) findViewById(R.id.fourth_page103_layout);
-		fourthPageFirstLineIcon4Layout =(LinearLayout) findViewById(R.id.fourth_page104_layout);
-		fourthPageSecondLineIcon1Layout =(LinearLayout) findViewById(R.id.fourth_page201_layout);
-		fourthPageSecondLineIcon2Layout =(LinearLayout) findViewById(R.id.fourth_page202_layout);
-		fourthPageSecondLineIcon3Layout =(LinearLayout) findViewById(R.id.fourth_page203_layout);
-		fourthPageSecondLineIcon4Layout =(LinearLayout) findViewById(R.id.fourth_page204_layout);
-		fourthPageSecondLineIcon5Layout =(LinearLayout) findViewById(R.id.fourth_page205_layout);
-		fourthPageSecondLineIcon6Layout =(LinearLayout) findViewById(R.id.fourth_page206_layout);
+		fourthPageFirstLineIcon0 = (ImageView) findViewById(R.id.fourthPage000ImageView);
+		fourthPageFirstLineIcon1 = (ImageView) findViewById(R.id.fourthPage101ImageView);
+		fourthPageFirstLineIcon2 = (ImageView) findViewById(R.id.fourthPage102ImageView);
+		fourthPageSecondLineIcon1 = (ImageView) findViewById(R.id.fourthPage201ImageView);		
+		fourthPageSecondLineIcon2 = (ImageView) findViewById(R.id.fourthPage202ImageView);
+	}
+
+	private void registerAllReceiver(){
+		if(gloableReceiver == null){
+			IntentFilter filter = new IntentFilter(ACTION_THTF_FACE_IDENTIFY);			
+			filter.addAction(ACTION_CONNECTIVITY_CHANGE);
+			filter.addAction(ACTION_WIFI_CHANGE);
+			filter.addAction(ACTION_TIME_TICK);
+			filter.addAction(ACTION_THTF_WEATHER);
+			filter.addAction(ACTION_THTF_START_TV);
+			filter.addAction(ACTION_THTF_START_APP);
+			
+			gloableReceiver = new GlobalReceiver();
+			registerReceiver(gloableReceiver, filter);
+		}
+		if(usbReceiver == null){
+			IntentFilter filter = new IntentFilter(ACTION_USB_MOUNTED);
+			filter.addAction(ACTION_USB_UNMOUNTED);
+			filter.addDataScheme("file");
+			usbReceiver = new UsbReceiver();
+			registerReceiver(usbReceiver, filter);
+		}
+	}
+
+	public void inintVideoView(int resourceId){
+		tvVideoView= (VideoView) findViewById(resourceId);
 	}
 	
-	public void inintVideoView(int resourceId){
-		firstPageFirstLineIcon1 = (VideoView) findViewById(R.id.first_page101);
-		firstPageFirstLineIcon1.getHolder().addCallback(this);
+	public void inintVideoView(){
+		tvVideoView.getHolder().addCallback(this);
+       tvVideoView.getHolder().setFormat(PixelFormat.VIDEO_HOLE_REAL);
 	}
 	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		
+		initSurface(holder);
 		Log.d(TAG, "====surfaceChanged====");
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		
+		initSurface(holder);
 		Log.d(TAG, "====surfaceCreated====");
 	}
 
@@ -391,13 +322,15 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		Log.d(TAG, "====surfaceDestroyed====");
 	}
 
-	private void initUserApp(){
-		if(userAppProcess == null){
-			userAppProcess = new UserAppProcess(this);
+	private void initSurface(SurfaceHolder h) {
+		Canvas c = null;
+		try {
+			Log.d(TAG, "initSurface");
+			c = h.lockCanvas();
+		} finally {
+			if (c != null)
+			h.unlockCanvasAndPost(c);
 		}
-		userAppProcess.readGroupDetail();
-		loadAllAppInfo();
-		setUserAppInfo();
 	}
 
 	private void initDock(){
@@ -405,10 +338,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		mScrollLayout = (MyScrollLayout) findViewById(R.id.ScrollLayout);		
 		mViewCount = mScrollLayout.getChildCount();
 		mCurSel = 0;
-		dockImageView1.setImageResource(R.drawable.dock1);
-		dockImageView2.setImageResource(R.drawable.dock_image2_unselected);
-		dockImageView3.setImageResource(R.drawable.dock_image3_unselected);
-		dockImageView4.setImageResource(R.drawable.dock_image4_unselected);
+		pageBackground.setBackgroundResource(R.drawable.page1);
+		
 		//set the default page property   
 	    SystemProperties.set("tv.launcher_page", "0");             		
 		mScrollLayout.SetOnViewChangeListener(this);
@@ -416,38 +347,40 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 
 	private void initGestureDetector(){
 		detector = new GestureDetector(this);
+		firstPageFirstLineIcon0.setOnTouchListener(mOnTouchListener);		
 		firstPageFirstLineIcon1.setOnTouchListener(mOnTouchListener);		
 		firstPageFirstLineIcon2.setOnTouchListener(mOnTouchListener);
 		firstPageFirstLineIcon3.setOnTouchListener(mOnTouchListener);
+		firstPageFirstLineIcon4.setOnTouchListener(mOnTouchListener);
 		firstPageSecondLineIcon1.setOnTouchListener(mOnTouchListener);
 		firstPageSecondLineIcon2.setOnTouchListener(mOnTouchListener);
 		firstPageSecondLineIcon3.setOnTouchListener(mOnTouchListener);
 		firstPageSecondLineIcon4.setOnTouchListener(mOnTouchListener);
 
+		secondPageFirstLineIcon0.setOnTouchListener(mOnTouchListener);
 		secondPageFirstLineIcon1.setOnTouchListener(mOnTouchListener);
 		secondPageFirstLineIcon2.setOnTouchListener(mOnTouchListener);
-		secondPageFirstLineIcon3.setOnTouchListener(mOnTouchListener);
 		secondPageSecondLineIcon1.setOnTouchListener(mOnTouchListener);
 		secondPageSecondLineIcon2.setOnTouchListener(mOnTouchListener);
 		secondPageSecondLineIcon3.setOnTouchListener(mOnTouchListener);
+		secondPageSecondLineIcon4.setOnTouchListener(mOnTouchListener);
 
 		thirdPageFirstLineIcon1.setOnTouchListener(mOnTouchListener);
 		thirdPageFirstLineIcon2.setOnTouchListener(mOnTouchListener);
 		thirdPageFirstLineIcon3.setOnTouchListener(mOnTouchListener);
 		thirdPageFirstLineIcon4.setOnTouchListener(mOnTouchListener);
+		thirdPageFirstLineIcon5.setOnTouchListener(mOnTouchListener);
 		thirdPageSecondLineIcon1.setOnTouchListener(mOnTouchListener);
 		thirdPageSecondLineIcon2.setOnTouchListener(mOnTouchListener);
 		thirdPageSecondLineIcon3.setOnTouchListener(mOnTouchListener);
 		thirdPageSecondLineIcon4.setOnTouchListener(mOnTouchListener);
+		thirdPageSecondLineIcon5.setOnTouchListener(mOnTouchListener);
 
+		fourthPageFirstLineIcon0.setOnTouchListener(mOnTouchListener);
 		fourthPageFirstLineIcon1.setOnTouchListener(mOnTouchListener);
 		fourthPageFirstLineIcon2.setOnTouchListener(mOnTouchListener);
 		fourthPageSecondLineIcon1.setOnTouchListener(mOnTouchListener);
 		fourthPageSecondLineIcon2.setOnTouchListener(mOnTouchListener);
-		fourthPageSecondLineIcon3.setOnTouchListener(mOnTouchListener);
-		fourthPageSecondLineIcon4.setOnTouchListener(mOnTouchListener);
-		fourthPageSecondLineIcon5.setOnTouchListener(mOnTouchListener);
-		fourthPageSecondLineIcon6.setOnTouchListener(mOnTouchListener);
 	}
 	
 	private void updateStatus() {
@@ -467,7 +400,6 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		//close the tvpreview window	
 		//mTvPreview.SetWindowSize(0 , 0 , 0 , 0 , 0);		
 		appearGreennet();
-		//mScrollLayout.mImageView=mScrollLayout.multiScreenImageView;
 		
 		String packageName = "com.android.browser";
 		final Intent intent = this.getPackageManager().getLaunchIntentForPackage(packageName);
@@ -498,8 +430,11 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 				mScrollLayout.resumeFromAtvScreen = false;
 				mScrollLayout.inAtvScreen = false;
 				if(mCurSel == mTvPriviewIndex ){
-					//enable remote control
-					mTvPreview.SetRegBit(REMOTE_ENABLE);
+					if(!SystemProperties.getBoolean("persist.tv.factory_aging_mode", false )){
+						Log.d(TAG,"not in aging mode");//add this for aging mode remote cannot use
+						//enable remote control
+						mTvPreview.SetRegBit(REMOTE_ENABLE);
+					}
 					//delay for source change  completed
 					setSourceIconAfterResume(1000);	
 				}				
@@ -509,36 +444,40 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		}, showTvpreviewDelayTime * 2);		
 	}
 
-	//display 1 second when start internetBrowser
-	public void appearGreennet(){
+	//display when start internetBrowser
+	public void appearGreennet(){		
+		mTvPreview.SetRegBit(REMOTE_DISABLE);
 	 	Message appearGreennetMsg = new Message();
 		appearGreennetMsg.what = greennetAppearMsg;
 		greenNetScreenHandler.sendMessage(appearGreennetMsg);
 		Log.d(TAG,"Send greennetAppear Command");
-
+		//set the page property	if (launcher not in first page){hide the tvprevie source icon}
+		SystemProperties.set("tv.launcher_page", "8888");	
+		
 		new Timer().schedule(new TimerTask(){
 			@Override
 			public void run() {
 			 	Message greennetMsg = new Message();
 				greennetMsg.what = greennetDisappearMsg;
 				greenNetScreenHandler.sendMessage(greennetMsg);
-				Log.d(TAG,"Send greennetDisappear Command");				
+				mTvPreview.SetRegBit(REMOTE_ENABLE);
+				Log.d(TAG,"Send greennetDisappear Command");
 			}
 			
-		}, 2500);		
+		}, startBrowserDelayTime);		
 	}
 
 	Handler conceptScreenHandler = new Handler() {
 	    @Override
 	    public void handleMessage(Message msg) {
 	    	if(msg.what == conceptScreenAppearMsg){
-			conceptScreen.setBackgroundResource(R.drawable.concept);
-			conceptScreen.setVisibility(View.VISIBLE);
-			Log.d(TAG,"appearConceptScreen");
-		}else if(msg.what == conceptScreenDisappearMsg){
-			conceptScreen.setVisibility(View.GONE);
-			Log.d(TAG,"disConceptScreen");			
-		}
+				conceptScreen.setBackgroundResource(R.drawable.concept);
+				conceptScreen.setVisibility(View.VISIBLE);
+				Log.d(TAG,"appearConceptScreen");
+			}else if(msg.what == conceptScreenDisappearMsg){
+				conceptScreen.setVisibility(View.GONE);
+				Log.d(TAG,"disConceptScreen");			
+			}
 	        super.handleMessage(msg);
 	    }
 	};
@@ -557,16 +496,6 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	    }
 	};
 	
-	Handler ethernetStatusHandler = new Handler() {
-	    @Override
-	    public void handleMessage(Message msg) {
-	    	if(msg.what == ethernetStatusMsg){
-			updateEthernetStatus();
-		}
-	        super.handleMessage(msg);
-	    }
-	};
-
 	private void updateEthernetStatus(){
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET).isConnected()){
@@ -609,9 +538,11 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	}
 
 	private void updateTimeStatus(){
-		int [] aWeek ={R.string.sunday,R.string.monday,R.string.tuesday,R.string.wednesday,R.string.thursday,R.string.friday,R.string.saturday };
+		int [] aWeek ={R.string.sunday,R.string.monday,R.string.tuesday,R.string.wednesday,
+				R.string.thursday,R.string.friday,R.string.saturday };
 		ContentResolver cv = this.getContentResolver();
-		String strTimeFormat = android.provider.Settings.System.getString(cv,android.provider.Settings.System.TIME_12_24);
+		String strTimeFormat = android.provider.Settings.System.getString(cv,
+				android.provider.Settings.System.TIME_12_24);
 	        	        	        
 		Calendar ca = Calendar.getInstance();
 		String minute=String.valueOf(ca.get(Calendar.MINUTE));
@@ -624,8 +555,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 			hour=String.valueOf(ca.get(Calendar.HOUR_OF_DAY));
 			Log.d(TAG,"___24");	
 		}		 
-		String WeekOfYear = this.getString( aWeek[ca.get( Calendar.DAY_OF_WEEK ) - 1] ) ;
-		weekTextView.setText(WeekOfYear);
+		//String WeekOfYear = this.getString( aWeek[ca.get( Calendar.DAY_OF_WEEK ) - 1] ) ;
+		//weekTextView.setText(WeekOfYear);
 		timeTextView.setText(hour + " : " + minute);
 	}
 
@@ -642,440 +573,72 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 			Log.d(TAG,"weather empty");
 		}
 	}
-	
-	class StatusbarEthernetReceiver extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context arg0, Intent arg1) {		
-			Log.d(TAG,"Ethernet process");
-			updateEthernetStatus();							
-		}		
+
+	private void updateFaceStatus(Intent intent){
+		boolean data = false;
+		if(intent != null){
+			data = intent.getExtras().getBoolean("face_switchs");
+		}else{
+			Log.d(TAG,"Face Recogize Intent is null");
+			return;
+		}
+		if( data){
+			Log.d(TAG,"Recogize Scuess!");
+			faceImageView.setVisibility(View.VISIBLE);
+		}else{
+			Log.d(TAG,"Recogize Failed!");		
+			faceImageView.setVisibility(View.GONE);
+		}
 	}
 
-	class StatusbarWifiReceiver extends BroadcastReceiver{
+	class UsbReceiver extends BroadcastReceiver{
 		@Override
-		public void onReceive(Context arg0, Intent arg1) {		
-			Log.d(TAG,"wifi process");
-			updateWifiStatus();							
-		}		
+		public void onReceive(Context arg0,Intent arg1){
+			String action = arg1.getAction();
+			
+			if(ACTION_USB_MOUNTED.equals(action)){
+				Log.d(TAG,"usb mounted");		  	 
+				updateUsbStatus();	
+			}else if(ACTION_USB_UNMOUNTED.equals(action)){
+				Log.d(TAG,"usb unmounted");		  	 
+				updateUsbStatus();	
+			}			
+		}
 	}
 	
-	class StatusbarUsbReceiver extends BroadcastReceiver{
+	class GlobalReceiver extends BroadcastReceiver{
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {		
-			Log.d(TAG,"usb process");
-			updateUsbStatus();							
-		}		
-	}
-	
-	class StatusbarTimeReceiver extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context arg0, Intent arg1) {		
-			Log.d(TAG,"Time process");
-			updateTimeStatus();							
-		}		
-	}
-
-	class StatusbarWeatherReceiver extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context arg0, Intent arg1) {		
-			Log.d(TAG,"weather process");
-			updateWeatherStatus(arg1);							
-		}		
-	}
-	
-
-	class StartTvReceiver extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context arg0, Intent arg1) {
-			Log.d(TAG,"StartTv process");
-			if( mTvPriviewIndex == 1 ){
-				mScrollLayout.snapPrevious();
-			}else if( mTvPriviewIndex == 2){
-				mScrollLayout.atThirdPageSnapRight();
+			String action = arg1.getAction();
+			
+			if(ACTION_THTF_FACE_IDENTIFY.equals(action)){
+				Log.d(TAG,"face idetifing");
+				updateFaceStatus(arg1);
+			}else if(ACTION_CONNECTIVITY_CHANGE.equals(action)){
+				Log.d(TAG,"Ethernet process");
+				updateEthernetStatus();		
+			}else if(ACTION_WIFI_CHANGE.equals(action)){
+				Log.d(TAG,"wifi process");
+				updateWifiStatus();	
+			}else if(ACTION_TIME_TICK.equals(action)){
+				Log.d(TAG,"Time process");
+				updateTimeStatus();							
+			}else if(ACTION_THTF_WEATHER.equals(action)){
+				Log.d(TAG,"weather process");
+				updateWeatherStatus(arg1);
+			}else if(ACTION_THTF_START_TV.equals(action)){
+				Log.d(TAG,"StartTv process");
+				if( mTvPriviewIndex == 1 ){
+					mScrollLayout.snapPrevious();
+				}else if( mTvPriviewIndex == 2){
+					mScrollLayout.atFourthPageSnapRight();
+				}
+			   	//mTvPreview.startTV();
+			}else if(ACTION_THTF_START_APP.equals(action)){
+				Log.d(TAG,"voice command process");
+				processVoiceCommand(arg1);
 			}
-		   	//mTvPreview.startTV();
-		}		
-	}
-
-	class VoiceCommandReceiver extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context arg0, Intent arg1) {		
-			processVoiceCommand(arg1);								
-		}		
-	}
-
-	class UserAppReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			initUserApp();
 		}
-	}
-
-	class UserAppReceiver2 extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context arg0, Intent arg1) {		
-			initUserApp();							
-		}		
-	}
-
-	private void loadAllAppInfo() {
-		PackageManager pm = getPackageManager(); 
-
-		if( userApplications== null ){
-			userApplications = new ArrayList<ApplicationInfo>();
-		}
-		userApplications.clear();
-		
-		for (int i = 0; i < UserAppProcess.allApksToDisplayInDesktop.size(); i++) {
-			
-			ApplicationInfo appInfo = new ApplicationInfo();
-			String curApkPkgName=UserAppProcess.allApksToDisplayInDesktop.get(i);
-
-			Log.d(TAG,"=======================get PKG name :" + curApkPkgName);
-			
-			ResolveInfo info2 = getResolveInfoByPackage( curApkPkgName );
-			
-			if(info2 != null){   
-				appInfo.title = info2.loadLabel(pm);
-				Log.d(TAG,"title :" + appInfo.title);
-				appInfo.icon = info2.activityInfo.loadIcon(pm);
-				Log.d(TAG,"icon :" + appInfo.icon);
-				appInfo.intent = pm.getLaunchIntentForPackage( curApkPkgName );
-				userApplications.add(appInfo);
-			}
-			
-		}
-			
-	}	
-
-	private ResolveInfo getResolveInfoByPackage(String packageName) {
-		final List<ResolveInfo> matches = findActivitiesForPackage( packageName);
-		int count = (matches != null) ? matches.size() : 0;
-		
-		for(int i=0; i<count; i++) {
-			ResolveInfo info = matches.get(i);
-			ActivityInfo ainfo = (info != null) ? info.activityInfo : null;
-			String packName = (ainfo != null) ? ainfo.packageName : null;
-			if(packageName.equals(packName))
-				return info;
-		}
-		return null;
-	}
-	 
-	private List<ResolveInfo> findActivitiesForPackage(String packageName) {
-       final PackageManager packageManager = getPackageManager();
-
-       final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-       mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-       mainIntent.setPackage(packageName);
-
-       final List<ResolveInfo> apps = packageManager.queryIntentActivities(mainIntent, 0);
-       return apps != null ? apps : new ArrayList<ResolveInfo>();
-	}
-
-	private void setUserAppInfo(){
-
-		initUserAppInfo();
-		userAppSize = userApplications.size();
-
-		if(userAppSize == 0){
-			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page102);
-			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page102);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page101);			
-			fourthPageFirstLineIcon2.setNextFocusRightId(R.id.first_page101);
-			//process down key focus
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page101);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page102);			
-		}else if( userAppSize == 1){
-			setThirdUserApp();
-			
-			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page103_icon);
-			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page103_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page101);						
-			fourthPageFirstLineIcon2.setNextFocusRightId(R.id.fourth_page103_icon);			
-			fourthPageFirstLineIcon3.setNextFocusRightId(R.id.first_page101);
-			//process down key focus
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page101);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page102);
-			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page103_icon);			
-		}else if( userAppSize == 2){
-			setFourthUserApp();
-
-			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
-			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page101);
-			//process down key focus
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page101);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page102);
-			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page103_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page104_icon);
-		}else if( userAppSize == 3){
-			setFifthUserApp();
-			
-			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
-			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page201_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);		
-			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.first_page201);
-			//process down key focus			
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page201_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page201_icon);			
-		}else if( userAppSize == 4){
-			setSixthUserApp();
-			
-			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
-			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page202_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);
-			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
-			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.first_page201);
-			//process down key focus			
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page202_icon);
-			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page202_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page202_icon);			
-		}else if( userAppSize == 5){
-			setSeventhUserApp();
-
-			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
-			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page203_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);
-			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
-			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
-			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.first_page201);
-			//process down key focus			
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page203_icon);
-			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page203_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page203_icon);				
-		}else if( userAppSize == 6){
-			setEighthUserApp();
-
-			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
-			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page204_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);	
-			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
-			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
-			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.fourth_page204_icon);
-			fourthPageSecondLineIcon4.setNextFocusRightId(R.id.first_page201);
-			//process down key focus			
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page204_icon);
-			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page204_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page204_icon);			
-		}else if( userAppSize == 7){
-			setNinthUserApp();
-
-			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
-			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page205_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);	
-			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
-			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
-			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.fourth_page204_icon);
-			fourthPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page205_icon);
-			fourthPageSecondLineIcon5.setNextFocusRightId(R.id.first_page201);
-			//process down key focus			
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page204_icon);
-			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page205_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page205_icon);				
-		}else if( userAppSize >= 8){
-			setTenthUserApp();
-
-			firstPageFirstLineIcon1.setNextFocusLeftId(R.id.fourth_page104_icon);
-			firstPageSecondLineIcon1.setNextFocusLeftId(R.id.fourth_page206_icon);
-			thirdPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page201_icon);	
-			fourthPageSecondLineIcon1.setNextFocusRightId(R.id.fourth_page202_icon);
-			fourthPageSecondLineIcon2.setNextFocusRightId(R.id.fourth_page203_icon);
-			fourthPageSecondLineIcon3.setNextFocusRightId(R.id.fourth_page204_icon);
-			fourthPageSecondLineIcon4.setNextFocusRightId(R.id.fourth_page205_icon);
-			fourthPageSecondLineIcon5.setNextFocusRightId(R.id.fourth_page206_icon);
-			fourthPageSecondLineIcon6.setNextFocusRightId(R.id.first_page201);
-			//process down key focus			
-			fourthPageFirstLineIcon1.setNextFocusDownId(R.id.fourth_page202_icon);
-			fourthPageFirstLineIcon2.setNextFocusDownId(R.id.fourth_page204_icon);
-			fourthPageFirstLineIcon3.setNextFocusDownId(R.id.fourth_page205_icon);
-			fourthPageFirstLineIcon4.setNextFocusDownId(R.id.fourth_page206_icon);			
-		}
-	}
-
-	private void setThirdUserApp(){
-		fourthPageFirstLineIcon3.setBackgroundDrawable(userApplications.get(0).icon);
-		fourthPageFirstLineName3.setText(userApplications.get(0).title);
-		Log.d(TAG,"______________________icon 0 " + userApplications.get(0).icon);		
-		Log.d(TAG,"______________________title 0 " + userApplications.get(0).title);
-		fourthPageFirstLineIcon3.setVisibility(View.VISIBLE);
-		fourthPageFirstLineName3.setVisibility(View.VISIBLE);
-		fourthPageFirstLineApp3Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageFirstLineIcon3,fourthPageFirstLineIcon3Layout,fourthPageFirstLineApp3FocusChangeListener);
-		userAppClick(fourthPageFirstLineIcon3,fourthPageFirstLineApp3ClickListener,userApplications.get(0).intent);
-	}
-
-	private void setFourthUserApp(){
-		setThirdUserApp();
-		fourthPageFirstLineIcon4.setBackgroundDrawable(userApplications.get(1).icon);
-		fourthPageFirstLineName4.setText(userApplications.get(1).title);
-		Log.d(TAG,"______________________icon 1 " + userApplications.get(1).icon);		
-		Log.d(TAG,"______________________title 1 " + userApplications.get(1).title);		
-		fourthPageFirstLineIcon4.setVisibility(View.VISIBLE);
-		fourthPageFirstLineName4.setVisibility(View.VISIBLE);
-		fourthPageFirstLineApp4Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageFirstLineIcon4,fourthPageFirstLineIcon4Layout,fourthPageFirstLineApp4FocusChangeListener);		
-		userAppClick(fourthPageFirstLineIcon4,fourthPageFirstLineApp4ClickListener,userApplications.get(1).intent);
-	}
-
-	private void setFifthUserApp(){
-		setFourthUserApp();
-		fourthPageSecondLineIcon1.setBackgroundDrawable(userApplications.get(2).icon);
-		fourthPageSecondLineName1.setText(userApplications.get(2).title);
-		Log.d(TAG,"______________________icon 2 " + userApplications.get(2).icon);		
-		Log.d(TAG,"______________________title 2 " + userApplications.get(2).title);		
-		fourthPageSecondLineIcon1.setVisibility(View.VISIBLE);
-		fourthPageSecondLineName1.setVisibility(View.VISIBLE);
-		fourthPageSecondLineApp1Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon1,fourthPageSecondLineIcon1Layout,fourthPageSecondLineApp1FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon1,fourthPageSecondLineApp1ClickListener,userApplications.get(2).intent);
-	}
-	
-	private void setSixthUserApp(){
-		setFifthUserApp();
-		fourthPageSecondLineIcon2.setBackgroundDrawable(userApplications.get(3).icon);
-		fourthPageSecondLineName2.setText(userApplications.get(3).title);
-		Log.d(TAG,"______________________icon 3 " + userApplications.get(3).icon);		
-		Log.d(TAG,"______________________title 3 " + userApplications.get(3).title);		
-		fourthPageSecondLineIcon2.setVisibility(View.VISIBLE);
-		fourthPageSecondLineName2.setVisibility(View.VISIBLE);
-		fourthPageSecondLineApp2Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon2,fourthPageSecondLineIcon2Layout,fourthPageSecondLineApp2FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon2,fourthPageSecondLineApp2ClickListener,userApplications.get(3).intent);
-	}
-
-	private void setSeventhUserApp(){
-		setSixthUserApp();
-		fourthPageSecondLineIcon3.setBackgroundDrawable(userApplications.get(4).icon);
-		fourthPageSecondLineName3.setText(userApplications.get(4).title);
-		Log.d(TAG,"______________________icon 4 " + userApplications.get(4).icon);		
-		Log.d(TAG,"______________________title 4 " + userApplications.get(4).title);			
-		fourthPageSecondLineIcon3.setVisibility(View.VISIBLE);
-		fourthPageSecondLineName3.setVisibility(View.VISIBLE);
-		fourthPageSecondLineApp3Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon3,fourthPageSecondLineIcon3Layout,fourthPageSecondLineApp3FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon3,fourthPageSecondLineApp3ClickListener,userApplications.get(4).intent);
-	}
-
-	private void setEighthUserApp(){
-		setSeventhUserApp();
-		fourthPageSecondLineIcon4.setBackgroundDrawable(userApplications.get(5).icon);
-		fourthPageSecondLineName4.setText(userApplications.get(5).title);
-		Log.d(TAG,"______________________icon 5 " + userApplications.get(5).icon);		
-		Log.d(TAG,"______________________title 5 " + userApplications.get(5).title);		
-		fourthPageSecondLineIcon4.setVisibility(View.VISIBLE);
-		fourthPageSecondLineName4.setVisibility(View.VISIBLE);
-		fourthPageSecondLineApp4Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon4,fourthPageSecondLineIcon4Layout,fourthPageSecondLineApp4FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon4,fourthPageSecondLineApp4ClickListener,userApplications.get(5).intent);
-	}
-
-	private void setNinthUserApp(){
-		setEighthUserApp();
-		fourthPageSecondLineIcon5.setBackgroundDrawable(userApplications.get(6).icon);
-		fourthPageSecondLineName5.setText(userApplications.get(6).title);
-		Log.d(TAG,"______________________icon 6 " + userApplications.get(6).icon);		
-		Log.d(TAG,"______________________title 6 " + userApplications.get(6).title);		
-		fourthPageSecondLineIcon5.setVisibility(View.VISIBLE);
-		fourthPageSecondLineName5.setVisibility(View.VISIBLE);
-		fourthPageSecondLineApp5Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon5,fourthPageSecondLineIcon5Layout,fourthPageSecondLineApp5FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon5,fourthPageSecondLineApp5ClickListener,userApplications.get(6).intent);
-	}
-
-	private void setTenthUserApp(){
-		setNinthUserApp();
-		fourthPageSecondLineIcon6.setBackgroundDrawable(userApplications.get(7).icon);
-		fourthPageSecondLineName6.setText(userApplications.get(7).title);
-		Log.d(TAG,"______________________icon 7 " + userApplications.get(7).icon);		
-		Log.d(TAG,"______________________title 7 " + userApplications.get(7).title);		
-		fourthPageSecondLineIcon6.setVisibility(View.VISIBLE);
-		fourthPageSecondLineName6.setVisibility(View.VISIBLE);
-		fourthPageSecondLineApp6Parent.setBackgroundResource(R.drawable.user_app_background);		
-		userAppFocuschange(fourthPageSecondLineIcon6,fourthPageSecondLineIcon6Layout,fourthPageSecondLineApp6FocusChangeListener);		
-		userAppClick(fourthPageSecondLineIcon6,fourthPageSecondLineApp6ClickListener,userApplications.get(7).intent);
-	}
-	
-	private void initUserAppInfo(){
-		fourthPageFirstLineIcon2.setNextFocusRightId(R.id.fourth_page103_icon);			
-		fourthPageFirstLineIcon3.setNextFocusRightId(R.id.fourth_page104_icon);			
-		fourthPageFirstLineIcon4.setNextFocusRightId(R.id.first_page101);
-			
-		fourthPageFirstLineIcon3.setVisibility(View.GONE);
-		fourthPageFirstLineIcon4.setVisibility(View.GONE);
-		fourthPageSecondLineIcon1.setVisibility(View.GONE);
-		fourthPageSecondLineIcon2.setVisibility(View.GONE);
-		fourthPageSecondLineIcon3.setVisibility(View.GONE);
-		fourthPageSecondLineIcon4.setVisibility(View.GONE);
-		fourthPageSecondLineIcon5.setVisibility(View.GONE);
-		fourthPageSecondLineIcon6.setVisibility(View.GONE);
-
-		fourthPageFirstLineName3.setVisibility(View.GONE);		
-		fourthPageFirstLineName4.setVisibility(View.GONE);		
-		fourthPageSecondLineName1.setVisibility(View.GONE);		
-		fourthPageSecondLineName2.setVisibility(View.GONE);		
-		fourthPageSecondLineName3.setVisibility(View.GONE);		
-		fourthPageSecondLineName4.setVisibility(View.GONE);		
-		fourthPageSecondLineName5.setVisibility(View.GONE);		
-		fourthPageSecondLineName6.setVisibility(View.GONE);		
-		
-		fourthPageFirstLineApp3Parent.setBackgroundResource(R.drawable.nothing);
-		fourthPageFirstLineApp4Parent.setBackgroundResource(R.drawable.nothing);
-		fourthPageSecondLineApp1Parent.setBackgroundResource(R.drawable.nothing);
-		fourthPageSecondLineApp2Parent.setBackgroundResource(R.drawable.nothing);
-		fourthPageSecondLineApp3Parent.setBackgroundResource(R.drawable.nothing);
-		fourthPageSecondLineApp4Parent.setBackgroundResource(R.drawable.nothing);
-		fourthPageSecondLineApp5Parent.setBackgroundResource(R.drawable.nothing);
-		fourthPageSecondLineApp6Parent.setBackgroundResource(R.drawable.nothing);
-
-		fourthPageFirstLineApp3FocusChangeListener = null;
-		fourthPageFirstLineApp4FocusChangeListener = null;
-		fourthPageSecondLineApp1FocusChangeListener = null;
-		fourthPageSecondLineApp2FocusChangeListener = null;
-		fourthPageSecondLineApp3FocusChangeListener = null;
-		fourthPageSecondLineApp4FocusChangeListener = null;
-		fourthPageSecondLineApp5FocusChangeListener = null;
-		fourthPageSecondLineApp6FocusChangeListener = null;	
-
-		fourthPageFirstLineApp3ClickListener = null;
-		fourthPageFirstLineApp4ClickListener = null;
-		fourthPageSecondLineApp1ClickListener = null;
-		fourthPageSecondLineApp2ClickListener = null;
-		fourthPageSecondLineApp3ClickListener = null;
-		fourthPageSecondLineApp4ClickListener = null;
-		fourthPageSecondLineApp5ClickListener = null;
-		fourthPageSecondLineApp6ClickListener = null;			
-	}
-
-	private void userAppFocuschange(final ImageView imageButton,final LinearLayout linearLayout,OnFocusChangeListener onFocusChangeListener) {
-		onFocusChangeListener = new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					linearLayout.setBackgroundResource(R.drawable.item_selected_little);					
-				} else if (hasFocus == false) {
-					linearLayout.setBackgroundResource(R.drawable.nothing);
-			   }
-			}
-		};
-		imageButton.setOnFocusChangeListener(onFocusChangeListener);
-	}
-
-	private void userAppClick(final ImageView imageButton,OnClickListener onClickListener,final Intent intent) {
-		onClickListener = new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.d(TAG, "onClick");
-				mScrollLayout.releaseFirstThenStartApk(intent);
-			}
-		};
-		imageButton.setOnClickListener(onClickListener);
 	}
 
 	//set source icon when the source menu display or hide
@@ -1129,10 +692,11 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		Bundle startAppInformation = voiceCommand.getExtras();
 		String packageName = startAppInformation.getString("packageName");
 		String action = startAppInformation.getString("action");
+		String className = startAppInformation.getString("className");
 		String receiveMusicKeyWord = startAppInformation.getString("musicKeyWord");
 		String newMusicKeyword = "";
 		String URL = startAppInformation.getString("URL");
-		
+		/*
 		try {//encode the musicKeyWord
 			if( receiveMusicKeyWord != null){
 				newMusicKeyword = URLEncoder.encode(receiveMusicKeyWord,"gb2312");
@@ -1140,17 +704,21 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
-		if(action != null && action.equals("start.settings.activity") ){//means it is myapp
+		*/
+		if(className != null && className.equals("com.reconova.demo.SplashActivity") ){
 			Intent intent = new Intent();
-			intent.setAction("start.settings.activity");
+			intent.setClassName("com.reconova.tongfang", "com.reconova.demo.SplashActivity");
+			mScrollLayout.releaseFirstThenStartApk(intent);
+		}else if(className != null && className.equals("com.thtf.facerealize.FaceMainActivity") ){
+			Intent intent = new Intent();
+			intent.setClassName("com.reconova.tongfang", "com.thtf.facerealize.FaceMainActivity");
 			mScrollLayout.releaseFirstThenStartApk(intent);
 		}else if( URL != null ){//means it is kaikou shang wang
 			Uri uri = Uri.parse(URL);
 			Intent intent = new Intent(Intent.ACTION_VIEW,uri);
 			mScrollLayout.releaseFirstThenStartApk(intent);			
 		}else if( receiveMusicKeyWord != null ){//launch baidu to search the keyword of music
-			Uri uri = Uri.parse( "http://mp3.baidu.com/m?word=" + newMusicKeyword);
+			Uri uri = Uri.parse( "http://mp3.baidu.com/m?word=" + receiveMusicKeyWord);
 			Log.d(TAG,"_uri = " + uri);
 			Intent intent = new Intent(Intent.ACTION_VIEW,uri);
 			mScrollLayout.releaseFirstThenStartApk(intent);			
@@ -1173,6 +741,9 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 				}
 				mScrollLayout.releaseFirstThenStartApk(intent);
 			}else{//means it is besTV
+				//-----------------------------------this variable is set for BesTv
+				SwitchViewDemoActivity.mTvPreview.tv.SetBestvSoundCurveEnable(1);
+				//----------------------------------------------------------			
 				Intent intent = new Intent();
 				intent.setClassName("com.amlogic.bestv", "com.amlogic.bestv.BesTVActivity");
 				mScrollLayout.releaseFirstThenStartApk(intent);
@@ -1215,19 +786,20 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 			}
 		}			
 	}
+
+	private void setDefaultPoint(){
+		pageBackground.setBackgroundResource(R.drawable.page1);
+	}
 		
 	private void setCurPoint(int index) {
 		if (index < 0 || index > mViewCount - 1 || mCurSel == index) {
 			return;
 		}
 		
-		dockImageView1.setImageResource(R.drawable.dock_image1_unselected);
-		dockImageView2.setImageResource(R.drawable.dock_image2_unselected);
-		dockImageView3.setImageResource(R.drawable.dock_image3_unselected);
-		dockImageView4.setImageResource(R.drawable.dock_image4_unselected);
-
+		pageBackground.setBackgroundResource(R.drawable.nothing);
+		
 		if(index == 0 ){
-			dockImageView1.setImageResource(R.drawable.dock1);
+			pageBackground.setBackgroundResource(R.drawable.page1);
 			//set the source icon on tvpreview
 			try {
 				setSourceImage();
@@ -1235,14 +807,15 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 				e.printStackTrace();
 			}
 		}
+		
 		if (index == 1){
-			dockImageView2.setImageResource(R.drawable.dock2);
+			pageBackground.setBackgroundResource(R.drawable.page2);
 		}	
 		if(index == 2){
-			dockImageView3.setImageResource(R.drawable.dock3);
+			pageBackground.setBackgroundResource(R.drawable.page3);
 		}
 		if(index == 3){
-			dockImageView4.setImageResource(R.drawable.dock4);
+			pageBackground.setBackgroundResource(R.drawable.page4);
 		}		
 		//set the page property	
        SystemProperties.set("tv.launcher_page", "" + index);       
@@ -1250,12 +823,12 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	}
 
 	@Override
-	public void OnViewChange(int view, boolean hasFocus) {
-		Log.d(TAG, "====screen index===" + view + "====hasFocus====" + hasFocus);
-		if (!hasFocus && view == mTvPriviewIndex) {
+	public void OnViewChange(int viewIndex, boolean hasFocus) {
+		Log.d(TAG, "====screen index===" + viewIndex + "====hasFocus====" + hasFocus);
+		if (!hasFocus && viewIndex == mTvPriviewIndex) {
 			UpdateTvPerviewHandler.removeCallbacks(UpdateTvPerviewRunnable);
 			mTvPreview.DisablePerview();			
-		} else if (hasFocus && view == mTvPriviewIndex) {
+		} else if (hasFocus && viewIndex == mTvPriviewIndex) {
 			if((mTvPreview.tv.QueryResourceState("wallpaper").owner_name).equals("atv")){
 		  		//mTvPreview.ShowPerview();
 		  	}else{
@@ -1264,7 +837,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		  	}
 			mTvPreview.ShowPerview();					
 		}
-		setCurPoint(view);
+		setCurPoint(viewIndex);
 	}
 	
 	private Handler UpdateTvPerviewHandler = new Handler();
@@ -1277,11 +850,11 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	private Handler StartTvPreviewHandler = new Handler();
 	private Runnable StartTvPreviewRunnable = new Runnable(){
 		public void run(){
-			mTvPreview.startTvPreview(firstPageFirstLineIcon1,mCurSel * screenWidth);
+			mTvPreview.startTvPreview(firstPageFirstLineIcon0,mCurSel * screenWidth);
 
 		}
 	};
-//
+
 	private void forceStartSinaService(){
 		Intent intent = new Intent("com.lfzd.enews.thtfservice"); 
 		this.startService(intent); 
@@ -1294,86 +867,149 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 
 	//set the source icon on tvpreview
 	private synchronized void setSourceImage()throws IOException {
+		boolean cn = getResources().getConfiguration().locale.getCountry().equals("CN");
+		Log.d(TAG,"CN:" + getResources().getConfiguration().locale.getCountry());
+		
 		if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.TV.toInt()) {// tv
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/atv.png");        
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/atv_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
+			}
 			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.DTV.toInt()) {// dtv
 			lastSource = Tv.SrcInput.DTV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/dtv.png");        
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/dtv_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/dtv_us.png");
+			}			
 			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/av1.png");                
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/av1_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/av1_us.png");
+			}			
 			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.AV2.toInt()) {//av2
 			lastSource = Tv.SrcInput.AV2.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/av2.png");
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/av2_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/av2_us.png");
+			}			
 			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.YPBPR1.toInt()) {//YPBPR
-			lastSource = Tv.SrcInput.YPBPR1.toInt();        
-			SystemProperties.set("sys.show_pic", "/system/etc/ypbpr.png");
+			lastSource = Tv.SrcInput.YPBPR1.toInt();  
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/ypbpr_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/ypbpr_us.png");
+			}
 			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.HDMI1.toInt()) {//HDMI1
-			lastSource = Tv.SrcInput.HDMI1.toInt();    
-			SystemProperties.set("sys.show_pic", "/system/etc/hdmi1.png");
+			lastSource = Tv.SrcInput.HDMI1.toInt(); 
+			SystemProperties.set("sys.show_pic", "/system/etc/hdmi1.png");			
 			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.HDMI2.toInt()) {//HDMI2
-			lastSource = Tv.SrcInput.HDMI2.toInt();    
-			SystemProperties.set("sys.show_pic", "/system/etc/hdmi2.png");
+			lastSource = Tv.SrcInput.HDMI2.toInt(); 
+			SystemProperties.set("sys.show_pic", "/system/etc/hdmi2.png");			
 			Runtime.getRuntime().exec("/system/bin/showSource");
-		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.HDMI3.toInt()) {//HDMI3
-			lastSource = Tv.SrcInput.HDMI3.toInt(); 
-			SystemProperties.set("sys.show_pic", "/system/etc/hdmi3.png");
-			Runtime.getRuntime().exec("/system/bin/showSource");
-		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.VGA.toInt()) {//VGA0
+		}else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.VGA.toInt()) {//VGA0
 			lastSource = Tv.SrcInput.VGA.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/vga.png");
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/vga_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/vga_us.png");
+			}			
 			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.MPEG.toInt()){//MPEG
-		   setSourceImage(lastSource);     
+			setSourceImage(lastSource);     
 		} else {//default
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/atv.png");
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/atv_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
+			}
 			Runtime.getRuntime().exec("/system/bin/showSource");        
 		}
 	}
 
-	//overload to set the source icon when in MPEG source
 	private synchronized void setSourceImage(int source)throws IOException {
-		if (lastSource == Tv.SrcInput.TV.toInt()) {// tv
+
+		boolean cn = getResources().getConfiguration().locale.getCountry().equals("CN");
+		Log.d(TAG,"CN:" + getResources().getConfiguration().locale.getCountry());
+		
+		if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.TV.toInt()) {// tv
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/atv.png");        
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/atv_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
+			}			
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (lastSource == Tv.SrcInput.DTV.toInt()) {// dtv
 			lastSource = Tv.SrcInput.DTV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/dtv.png");        
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/dtv_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/dtv_us.png");
+			}			
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (lastSource == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/av1.png");                
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/av1_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/av1_us.png");
+			}			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (lastSource == Tv.SrcInput.AV2.toInt()) {//av2
 			lastSource = Tv.SrcInput.AV2.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/av2.png");
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/av2_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/av2_us.png");
+			}			
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (lastSource == Tv.SrcInput.YPBPR1.toInt()) {//YPBPR
 			lastSource = Tv.SrcInput.YPBPR1.toInt();        
-			SystemProperties.set("sys.show_pic", "/system/etc/ypbpr.png");
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/ypbpr_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/ypbpr_us.png");
+			}			
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (lastSource == Tv.SrcInput.HDMI1.toInt()) {//HDMI1
 			lastSource = Tv.SrcInput.HDMI1.toInt();    
-			SystemProperties.set("sys.show_pic", "/system/etc/hdmi1.png");
+			SystemProperties.set("sys.show_pic", "/system/etc/hdmi1.png");						
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (lastSource == Tv.SrcInput.HDMI2.toInt()) {//HDMI2
 			lastSource = Tv.SrcInput.HDMI2.toInt();    
-			SystemProperties.set("sys.show_pic", "/system/etc/hdmi2.png");
-		} else if (lastSource == Tv.SrcInput.HDMI3.toInt()) {//HDMI3
-			lastSource = Tv.SrcInput.HDMI3.toInt(); 
-			SystemProperties.set("sys.show_pic", "/system/etc/hdmi3.png");
+			SystemProperties.set("sys.show_pic", "/system/etc/hdmi2.png");									
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else if (lastSource == Tv.SrcInput.VGA.toInt()) {//VGA0
 			lastSource = Tv.SrcInput.VGA.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/vga.png");
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/vga_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/vga_us.png");
+			}				
+			Runtime.getRuntime().exec("/system/bin/showSource");
 		} else {//default 
 			lastSource = Tv.SrcInput.TV.toInt();
-			SystemProperties.set("sys.show_pic", "/system/etc/atv.png");
+			if(cn){
+				SystemProperties.set("sys.show_pic", "/system/etc/atv_cn.png");
+			}else{
+				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
+			}			
+			Runtime.getRuntime().exec("/system/bin/showSource");       
 		}
-		Runtime.getRuntime().exec("/system/bin/showSource");		
 	}	
+
 
 	private void setSourceIconAfterResume(int delay){
 		new Timer().schedule(new TimerTask(){
@@ -1396,6 +1032,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 	protected void onResume() {
 		super.onResume();
 		Log.d(TAG, "====onResume=====");
+		Log.d(TAG,"_____RESUME COUNT____"+resumeCount);
 		//show only resume from atvscreen
 		if(mScrollLayout.resumeFromAtvScreen){
 			//set the page property 
@@ -1417,14 +1054,19 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		updateStatus();
 		//the newsServie receive this broadCast to refresh news
 		sendBroadCastToRefreshNews();
+		
 		//run 2 times to ensure tvpreview be refreshed 
        if (mCurSel == mTvPriviewIndex) {
-           	UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
-           	UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,5000);			
+         	UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,2500);
+         	UpdateTvPerviewHandler.postDelayed(UpdateTvPerviewRunnable,5000);			
        }else{
        	mTvPreview.DisablePerview();
        }
+			 
+		Log.d(TAG,"Resume count:" + resumeCount);
+		
 		resumeCount ++;
+		mScrollLayout.setColorKeyFlag("off");
 		SystemProperties.set("tv.in_launcher", "true");
 	}
 
@@ -1452,14 +1094,19 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		UpdateTvPerviewHandler.removeCallbacks(UpdateTvPerviewRunnable);
 		mTvPreview.StopTvPreview();
 		mTvPreview.SetVideoSize(0 , 0 , 1920 , 1080);
-		unregisterReceiver(ethernetReceiver);
-		unregisterReceiver(wifiReceiver);
-		unregisterReceiver(usbReceiver);		
-		unregisterReceiver(timeReceiver);
-		unregisterReceiver(weatherReceiver);
-		unregisterReceiver(startTvReceiver);
-		unregisterReceiver(userAppReceiver);
-		unregisterReceiver(userAppReceiver2);		
+
+		unregisterGlobalReceiver();
+	}
+
+	private void unregisterGlobalReceiver(){
+	    if(gloableReceiver != null){
+            this.unregisterReceiver(gloableReceiver);
+            gloableReceiver = null;
+        }
+		if(usbReceiver != null){
+            this.unregisterReceiver(usbReceiver);
+            usbReceiver = null;
+		}
 	}
 
 	@Override
@@ -1473,8 +1120,8 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			return true;
 		}
-		/*
-		//slow down the focus move
+		
+		/*slow down the focus move
 		if(keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
 			if(event.getRepeatCount() % maxSpeedOfFocusMove == 0){
 				mScrollLayout.onKeyDown(keyCode,event);
@@ -1483,59 +1130,7 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 			}
 		}else{
 			mScrollLayout.onKeyDown(keyCode, event);
-		}
-		*/
-		View focusView = mScrollLayout.findFocus();
-		Log.d(TAG,"userAppSize = " + userAppSize);
-		if( userAppSize == 0 ){
-			if( focusView == fourthPageFirstLineIcon2 && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-				mScrollLayout.snapToScreen(0);	
-			}				
-		}else if( userAppSize == 1){
-			if( focusView == fourthPageFirstLineIcon3 && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-				mScrollLayout.snapToScreen(0);	
-			}	
-		}else if( userAppSize == 2){
-			if( focusView == fourthPageFirstLineIcon4 && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-				mScrollLayout.snapToScreen(0);	
-			}	
-		}else if( userAppSize == 3){
-			if( (focusView == fourthPageSecondLineIcon1 || focusView == fourthPageFirstLineIcon4) && 
-					keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-				mScrollLayout.snapToScreen(0);	
-			}		
-		}else if( userAppSize == 4){
-			if( (focusView == fourthPageSecondLineIcon2 || focusView == fourthPageFirstLineIcon4) && 
-					keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-				mScrollLayout.snapToScreen(0);	
-			}	
-		}else if( userAppSize == 5){
-			if(  (focusView == fourthPageSecondLineIcon3 || focusView == fourthPageFirstLineIcon4) && 
-					keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-				mScrollLayout.snapToScreen(0);	
-			}	
-		}else if( userAppSize == 6){
-			if(  (focusView == fourthPageSecondLineIcon4 || focusView == fourthPageFirstLineIcon4) && 
-					keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-				mScrollLayout.snapToScreen(0);	
-			}	
-		}else if( userAppSize == 7){
-			if(  (focusView == fourthPageSecondLineIcon5 || focusView == fourthPageFirstLineIcon4)  
-					&& keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-				mScrollLayout.snapToScreen(0);	
-			}	
-		}else if( userAppSize >= 8){
-			if(  (focusView == fourthPageSecondLineIcon6 || focusView == fourthPageFirstLineIcon4) 
-					&& keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-				mScrollLayout.snapToScreen(0);	
-			}	
-		}
-		if(userAppSize >= 3){
-			if( (focusView == fourthPageSecondLineIcon1) && 
-					keyCode == KeyEvent.KEYCODE_DPAD_LEFT){
-				mScrollLayout.snapToScreen(2);	
-			}		
-		}
+		}*/
 		mScrollLayout.onKeyDown(keyCode, event);
 		return super.onKeyDown(keyCode, event);
 	}
@@ -1587,7 +1182,11 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 								|| apinfo.processName.equals(wallpaperServiceList.get(k).serviceInfo.packageName) 
 								|| apinfo.processName.equals("com.amlogic.tvscreen")
 								|| apinfo.processName.equals("com.amlogic.AtvScreen") 
-								|| apinfo.processName.equals("com.amlogic.tvservice")){//process "com.lfzd.enews" started at  onResume
+								|| apinfo.processName.equals("com.amlogic.tvservice")
+								|| apinfo.processName.equals("com.reconova.tongfang")
+								|| apinfo.processName.equals("com.rockitv.android")
+                    			|| apinfo.processName.equals("com.rockitv.ai")
+                    			|| apinfo.processName.equals("com.awindinc.mirroropservice")){
 							wallpaperProcess = true;
 						}
 					}
@@ -1600,62 +1199,16 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 			}
 		}
 	}
+
+
+
 	
-	private void registerStatusbarEthernetReceiver(){
-		IntentFilter filter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-		registerReceiver(ethernetReceiver, filter);
-	}
-
-	private void registerStatusbarWifiReceiver(){
-		IntentFilter filter = new IntentFilter("android.net.wifi.WIFI_STATE_CHANGED");
-		registerReceiver(wifiReceiver, filter);
-	}
 
 
-	private void registerStatusbarUsbReceiver(){
-		IntentFilter filter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
-		filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
-		filter.addDataScheme("file");
-		registerReceiver(usbReceiver, filter);
-	}
-
-	private void registerStatusbarTimeReceiver(){
-		IntentFilter filter = new IntentFilter(Intent.ACTION_TIME_TICK);
-		registerReceiver(timeReceiver, filter);
-	}	
-
-	private void registerWeatherReceiver(){
-		IntentFilter filter = new IntentFilter("com.thtfce.weathers");
-		registerReceiver(weatherReceiver, filter);
-	}
-
-	private void registerStartTvReceiver(){
-		IntentFilter filter = new IntentFilter("com.amlogic.tv.requestStartTV");
-		registerReceiver(startTvReceiver, filter);
-	}
-
-	private void registerVoiceCommandReceiver(){
-		IntentFilter filter = new IntentFilter("com.amlogic.tv.requestStartApp");
-		registerReceiver(voiceCommandReceiver,filter);
-	}
-	
-	private void registerUserAppReceiver() {
-		IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
-		filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
-		filter.addAction(Intent.ACTION_PACKAGE_CHANGED);
-		filter.addDataScheme("package");
-		registerReceiver(userAppReceiver, filter);
-	}
-
-	private void registerUserAppReceiver2(){
-		IntentFilter filter = new IntentFilter("org.thtfce.appstore.update.groupdata");
-		registerReceiver(userAppReceiver2, filter);
-	}
 
 	private class StartPlayerHandler extends Handler{
 		@Override
-		public void handleMessage(Message msg)
-		{
+		public void handleMessage(Message msg){
 		    Intent intent = null;
 		    switch (msg.what){
 		        /*case TIME_OVER:
@@ -1666,19 +1219,17 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		            break;*/
 		        case 1:
 		            Log.d(TAG, ".......Start ATV PlayerHandler......");
-		                intent = new Intent(StartPlayer);
-		                sendBroadcast(intent);
+	                intent = new Intent(StartPlayer);
+	                sendBroadcast(intent);
 		            break;
 		        case 2:
 		            Log.d(TAG, ".......Start DTV PlayerHandler......");
-		                intent = new Intent(StartPlayDTV);
-		                sendBroadcast(intent);
+	                intent = new Intent(StartPlayDTV);
+	                sendBroadcast(intent);
 		            break;            
 		    }
 		}
 	}
-
-
 	
 	@Override
 	public boolean onDown(MotionEvent e) {
@@ -1725,6 +1276,5 @@ public class SwitchViewDemoActivity extends Activity implements Callback,OnViewC
 		public boolean onTouch(View v, MotionEvent event) {
 			return detector.onTouchEvent(event);
 		}
-	};	
-
+	};		
 }
