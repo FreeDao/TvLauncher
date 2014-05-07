@@ -877,7 +877,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
 			}
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.DTV.toInt()) {// dtv
 			lastSource = Tv.SrcInput.DTV.toInt();
 			if(cn){
@@ -885,7 +885,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/dtv_us.png");
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
 			if(cn){
@@ -893,7 +893,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/av1_us.png");
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.AV2.toInt()) {//av2
 			lastSource = Tv.SrcInput.AV2.toInt();
 			if(cn){
@@ -901,7 +901,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/av2_us.png");
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.YPBPR1.toInt()) {//YPBPR
 			lastSource = Tv.SrcInput.YPBPR1.toInt();  
 			if(cn){
@@ -909,15 +909,15 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/ypbpr_us.png");
 			}
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.HDMI1.toInt()) {//HDMI1
 			lastSource = Tv.SrcInput.HDMI1.toInt(); 
 			SystemProperties.set("sys.show_pic", "/system/etc/hdmi1.png");			
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.HDMI2.toInt()) {//HDMI2
 			lastSource = Tv.SrcInput.HDMI2.toInt(); 
 			SystemProperties.set("sys.show_pic", "/system/etc/hdmi2.png");			
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		}else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.VGA.toInt()) {//VGA0
 			lastSource = Tv.SrcInput.VGA.toInt();
 			if(cn){
@@ -925,7 +925,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/vga_us.png");
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.MPEG.toInt()){//MPEG
 			setSourceImage(lastSource);     
 		} else {//default
@@ -935,7 +935,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
 			}
-			Runtime.getRuntime().exec("/system/bin/showSource");        
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");        
 		}
 	}
 
@@ -951,7 +951,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (lastSource == Tv.SrcInput.DTV.toInt()) {// dtv
 			lastSource = Tv.SrcInput.DTV.toInt();
 			if(cn){
@@ -959,14 +959,14 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/dtv_us.png");
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (lastSource == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
 			if(cn){
 				SystemProperties.set("sys.show_pic", "/system/etc/av1_cn.png");
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/av1_us.png");
-			}			Runtime.getRuntime().exec("/system/bin/showSource");
+			}			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (lastSource == Tv.SrcInput.AV2.toInt()) {//av2
 			lastSource = Tv.SrcInput.AV2.toInt();
 			if(cn){
@@ -974,7 +974,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/av2_us.png");
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (lastSource == Tv.SrcInput.YPBPR1.toInt()) {//YPBPR
 			lastSource = Tv.SrcInput.YPBPR1.toInt();        
 			if(cn){
@@ -982,15 +982,15 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/ypbpr_us.png");
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (lastSource == Tv.SrcInput.HDMI1.toInt()) {//HDMI1
 			lastSource = Tv.SrcInput.HDMI1.toInt();    
 			SystemProperties.set("sys.show_pic", "/system/etc/hdmi1.png");						
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (lastSource == Tv.SrcInput.HDMI2.toInt()) {//HDMI2
 			lastSource = Tv.SrcInput.HDMI2.toInt();    
 			SystemProperties.set("sys.show_pic", "/system/etc/hdmi2.png");									
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (lastSource == Tv.SrcInput.VGA.toInt()) {//VGA0
 			lastSource = Tv.SrcInput.VGA.toInt();
 			if(cn){
@@ -998,7 +998,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/vga_us.png");
 			}				
-			Runtime.getRuntime().exec("/system/bin/showSource");
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else {//default 
 			lastSource = Tv.SrcInput.TV.toInt();
 			if(cn){
@@ -1006,7 +1006,7 @@ public class SwitchViewDemoActivity extends Activity implements
 			}else{
 				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource");       
+			Runtime.getRuntime().exec("/system/bin/showSource_h44");       
 		}
 	}	
 
