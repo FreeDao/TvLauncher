@@ -305,8 +305,11 @@ public class SwitchViewDemoActivity extends Activity implements
 		ethernetImageView=(ImageView)findViewById(R.id.statusbar_ethernet); 
 		
 		cityTextView = (TextView) findViewById(R.id.statusbar_weather_city);	
-		tempTextView = (TextView) findViewById(R.id.statusbar_weather_temp);					
+		cityTextView.setSelected(true);
+		tempTextView = (TextView) findViewById(R.id.statusbar_weather_temp);
+		tempTextView.setSelected(true);
 		weatherTextView = (TextView) findViewById(R.id.statusbar_weather_weather);
+		weatherTextView.setSelected(true);
 
 		dockImageView1=(ImageView) findViewById(R.id.dockImageView1);
 		dockImageView2=(ImageView) findViewById(R.id.dockImageView2);

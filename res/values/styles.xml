@@ -27,6 +27,11 @@
 		<item name="android:textColor">#ffffffff</item>
 	</style>
 
+	<style name="LauncherStatusbarWeatherText">
+		<item name="android:textSize">35sp</item>
+		<item name="android:textColor">#ffffffff</item>
+	</style>
+
 	<style name="Launcher_news_text">
 		<item name="android:textSize">25sp</item>
 		<item name="android:textColor">#ff000000</item>
