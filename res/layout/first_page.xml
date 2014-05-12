@@ -73,6 +73,7 @@
 						android:layout_margin="8dip"
 						android:focusable="true"
 						android:clickable="true"
+						android:nextFocusLeft="@+id/firstPage000ImageView"
 						android:src="@drawable/first_page_101"/>
 					<ImageView
 						android:id="@+id/firstPage101Highlight"
