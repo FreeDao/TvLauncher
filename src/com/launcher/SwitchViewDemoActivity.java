@@ -64,7 +64,9 @@ public class SwitchViewDemoActivity extends Activity implements
 	private final static String TAG = "SwitchViewDemoActivity";	
 	
 	//tvPreview
-	public static TvPreview mTvPreview;	
+	public static TvPreview mTvPreview;
+	//source
+	private ImageView sourceImageView;
 	//dock
 	private ImageView pageBackground;
 	//first page
@@ -160,11 +162,7 @@ public class SwitchViewDemoActivity extends Activity implements
 	private String StartPlayer = "com.amlogic.tvservice.startplayer";
 	public static final String StartPlayDTV = "com.launcher.play.dtv";	
 	private StartPlayerHandler  mystartPlayerHandler = null;	
-	private static boolean   first_preview_start_atv = true;	
-	//the source menu state , hide or show	
-	private String menuState;
-	private String lastMenuState = "false";
-	private boolean menuStateChanged = false;	
+	private static boolean   first_preview_start_atv = true;		
 	//disable remote control
 	private static final String REMOTE_DISABLE = "wab 0x14 0 0";
 	//enable remote control
@@ -206,7 +204,6 @@ public class SwitchViewDemoActivity extends Activity implements
 		initGestureDetector();
 		getBasicNeededProcess();
 		forceStartSinaService();
-		setSourceIcon();
 	}
 	
 	private void initIcons(){
@@ -223,6 +220,8 @@ public class SwitchViewDemoActivity extends Activity implements
 		weatherTextView = (TextView) findViewById(R.id.statusbar_weather_weather);
 
 		pageBackground=(ImageView) findViewById(R.id.pageBackground);
+
+		sourceImageView = (ImageView) findViewById(R.id.sourceImageView);
 
 		firstPageFirstLineIcon0 = (ImageView) findViewById(R.id.firstPage000ImageView);
 		inintVideoView(R.id.firstPage000VideoView);
@@ -435,8 +434,6 @@ public class SwitchViewDemoActivity extends Activity implements
 						//enable remote control
 						mTvPreview.SetRegBit(REMOTE_ENABLE);
 					}
-					//delay for source change  completed
-					setSourceIconAfterResume(1000);	
 				}				
 				Log.d(TAG,"Send concetpDisappear Command");
 			}
@@ -641,53 +638,6 @@ public class SwitchViewDemoActivity extends Activity implements
 		}
 	}
 
-	//set source icon when the source menu display or hide
-	private void setSourceIcon(){
-		new Thread(new Runnable(){
-			public void run(){
-				while(true){
-					try{
-						Thread.sleep(100);
-					}catch(Exception e){
-						e.printStackTrace();
-					}
-					readMenuState();
-					if(menuStateChanged){
-						displayOrHideSourceIcon();
-						menuStateChanged = false;
-					}
-				}  		
-			}
-
-		}).start();
-	}
-
-	private void readMenuState(){
-		menuState = SystemProperties.get("tv.globalsetup_show_status");
-		if(!menuState.equals(lastMenuState)){
-			menuStateChanged = true;
-			lastMenuState = menuState;
-		}
-	}
-
-	private void displayOrHideSourceIcon(){
-		if( mCurSel == mTvPriviewIndex && SystemProperties.get("tv.in_launcher").equals("true") ){
-			//means menu displaying
-			if( Boolean.valueOf(menuState) ){
-				SystemProperties.set("tv.launcher_page", "xiangxing.wu"); 	
-			}else{
-				//write 2 times for ensure to set the property
-				SystemProperties.set("tv.launcher_page", "0");					
-				SystemProperties.set("tv.launcher_page", "0");					
-				try {//set the source icon on tvpreview
-					setSourceImage();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}	
-			}
-		}
-	}
-
 	private void processVoiceCommand(Intent voiceCommand){
 		Bundle startAppInformation = voiceCommand.getExtras();
 		String packageName = startAppInformation.getString("packageName");
@@ -801,11 +751,7 @@ public class SwitchViewDemoActivity extends Activity implements
 		if(index == 0 ){
 			pageBackground.setBackgroundResource(R.drawable.page1);
 			//set the source icon on tvpreview
-			try {
-				setSourceImage();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			setSourceImage();
 		}
 		
 		if (index == 1){
@@ -866,80 +812,71 @@ public class SwitchViewDemoActivity extends Activity implements
 	}
 
 	//set the source icon on tvpreview
-	private synchronized void setSourceImage()throws IOException {
+	private synchronized void setSourceImage() {
 		boolean cn = getResources().getConfiguration().locale.getCountry().equals("CN");
 		Log.d(TAG,"CN:" + getResources().getConfiguration().locale.getCountry());
 		
 		if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.TV.toInt()) {// tv
 			lastSource = Tv.SrcInput.TV.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/atv_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.atv_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.atv_us);
 			}
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.DTV.toInt()) {// dtv
 			lastSource = Tv.SrcInput.DTV.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/dtv_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.dtv_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/dtv_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.dtv_us);
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/av1_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.av1_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/av1_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.av1_us);
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.AV2.toInt()) {//av2
 			lastSource = Tv.SrcInput.AV2.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/av2_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.av2_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/av2_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.av2_us);
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.YPBPR1.toInt()) {//YPBPR
 			lastSource = Tv.SrcInput.YPBPR1.toInt();  
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/ypbpr_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.ypbpr_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/ypbpr_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.ypbpr_us);
 			}
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.HDMI1.toInt()) {//HDMI1
 			lastSource = Tv.SrcInput.HDMI1.toInt(); 
-			SystemProperties.set("sys.show_pic", "/system/etc/hdmi1.png");			
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
+			sourceImageView.setBackgroundResource(R.drawable.hdmi1);
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.HDMI2.toInt()) {//HDMI2
 			lastSource = Tv.SrcInput.HDMI2.toInt(); 
-			SystemProperties.set("sys.show_pic", "/system/etc/hdmi2.png");			
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
+			sourceImageView.setBackgroundResource(R.drawable.hdmi2);
 		}else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.VGA.toInt()) {//VGA0
 			lastSource = Tv.SrcInput.VGA.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/vga_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.vga_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/vga_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.vga_us);
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.MPEG.toInt()){//MPEG
 			setSourceImage(lastSource);     
 		} else {//default
 			lastSource = Tv.SrcInput.TV.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/atv_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.atv_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.atv_us);
 			}
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");        
 		}
 	}
 
-	private synchronized void setSourceImage(int source)throws IOException {
+	private synchronized void setSourceImage(int source) {
 
 		boolean cn = getResources().getConfiguration().locale.getCountry().equals("CN");
 		Log.d(TAG,"CN:" + getResources().getConfiguration().locale.getCountry());
@@ -947,86 +884,61 @@ public class SwitchViewDemoActivity extends Activity implements
 		if (mTvPreview.tv.GetCurrentSourceInput() == Tv.SrcInput.TV.toInt()) {// tv
 			lastSource = Tv.SrcInput.TV.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/atv_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.atv_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.atv_us);
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (lastSource == Tv.SrcInput.DTV.toInt()) {// dtv
 			lastSource = Tv.SrcInput.DTV.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/dtv_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.dtv_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/dtv_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.dtv_us);
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (lastSource == Tv.SrcInput.AV1.toInt()) {//av1
 			lastSource = Tv.SrcInput.AV1.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/av1_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.av1_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/av1_us.png");
-			}			Runtime.getRuntime().exec("/system/bin/showSource_h44");
+				sourceImageView.setBackgroundResource(R.drawable.av1_us);
+			}
 		} else if (lastSource == Tv.SrcInput.AV2.toInt()) {//av2
 			lastSource = Tv.SrcInput.AV2.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/av2_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.av2_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/av2_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.av2_us);
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (lastSource == Tv.SrcInput.YPBPR1.toInt()) {//YPBPR
 			lastSource = Tv.SrcInput.YPBPR1.toInt();        
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/ypbpr_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.ypbpr_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/ypbpr_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.ypbpr_us);
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else if (lastSource == Tv.SrcInput.HDMI1.toInt()) {//HDMI1
-			lastSource = Tv.SrcInput.HDMI1.toInt();    
-			SystemProperties.set("sys.show_pic", "/system/etc/hdmi1.png");						
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
+			lastSource = Tv.SrcInput.HDMI1.toInt();
+			sourceImageView.setBackgroundResource(R.drawable.hdmi1);
 		} else if (lastSource == Tv.SrcInput.HDMI2.toInt()) {//HDMI2
 			lastSource = Tv.SrcInput.HDMI2.toInt();    
-			SystemProperties.set("sys.show_pic", "/system/etc/hdmi2.png");									
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
+			sourceImageView.setBackgroundResource(R.drawable.hdmi2);
 		} else if (lastSource == Tv.SrcInput.VGA.toInt()) {//VGA0
 			lastSource = Tv.SrcInput.VGA.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/vga_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.vga_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/vga_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.vga_us);
 			}				
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");
 		} else {//default 
 			lastSource = Tv.SrcInput.TV.toInt();
 			if(cn){
-				SystemProperties.set("sys.show_pic", "/system/etc/atv_cn.png");
+				sourceImageView.setBackgroundResource(R.drawable.atv_cn);
 			}else{
-				SystemProperties.set("sys.show_pic", "/system/etc/atv_us.png");
+				sourceImageView.setBackgroundResource(R.drawable.atv_us);
 			}			
-			Runtime.getRuntime().exec("/system/bin/showSource_h44");       
 		}
 	}	
 
-
-	private void setSourceIconAfterResume(int delay){
-		new Timer().schedule(new TimerTask(){
-			@Override
-			public void run() {
-				if(mCurSel == mTvPriviewIndex && SystemProperties.get("tv.in_launcher").equals("true")){
-		       		SystemProperties.set("tv.launcher_page", "0");//set the page property                										
-					try {//set the source icon on tvpreview
-						setSourceImage();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}	
-				}
-			}
-			
-		}, delay);	
-	}
 
 	@Override
 	protected void onResume() {
@@ -1035,18 +947,16 @@ public class SwitchViewDemoActivity extends Activity implements
 		Log.d(TAG,"_____RESUME COUNT____"+resumeCount);
 		//show only resume from atvscreen
 		if(mScrollLayout.resumeFromAtvScreen){
-			//set the page property 
-	       SystemProperties.set("tv.launcher_page", "0");
 			//don't disable remote control just boot completed	
 			if( resumeCount > 1){
 				//disable remote control
 				mTvPreview.SetRegBit(REMOTE_DISABLE);
 			}
 			appearConceptScreen();
-		}else{
-			//delay 1 second to wait resume completed		
-			setSourceIconAfterResume(1000);
 		}
+		//set SourceImageView
+		setSourceImage();
+		
 		//don't kill background process  first time for record basic needed process
 		if(resumeCount >1){
 			killExtraProcess();

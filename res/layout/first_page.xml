@@ -33,6 +33,14 @@
 				android:focusable="false"
 				android:clickable="false"/>
 			<ImageView
+				android:id="@+id/sourceImageView"
+				android:layout_width="match_parent"
+				android:layout_height="133dp"	
+				android:layout_gravity="bottom"
+				android:scaleType="fitXY"
+				android:focusable="false"
+				android:clickable="false"/>				
+			<ImageView
 				android:id="@+id/firstPage000Highlight"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"						
