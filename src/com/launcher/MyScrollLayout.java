@@ -265,7 +265,7 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			firstPageFirstLineIcon0.setFocusable(true);
 			firstPageFirstLineIcon0.setFocusableInTouchMode(true);
 			firstPageFirstLineIcon0.requestFocus();	
-			firstPageFirstLineIcon0HighLight.setBackgroundResource(R.drawable.item_selected_large);
+			firstPageFirstLineIcon0HighLight.setBackgroundResource(R.drawable.item_selected_very_large);
 
 			if(resumeFromSinaGallery){
 				firstPageSecondLineIcon2.setFocusable(true);
@@ -600,7 +600,12 @@ public class MyScrollLayout extends ViewGroup implements ResourceManager.Resourc
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					//rectangle focus
-					if( imageButton.getWidth() > 1.5 * basicIconWidth && imageButton.getHeight() < 1.5 * basicIconWidth){
+					//Because we use an Invisible Image Under Tvpreview 
+					//to draw the VideoView of Tvpreview
+					//so The must except the firstPageFirstLineIcon0
+					if( imageButton.getWidth() > 1.5 * basicIconWidth 
+							&& imageButton.getHeight() < 1.5 * basicIconWidth
+							&& imageButton != firstPageFirstLineIcon0){
 						imageView.setBackgroundResource(R.drawable.item_selected_large);
 					}
 					//nomal square focus

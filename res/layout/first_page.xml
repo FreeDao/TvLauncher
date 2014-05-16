@@ -15,14 +15,23 @@
 			android:layout_height="match_parent"
 			android:layout_weight="1">
 			<ImageView
-				android:id="@+id/firstPage000ImageView"
+				android:id="@+id/firstPage000BgImageView"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"						
 				android:scaleType="fitXY"
 				android:layout_margin="8dip"
-				android:focusable="true"
-				android:clickable="true"
+				android:focusable="false"
+				android:clickable="false"
 				android:src="@drawable/first_page_000"/>
+			<ImageView
+				android:id="@+id/firstPage000ImageView"
+				android:layout_width="match_parent"
+				android:layout_height="332dp"
+				android:layout_marginTop="71dp"
+				android:layout_marginLeft="8dp"
+				android:layout_marginRight="8dp"
+				android:focusable="true"
+				android:clickable="true"/>				
 			<VideoView
 				android:id="@+id/firstPage000VideoView"
 				android:layout_width="match_parent"
